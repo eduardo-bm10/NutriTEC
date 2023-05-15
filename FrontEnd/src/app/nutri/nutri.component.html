@@ -1,0 +1,1174 @@
+<p>nutri works!</p>
+<div id="visual">
+  <div id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+      <!-- Sidebar -->
+      <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+        <!-- Sidebar - Brand -->
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+          <div class="sidebar-brand-icon rotate-n-15">
+            <i class="fa-solid fa-dumbbell fa-bounce"></i>
+          </div>
+          <div class="sidebar-brand-text mx-3">Admin/{{tipo}}</div>
+        </a>
+
+        <li class="nav-item">
+          <a id='home' class="nav-link collapsed" data-toggle="collapse" data-target="#gestSucC" aria-expanded="false"
+             aria-controls="gestSucC" (click)="mostrarPantalla('principal')">
+            <i class="fa-regular fa-building"></i>
+            <span>Home</span>
+          </a>
+        </li>
+        <!-- Divider -->
+        <hr class="sidebar-divider my-0">
+
+
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+          Funciones Mixtas
+        </div>
+
+
+        <li class="nav-item">
+          <a id='gestTratSpa' class="nav-link collapsed" data-toggle="collapse"
+             (click)="mostrarPantalla('gestSucSpa')">
+             <i class="fa-regular fa-building"></i>
+            <span>Gestión de productos/platillos</span>
+          </a>
+        </li>
+
+        <!-- Nav Item - Pages Collapse Menu -->
+        <li class="nav-item">
+          <a id='gestTratSpa2' class="nav-link collapsed" data-toggle="collapse"
+             (click)="mostrarPantalla('gestTratSpaP')">
+            <i class="fas fa-regular fa-spa"></i>
+            <span>Búsqueda y Asociación de clientes como pacientes</span>
+          </a>
+        </li>
+
+
+        <li class="nav-item">
+          <a id='gestPuest' class="nav-link collapsed" data-toggle="collapse" (click)="mostrarPantalla('gestPuestP')">
+            <i class="fa-solid fa-person"></i>
+            <span>Gestión de planes</span>
+          </a>
+        </li>
+
+        <!-- Nav Item - Pages Collapse Menu -->
+        <li class="nav-item">
+          <a id='gestTipPla' class="nav-link collapsed" data-toggle="collapse" (click)="mostrarPantalla('gestTipPlaP')">
+            <i class="fa-solid fa-person"></i>
+            <span>Asignación de plan a un paciente en una fecha o periodo</span>
+          </a>
+        </li>
+
+
+        <!-- Nav Item - Pages Collapse Menu -->
+        <li class="nav-item">
+          <a id='gestEmpl' class="nav-link collapsed" data-toggle="collapse" (click)="mostrarPantalla('gestEmplP')">
+            <i class="fa-solid fa-person-shelter"></i>
+            <span>Seguimiento paciente</span>
+          </a>
+        </li>
+
+        <!-- solo esas pantallas :D -->
+
+
+
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- Sidebar Toggler (Sidebar) -->
+        <div class="text-center d-none d-md-inline">
+          <button class="rounded-circle border-0" id="sidebarToggle"></button>
+        </div>
+
+      </ul>
+      <!-- End of Sidebar -->
+
+      <!-- Content Wrapper -->
+      <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+          <!-- Topbar -->
+          <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+            <!-- Sidebar Toggle (Topbar) -->
+            <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+              <i class="fa fa-bars"></i>
+            </button>
+
+            <!-- Topbar Navbar -->
+            <ul class="navbar-nav ml-auto">
+
+              <!-- Nav Item - User Information -->
+              <li class="nav-item dropdown no-arrow">
+                <a class="nav-link dropdown-toggle" id="userDropdown" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" (click)="mostrarDropdown()">
+                  <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{nombre}}</span>
+                  <img class="img-profile rounded-circle"
+                       src="/assets/undraw_profile.svg">
+                </a>
+                <!-- Dropdown - User Information -->
+                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                     aria-labelledby="userDropdown" id="dropdown">
+                  <a class="dropdown-item">
+                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Profile
+                  </a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" data-toggle="modal" data-target="#logoutModal">
+                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Logout
+                  </a>
+                </div>
+              </li>
+
+            </ul>
+
+          </nav>
+          <!-- End of Topbar -->
+
+          <!-- Begin Page Content -->
+          <div id="principal">
+            <div class="container-fluid">
+              <!-- Page Heading -->
+              <h1 class="h3 mb-4 text-gray-800">Información General</h1>
+
+              <div class="row">
+
+                <!-- Earnings (Monthly) Card Example -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                  <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Total de Estudiantes
+                          </div>
+                          <div class="h5 mb-0 font-weight-bold text-gray-800">
+                            140
+                          </div>
+                        </div>
+                        <div class="col-auto">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                               class="bi bi-person-fill" viewBox="0 0 20 20">
+                            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Clases Impartidas</h6>
+                </div>
+                <div class="card-body">
+                  <h4 class="small font-weight-bold">Indoor Cycling <span class="float-right"></span></h4>
+                  <div class="progress mb-4">
+                    <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="20"
+                         aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                  <h4 class="small font-weight-bold">Pilates <span class="float-right"></span></h4>
+                  <div class="progress mb-4">
+                    <div class="progress-bar bg-warning" role="progressbar" style="width: 100%" aria-valuenow="40"
+                         aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                  <h4 class="small font-weight-bold">Yoga <span class="float-right"></span></h4>
+                  <div class="progress mb-4">
+                    <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="60"
+                         aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                  <h4 class="small font-weight-bold">Zumba <span class="float-right"></span></h4>
+                  <div class="progress mb-4">
+                    <div class="progress-bar bg-info" role="progressbar" style="width: 100%" aria-valuenow="80"
+                         aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                  <h4 class="small font-weight-bold">Natación <span class="float-right"></span></h4>
+                  <div class="progress">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100"
+                         aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                </div>
+              </div>
+
+            </div> <!-- termina el page content -->
+          </div>
+
+          <div id="gestSucSpa" class="container-fluid">
+            <h1 class="h3 mb-4 text-gray-800">Activación de Sucursal</h1>
+
+            <div class="form-group row">
+              <div class="col-sm-6 mb-3 mb-sm-0">
+                <input type="text" class="form-control form-control-user" id="gestSucSpaNOMBRE">
+                <label for="gestSucSpaNOMBRE">Nombre</label>
+              </div>
+
+              <div class="col-sm-6">
+                <select type="text" class="form-control form-control-user" id="gestSucSpaPROVINCIA"></select>
+                <label for="gestSucSpaPROVINCIA">Provincia</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="gestSucSpaCANTON">
+                <label for="gestSucSpaCANTON">Canton</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="gestSucSpaDISTRITO">
+                <label for="gestSucSpaDISTRITO">Distrito</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="date" class="form-control form-control-user" id="gestSucSpaFECHAAPERTURA">
+                <label for="gestSucSpaFECHAAPERTURA">Fecha de Apertura</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="gestSucSpaHORARIOAPERTURA"> <!--cambiar el datatype a el date para horas-->
+                <label for="gestSucSpaHORARIOAPERTURA">Horario de apertura</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="gestSucSpaHORARIOCIERRE">
+                <label for="gestSucSpaHORARIOCIERRE">Horario de cierre</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="gestSucSpaEMPLEADOADMINISTRADOR">
+                <label for="gestSucSpaEMPLEADOADMINISTRADOR">Empleado administrador</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="number" class="form-control form-control-user" id="gestSucSpaCAPACIDAD">
+                <label for="gestSucSpaCAPACIDAD">Capacidad Máxima</label>
+              </div>
+
+              <div class="col-sm">
+                <textarea class="form-control form-control-user" id="gestSucTiendaNUMEROS2" rows="4"
+                          cols="50"></textarea>
+                <label for="gestSucTiendaNUMEROS2">Números de Teléfono</label>
+              </div>
+
+            </div>
+
+            <a class="btn btn-outline-primary btn-user btn-block" (click)="activarSucursal()">
+              Guardar
+            </a>
+
+            <hr class="sidebar-divider my-0">
+            <br><br>
+            <h1 class="h3 mb-4 text-gray-800">Activación de SPA</h1>
+            <div class="col-sm">
+              <select class="form-control form-control-user" id="gestSucTiendaNUMEROSSEDESPA"></select>
+              <label for="gestSucTiendaNUMEROSSEDESPA">Sede</label>
+            </div>
+
+            <a class="btn btn-outline-primary btn-user btn-block" (click)="activacionSpa()">
+              Activar
+            </a>
+
+
+            <hr class="sidebar-divider my-0">
+            <br><br>
+            <h1 class="h3 mb-4 text-gray-800">Activación de Tienda</h1>
+            <div class="col-sm">
+              <select class="form-control form-control-user" id="gestSucTiendaNUMEROSSEDETIENDA"></select>
+              <label for="gestSucTiendaNUMEROSSEDETIENDA">Sede</label>
+            </div>
+
+            <a class="btn btn-outline-primary btn-user btn-block" (click)="activacionTienda()">
+              Activar
+            </a>
+
+
+
+          </div>
+
+
+          <div id="gestSucTienda" class="container-fluid">
+            <h1 class="h3 mb-4 text-gray-800">Activación de Tienda</h1>
+
+            <div class="col-sm">
+              <select class="form-control form-control-user" id="gestSucTiendaSELECT"></select>
+              <label for="gestSucTiendaSELECT">Sede</label>
+            </div>
+
+            <hr class="sidebar-divider my-0">
+            <br><br>
+
+            <div class="form-group row">
+              <div class="col-sm-6 mb-3 mb-sm-0">
+                <input type="text" class="form-control form-control-user" id="gestSucTiendaNOMBRE">
+                <label for="gestSucTiendaNOMBRE">Nombre</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="gestSucTiendaDIRECCION">
+                <label for="gestSucTiendaDIRECCION">Dirección</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="date" class="form-control form-control-user" id="gestSucTiendaFECHAAPERTURA">
+                <label for="gestSucTiendaFECHAAPERTURA">Fecha de Apertura</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="gestSucTiendaHORARIODEATENCION">
+                <label for="gestSucTiendaHORARIODEATENCION">Horario de Atención</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="gestSucTiendaEMPLEADOADMINISTRADOR">
+                <label for="gestSucTiendaEMPLEADOADMINISTRADOR">Empleado Administrador</label>
+              </div>
+
+              <div class="col-sm">
+                <textarea class="form-control form-control-user" id="gestSucTiendaNUMEROS" rows="4"
+                          cols="50"></textarea>
+                <label for="gestSucTiendaNUMEROS">Números de Teléfono</label>
+              </div>
+
+              <div class="col-sm">
+                <input type="checkbox" class="form-control form-control-user" id="gestSucTiendaESTADOACTIVO">
+                <label for="gestSucTiendaESTADOACTIVO">Estado Activo</label>
+              </div>
+            </div>
+
+            <a class="btn btn-outline-primary btn-user btn-block" (click)="activacionTienda()">
+              Guardar
+            </a>
+
+          </div>
+
+          <div id="gestTratSpaP" class="container-fluid"> <!--GESTION DE TRATAMIENTOS-->
+
+            <h1 class="h3 mb-4 text-gray-800">Gestión de Tratamientos</h1>
+
+            <div class="col-sm">
+              <select class="form-control form-control-user" id="gestTratSpaPSELECT"></select>
+              <label for="gestTratSpaPSELECT">Tratamientos</label>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="gestTratSpaID" readonly>
+                <label for="gestTratSpaID">ID Único</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="gestTratSpaNOMNRE">
+                <label for="gestTratSpaNOMNRE">Nombre</label>
+              </div>
+            </div>
+
+            <a class="btn btn-outline-primary btn-user btn-block" (click)="agregarTratamiento()">
+              Guardar
+            </a>
+            <a class="btn btn-outline-primary btn-user btn-block" (click)="eliminarTratamiento()">
+              Eliminar
+            </a>
+
+            <hr class="sidebar-divider my-0">
+            <hr class="sidebar-divider">
+            <h1 class="h3 mb-4 text-gray-800">Agregar Nuevo Tratamiento</h1>
+            <div class="col-sm">
+              <input type="text" class="form-control form-control-user" id="gestTratSpaNOOMBRENUEVO">
+              <label for="gestTratSpaID">Descripcion</label>
+            </div>
+            <a class="btn btn-outline-primary btn-user btn-block" (click)="agregarNuevoTratamiento()">
+              Guardar Nuevo
+            </a>
+
+
+          </div>
+
+
+          <div id="gestPuestP" class="container-fluid"><!-- GESTION PUESTOS -->
+            <h1 class="h3 mb-4 text-gray-800">Gestión de puestos</h1>
+
+            <div class="col-sm">
+              <select class="form-control form-control-user" id="gestPuestPSELECT"></select>
+              <label for="gestPuestPSELECT">Puesto</label>
+            </div>
+
+            <hr class="sidebar-divider my-0">
+            <br><br>
+
+            <div class="form-group row">
+              <div class="col-sm-6 mb-3 mb-sm-0">
+                <input type="text" class="form-control form-control-user" id="gestPuestPID" readonly>
+                <label for="gestPuestPID">ID</label>
+              </div>
+
+              <div class="col-sm-6 mb-3 mb-sm-0">
+                <input type="text" class="form-control form-control-user" id="gestPuestPDESCRIPCION">
+                <label for="gestPuestPDESCRIPCION">Descripción</label>
+              </div>
+
+            </div>
+
+            <a class="btn btn-outline-primary btn-user btn-block" (click)="guardarPuesto()">
+              Guardar
+            </a>
+
+            <a class="btn btn-outline-danger btn-user btn-block" (click)="eliminarPuesto()">
+              Eliminar
+            </a>
+
+            <hr class="sidebar-divider my-0">
+            <hr class="sidebar-divider">
+            <h1 class="h3 mb-4 text-gray-800">Agregar Nuevo Puesto</h1>
+            <div class="form-group row">
+
+              <div class="col-sm">
+                <input type="text" class="form-control form-control-user" id="gestPuestPDESCRIPCIONAGREGAR">
+                <label for="gestPuestPDESCRIPCIONAGREGAR">Descripción</label>
+              </div>
+
+            </div>
+            <a class="btn btn-outline-primary btn-user btn-block" (click)="agregarNuevoPuesto()">
+              Guardar Nuevo
+            </a>
+
+          </div><!-- MARCO -->
+
+          <div id="gestTipPlaP" class="container-fluid">
+            <h1 class="h3 mb-4 text-gray-800">Gestión de Tipos de Planilla</h1> <!--MODIFICAR ESTA VISTA DE ACA PARA QUE SEA SOLO PARA AGREGAR Y ELIMINAR TIPOS DE PLANILLA YA EXISTENTES-->
+            <div class="col-sm">
+              <select class="form-control form-control-user" id="gestTipPlaPSELECT"></select>
+              <label for="gestTipPlaPSELECT">Planilla a mostrar</label> <!--CAMBIADO PARA FUNCIONAR CON CALCULOS EN BASE AL SALARIO DE UN EMPLEADO-->
+            </div>
+
+            <div class="form-group row">
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="gestTipPlaPID" readonly>
+                <label for="gestTipPlaPID">ID Único</label>
+              </div>
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="gestTipPlaPPLANILLA" >
+                <label for="gestTipPlaPPLANILLA">Descripcion</label>
+              </div>
+
+
+            </div>
+
+
+            <a class="btn btn-outline-primary btn-user btn-block">
+              Guardar
+            </a>
+
+            <a class="btn btn-outline-primary btn-user btn-block">
+              Eliminar
+            </a>
+
+            <hr class="sidebar-divider my-0">
+            <hr class="sidebar-divider">
+            <h1 class="h3 mb-4 text-gray-800">Agregar Nuevo Tipo Planilla</h1>
+            <div class="form-group row">
+              <div class="col-sm">
+                <input type="text" class="form-control form-control-user" id="gestTipPlaPPLANILLA2">
+                <label for="gestTipPlaPPLANILLA2">Descripcion</label>
+              </div>
+
+            </div>
+
+            <a class="btn btn-outline-primary btn-user btn-block">
+              Guardar nuevo
+            </a>
+            <br>
+
+          </div> <!--GESTION DE TIPOS DE PLANILLA-->
+
+          <div id="gestEmplP" class="container-fluid"> <!--GESTION DE EMPLEADOS-->
+
+            <h1 class="h3 mb-4 text-gray-800">Gestion de empleados</h1>
+
+            <div class="col-sm">
+              <select class="form-control form-control-user" id="gestEmplPSELECT"></select>
+              <label for="gestEmplPSELECT">Empleado</label>
+            </div>
+
+            <hr class="sidebar-divider my-0">
+            <br><br>
+
+            <div class="form-group row">
+              <div class="col-sm-6 mb-3 mb-sm-0">
+                <input type="text" class="form-control form-control-user" id="gestEmplPNUMEROCEDULA">
+                <label for="gestEmplPNUMEROCEDULA">Cédula</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="gestEmplPNOMBRE">
+                <label for="gestEmplPNOMBRE">Nombre</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="gestEmplPPRIMERAPELLIDO">
+                <label for="gestEmplPPRIMERAPELLIDO">Primer apellido</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="gestEmplPSEGUNDOAPELLIDO">
+                <label for="gestEmplPSEGUNDOAPELLIDO">Segundo Apellido</label>
+              </div>
+
+              <div class="col-sm-6">
+                <select type="text" class="form-control form-control-user" id="gestEmplPPROVINCIA"></select>
+                <label for="gestEmplPPROVINCIA">Provincia</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="gestEmplPCANTON">
+                <label for="gestEmplPCANTON">Canton</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="gestEmplPDISTRITO">
+                <label for="gestEmplPDISTRITO">Distrito</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="gestEmplPPUESTO">
+                <label for="gestEmplPPUESTO">Puesto que desempeña</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="gestEmplPSUCURSAL">
+                <label for="gestEmplPSUCURSAL">Sucursal en la que trabaja</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="gestEmplPLANILLA">
+                <label for="gestEmplPLANILLA">Tipo de planilla</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="gestEmplPSALARIO">
+                <label for="gestEmplPSALARIO">Salario</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="gestEmplPCORREO">
+                <label for="gestEmplPCORREO">Correo Electrónico</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="gestEmplPPASSWORD">
+                <label for="gestEmplPPASSWORD">Contraseña</label>
+              </div>
+            </div>
+
+            <a class="btn btn-outline-primary btn-user btn-block" (click)="gestionEmpleados()">
+              Guardar
+            </a>
+            <a class="btn btn-outline-danger btn-user btn-block" (click)="eliminarEmpleado()">
+              Eliminar
+            </a>
+
+            <hr class="sidebar-divider my-0">
+            <hr class="sidebar-divider">
+            <h1 class="h3 mb-4 text-gray-800">Agregar Nuevo Empleado</h1>
+            <div class="form-group row">
+              <div class="col-sm-6 mb-3 mb-sm-0">
+                <input type="text" class="form-control form-control-user" id="gestEmplPNUMEROCEDULA2">
+                <label for="gestEmplPNUMEROCEDULA2">Cédula</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="gestEmplPNOMBRE2">
+                <label for="gestEmplPNOMBRE2">Nombre</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="gestEmplPPRIMERAPELLIDO2">
+                <label for="gestEmplPPRIMERAPELLIDO2">Primer apellido</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="gestEmplPSEGUNDOAPELLIDO2">
+                <label for="gestEmplPSEGUNDOAPELLIDO2">Segundo Apellido</label>
+              </div>
+
+              <div class="col-sm-6">
+                <select type="text" class="form-control form-control-user" id="gestEmplPPROVINCIA2"></select>
+                <label for="gestEmplPPROVINCIA2">Provincia</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="gestEmplPCANTON2">
+                <label for="gestEmplPCANTON2">Canton</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="gestEmplPDISTRITO2">
+                <label for="gestEmplPDISTRITO2">Distrito</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="gestEmplPPUESTO2">
+                <label for="gestEmplPPUESTO2">Puesto que desempeña</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="gestEmplPSUCURSAL2">
+                <label for="gestEmplPSUCURSAL2">Sucursal en la que trabaja</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="gestEmplPLANILLA2">
+                <label for="gestEmplPLANILLA2">Tipo de planilla</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="gestEmplPSALARIO2">
+                <label for="gestEmplPSALARIO2">Salario</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="gestEmplPCORREO2">
+                <label for="gestEmplPCORREO2">Correo Electrónico</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="gestEmplPPASSWORD2">
+                <label for="gestEmplPPASSWORD2">Contraseña</label>
+              </div>
+            </div>
+
+            <a class="btn btn-outline-primary btn-user btn-block" (click)="agregarEmpleado()">
+              Guardar nuevo
+            </a>
+            <br>
+
+          </div><!-- MARCO -->
+
+          <div id="gestServP" class="container-fluid">
+            <h1 class="h3 mb-4 text-gray-800">Gestión de Servicios</h1>
+            <div class="col-sm">
+              <select class="form-control form-control-user" id="gestServPSELECT"></select>
+              <label for="gestServPSELECT">Servicio</label>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-sm">
+                <input type="text" class="form-control form-control-user" id="gestServPID" readonly>
+                <label for="gestServPID">ID Único</label>
+              </div>
+
+
+
+              <div class="col-sm">
+                <textarea class="form-control form-control-user" id="gestServPDESCRIPCION" rows="2"></textarea>
+                <label for="gestServPDESCRIPCION">Descripción</label>
+              </div>
+            </div>
+
+            <a class="btn btn-outline-primary btn-user btn-block" (click)="guardarServicio()">
+              Guardar
+            </a>
+
+            <a class="btn btn-outline-danger btn-user btn-block" (click)="eliminarServicio()">
+              Eliminar
+            </a>
+
+
+            <hr class="sidebar-divider my-0">
+            <hr class="sidebar-divider">
+            <h1 class="h3 mb-4 text-gray-800">Creación de Servicios</h1>
+            <div class="form-group row">
+
+
+
+              <div class="col-sm">
+                <textarea class="form-control form-control-user" id="gestServPDESCRIPCION2" rows="1"></textarea>
+                <label for="gestServPDESCRIPCION2">Descripción</label>
+              </div>
+            </div>
+            <a class="btn btn-outline-primary btn-user btn-block" (click)="agregarNuevoServicio()">
+              Crear
+            </a>
+          </div> <!--GESTION DE SERVICIOS-->
+
+          <div id="gestTipEquipP" class="container-fluid"> <!--GESTION DE TIPOS EQUIPO-->
+            <h1 class="h3 mb-4 text-gray-800">Gestión de tipos de equipo</h1>
+            <div class="form-group row">
+              <div class="col-sm">
+                <select class="form-control form-control-user" id="gestTipEquipPGYM"></select>
+                <label for="gestTipEquipPGYM">Gym</label>
+              </div>
+            </div>
+
+            <hr class="sidebar-divider my-0">
+            <br><br>
+            <div class="form-group row">
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="gestTipEquipPID" readonly>
+                <label for="gestTipEquipPID">ID</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="gestTipEquipPDESCRIPCION">
+                <label for="gestTipEquipPDESCRIPCION">Descripción</label>
+              </div>
+            </div>
+
+            <a class="btn btn-outline-primary btn-user btn-block" (click)="guardarTipoEquipo()">
+              Guardar
+            </a>
+            <a class="btn btn-outline-danger btn-user btn-block" (click)="eliminarTipoEquipo()">
+              Eliminar
+            </a>
+
+            <hr class="sidebar-divider my-0">
+            <hr class="sidebar-divider">
+            <h1 class="h3 mb-4 text-gray-800">Agregar Nuevo Tipo Equipo</h1>
+            <div class="form-group row">
+
+
+              <div class="col-sm">
+                <input type="text" class="form-control form-control-user" id="gestTipEquipPDESCRIPCIONNUEVO">
+                <label for="gestTipEquipPDESCRIPCIONNUEVO">Descripción</label>
+              </div>
+            </div>
+
+            <a class="btn btn-outline-primary btn-user btn-block" (click)="agregarNuevoEquipo()">
+              Guardar nuevo
+            </a>
+            <br>
+
+          </div><!-- MARCO -->
+
+          <div id="gestInvetP" class="container-fluid">
+            <h1 class="h3 mb-4 text-gray-800">Gestión de Inventario</h1>
+            <div class="form-group row">
+              <div class="col-sm">
+                <select class="form-control form-control-user" id="gestInvetPGYM"></select>
+                <label for="gestInvetPGYM">Gym</label>
+              </div>
+              <div class="col-sm">
+                <select class="form-control form-control-user" id="gestInvetPMAQUINA"></select>
+                <label for="gestInvetPMAQUINA">Máquina</label>
+              </div>
+            </div>
+
+            <hr class="sidebar-divider my-0">
+            <br><br>
+            <div class="form-group row">
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="gestInvetPTIPO">
+                <label for="gestInvetPTIPO">Tipo de Equipo</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="gestInvetPMARCA">
+                <label for="gestInvetPMARCA">Marca</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="number" class="form-control form-control-user" id="gestInvetPNUMEROSERIE">
+                <label for="gestInvetPNUMEROSERIE">Número de Serie</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="number" class="form-control form-control-user" id="gestInvetPCOSTOSUCURSAL" step="0.01">
+                <label for="gestInvetPCOSTOSUCURSAL">Costo de Sucursal</label>
+              </div>
+
+
+            </div>
+
+            <a class="btn btn-outline-primary btn-user btn-block" (click)="guardarInventario()">
+              Guardar
+            </a>
+            <a class="btn btn-outline-danger btn-user btn-block" (click)="eliminarInventario()">
+              Eliminar
+            </a>
+
+            <hr class="sidebar-divider my-0">
+            <hr class="sidebar-divider">
+            <h1 class="h3 mb-4 text-gray-800">Agregar Inventario</h1>
+            <div class="form-group row">
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="gestInvetPTIPO2">
+                <label for="gestInvetPTIPO2">Tipo de Equipo</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="gestInvetPMARCA2">
+                <label for="gestInvetPMARCA2">Marca</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="number" class="form-control form-control-user" id="gestInvetPNUMEROSERIE2">
+                <label for="gestInvetPNUMEROSERIE2">Número de Serie</label>
+              </div>
+
+
+
+
+            </div>
+            <a class="btn btn-outline-primary btn-user btn-block" (click)="agregarNuevoInventario()">
+              Guardar
+            </a><br>
+          </div> <!--GESTION DE INVENTARIO-->
+
+          <div id="gestProductP" class="container-fluid"> <!--GESTION DE PRODUCTOS-->
+            <h1 class="h3 mb-4 text-gray-800">Gestión de Productos</h1>
+            <div class="form-group row">
+              <div class="col-sm">
+                <select class="form-control form-control-user" id="gestProductPGYM"></select>
+                <label for="gestProductPGYM">Gym</label>
+              </div>
+              <div class="col-sm">
+                <select class="form-control form-control-user" id="gestProductPPRODUCTO"></select>
+                <label for="gestProductPPRODUCTO">Producto</label>
+              </div>
+            </div>
+
+            <hr class="sidebar-divider my-0">
+            <br><br>
+            <div class="form-group row">
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="gestProductPNOMBRE">
+                <label for="gestProductPNOMBRE">Nombre</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="gestProductPCODIGO">
+                <label for="gestProductPCODIGO">Codigo de barras</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="number" class="form-control form-control-user" id="gestProductPDESCRIPCION">
+                <label for="gestProductPDESCRIPCION">Descripción</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="number" class="form-control form-control-user" id="gestProductPCOSTO">
+                <label for="gestProductPCOSTO">Costo</label>
+              </div>
+            </div>
+            <a class="btn btn-outline-primary btn-user btn-block" (click)="modificarProducto()">
+              Guardar
+            </a>
+            <a class="btn btn-outline-danger btn-user btn-block"(click)="eliminarProducto()">
+              Eliminar
+            </a>
+
+            <hr class="sidebar-divider my-0">
+            <hr class="sidebar-divider">
+            <h1 class="h3 mb-4 text-gray-800">Agregar Producto</h1>
+
+
+            <div class="form-group row">
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="gestProductPNOMBRENUEVO">
+                <label for="gestProductPNOMBRENUEVO">Nombre</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="gestProductPCODIGONUEVO">
+                <label for="gestProductPCODIGONUEVO">Codigo de barras</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="number" class="form-control form-control-user" id="gestProductPDESCRIPCIONNUEVO">
+                <label for="gestProductPDESCRIPCIONNUEVO">Descripcion</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type="number" class="form-control form-control-user" id="gestProductPCOSTONUEVO">
+                <label for="gestProductPCOSTONUEVO">Costo</label>
+              </div>
+
+            </div>
+            <a class="btn btn-outline-primary btn-user btn-block" (click)="agregarProducto()">
+              Guardar
+            </a><br>
+
+          </div><!-- MARCO -->
+
+          <div id="confGymPSpa" class="container-fluid">
+            <h1 class="h3 mb-4 text-gray-800">Asociación de tratamientos al SPA del Gimnacio</h1>
+            <div class="col-sm">
+              <select class="form-control form-control-user" id="confGymPSpaSPA"></select>
+              <label for="confGymPSpaSPA">SPA</label>
+            </div>
+
+            <div class="col-sm">
+              <select class="form-control form-control-user" id="confGymPSpaTratamiento"></select>
+              <label for="confGymPSpaTratamiento">Tratamiento</label>
+            </div>
+            <a class="btn btn-outline-primary btn-user btn-block" (click)="asociarTratamientoASpa()">
+              Asociar
+            </a><br>
+            <hr class="sidebar-divider my-0">
+            <br><br>
+
+            <div class="form-group row">
+
+              <div class="col-sm">
+                <textarea class="form-control form-control-user" id="confGymPSpaASOCIADOS" rows="4"
+                          cols="50"></textarea>
+                <label for="confGymPSpaASOCIADOS">Asociados</label>
+              </div>
+
+              <div class="col-sm">
+                <textarea class="form-control form-control-user" id="confGymPSpaNOASOCIADOS" rows="4"
+                          cols="50"></textarea>
+                <label for="confGymPSpaNOASOCIADOS">No asociados</label>
+              </div>
+            </div>
+
+          </div>
+          <!--CONFIGURACION GYM ASOCIA SPA SEBAS-->
+
+
+          <div id="confGymPProduc" class="container-fluid"> <!-- CONFIGURACION GIMNASIO ASOCIA RPO-->
+            <h1 class="h3 mb-4 text-gray-800">Asociar productos a tienda</h1>
+
+            <div class="col-sm">
+              <select class="form-control form-control-user" id="confGymPProducSELECT"></select>
+              <label for="confGymPProducSELECT">Gym</label>
+            </div>
+
+            <div class="col-sm">
+              <select class="form-control form-control-user" id="confGymPProducASOCIAR"></select>
+              <label for="confGymPProducASOCIAR">Producto</label>
+            </div>
+            <a class="btn btn-outline-primary btn-user btn-block" (click)="asociarProductosATienda()">
+              Asociar
+            </a><br>
+            <hr class="sidebar-divider my-0">
+            <br><br>
+
+            <div class="form-group row">
+
+              <div class="col-sm">
+                <textarea class="form-control form-control-user" id="confGymPProducASOCIADOS" rows="4"
+                          cols="50"></textarea>
+                <label for="confGymPProducASOCIADOS">Asociados</label>
+              </div>
+
+              <div class="col-sm">
+                <textarea class="form-control form-control-user" id="confGymPProducNOASOCIADOS" rows="4"
+                          cols="50"></textarea>
+                <label for="confGymPProducNOASOCIADOS">No asociados</label>
+              </div>
+            </div><!-- MARCO -->
+          </div>
+
+          <div id="confGymPInventario" class="container-fluid">
+            <h1 class="h3 mb-4 text-gray-800">Asociación de Inventario</h1>
+            <div class="col-sm">
+              <select class="form-control form-control-user" id="confGymPInventarioGYM"></select>
+              <label for="confGymPInventarioGYM">GYM</label>
+            </div>
+
+            <div class="col-sm">
+              <select class="form-control form-control-user" id="confGymPInventarioEQUIPO"></select>
+              <label for="confGymPInventarioEQUIPO">Equipo</label>
+            </div>
+
+            <div class="col-sm">
+              <input type="text" class="form-control form-control-user" id="confGymPInventarioCOSTO">
+              <label for="confGymPInventarioCOSTO">Costo</label>
+            </div>
+            <a class="btn btn-outline-primary btn-user btn-block" (click)="asociarInventario()">
+              Asociar
+            </a><br>
+            <hr class="sidebar-divider my-0">
+            <br><br>
+
+            <div class="form-group row">
+
+              <div class="col-sm">
+                <textarea class="form-control form-control-user" id="confGymPInventarioASOCIADO" rows="4"
+                          cols="50"></textarea>
+                <label for="confGymPInventarioASOCIADO">Asociados</label>
+              </div>
+
+              <div class="col-sm">
+                <textarea class="form-control form-control-user" id="confGymPInventarioNOASOCIADO" rows="4"
+                          cols="50"></textarea>
+                <label for="confGymPInventarioNOASOCIADO">No asociados</label>
+              </div>
+            </div>
+          </div>
+
+          <div id="confGymPCrear" class="container-fluid"> <!--CONFIGURACION CREAR GIMNASIO-->
+            <h1 class="h3 mb-4 text-gray-800">Crear clase</h1>
+
+            <hr class="sidebar-divider my-0">
+            <br><br>
+            <div class="form-group row">
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-user" id="confGymPCrearTIPO">
+                <label for="confGymPCrearTIPO">Tipo</label>
+              </div>
+
+              <div class="col-sm-6">
+                <select class="form-control form-control-user" id="confGymPCrearINSTRUCTOR"></select>
+                <label for="confGymPCrearINSTRUCTOR">Instructor</label>
+              </div>
+
+              <div class="col-sm-6">
+                <select class="form-control form-control-user" id="confGymPCrearGRUPOIND"></select>
+                <label for="confGymPCrearGRUPOIND">Grupal o individual</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type=number class="form-control form-control-user" id="confGymPCrearCAPACIDAD">
+                <label for="confGymPCrearCAPACIDAD">Capacidad</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type=date class="form-control form-control-user" id="confGymPCrearFECHA">
+                <label for="confGymPCrearFECHA">Fecha</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type=time class="form-control form-control-user" id="confGymPCrearHORAINICIO">
+                <label for="confGymPCrearHORAINICIO">Hora de inicio</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input type=time class="form-control form-control-user" id="confGymPCrearHORAFINAL">
+                <label for="confGymPCrearHORAFINAL">Hora de finalización</label>
+              </div>
+
+            </div>
+
+            <a class="btn btn-outline-primary btn-user btn-block" (click)="crearClase()">
+              Crear
+            </a><br>
+
+
+          </div><!-- MARCO -->
+
+          <div id="genPlanPComo" class="container-fluid">
+            <h1 class="h3 mb-4 text-gray-800">Calculos de planillas</h1>
+
+            <div class="col-sm">
+                <textarea class="form-control form-control-user" id="Planillas y valores correpsondientes" rows="20"
+                          cols="50"></textarea>
+              <label for="gestSucTiendaNUMEROS2">Planillas existentes</label>
+            </div>
+
+            <a class="btn btn-outline-primary btn-user btn-block">
+              Generar planillas existentes
+            </a><br>
+          </div>
+
+          <div id="genPlanPMensuales" class="container-fluid"> <!--GENERACION PLANTILLA (MENSUALES)-->
+
+
+          </div><!-- MARCO -->
+
+          <div id="genPlanPHoras" class="container-fluid"></div>
+
+          <div id="genPlanPClase" class="container-fluid"> <!--GENERACION PLANTILLA (CLASES)-->
+
+          </div><!-- MARCO -->
+
+          <div id="copCalenP" class="container-fluid">
+            <h1 class="h3 mb-4 text-gray-800">Copiar Calendario Por Semana</h1>
+
+            <div class="col-sm">
+              <input type="date" class="form-control form-control-user" id="copCalenPDIA1">
+              <label for="copCalenPDIA1">Dia Inicio a Copiar</label>
+            </div>
+
+            <div class="col-sm">
+              <input type="date" class="form-control form-control-user" id="copCalenPDIA2">
+              <label for="copCalenPDIA2">Dia Final a Copiar</label>
+            </div>
+
+            <div class="col-sm">
+              <input type="number" class="form-control form-control-user" id="copCalenPMOVIMIENTO">
+              <label for="copCalenPMOVIMIENTO">Semanas a mover</label>
+            </div>
+
+            <a class="btn btn-outline-primary btn-user btn-block" (click)="copiarCalendario()">
+              Copiar
+            </a><br>
+          </div>
+
+          <div id="copGymp" class="container-fluid"> <!--COPIAR GIMNASIO-->
+            <h1 class="h3 mb-4 text-gray-800">Copiar Gym</h1>
+
+            <div class="col-sm">
+              <select class="form-control form-control-user" id="copGympSELECT"></select>
+              <label for="copGympSELECT">Gym a copiar</label><br><br>
+            </div>
+
+            <div class="col-sm">
+              <input type="text" class="form-control form-control-user" id="copGympNUEVO">
+              <label for="copGympNUEVO">Nombre del nuevo Gym</label>
+            </div>
+
+            <a class="btn btn-outline-primary btn-user btn-block" (click)="copiarGym()">
+              Copiar
+            </a><br>
+
+          </div><!-- MARCO -->
+          <!-- End of Main Content -->
+
+          <!-- Footer -->
+          <footer class="sticky-footer bg-white">
+            <div class="container my-auto">
+              <div class="copyright text-center my-auto">
+                <span>Copyright &copy; GymTEC 2023</span>
+              </div>
+            </div>
+          </footer>
+          <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+      </div>
+      <!-- End of Page Wrapper -->
+
+      <!-- Scroll to Top Button-->
+      <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+      </a>
+
+      <!-- Logout Modal-->
+      <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+           aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+              <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+              <a class="btn btn-primary" href="login.html">Logout</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
