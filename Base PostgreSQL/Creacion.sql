@@ -1,6 +1,6 @@
 -- Database: NutriTEC-DB
 
-DROP DATABASE IF EXISTS "NutriTEC-DB";
+-- DROP DATABASE IF EXISTS "NutriTEC-DB";
 
 CREATE DATABASE "NutriTEC-DB"
     WITH
@@ -55,9 +55,9 @@ CREATE TABLE CLIENTE(
 
 create table PLAN(
 	ID serial,
-	Cedula_Nutri
+	Cedula_Nutri VARCHAR(50),
 	Descripcion VARCHAR(50) not null,
-	primary key (ID, Cedula_Nutri);
+	primary key (ID, Cedula_Nutri)
 );
 
 create table RECETA(
@@ -127,13 +127,13 @@ create table ASOCIACION_RECETA_PRODUCTO(
 	ID_Receta INT not null, 
 	Codigo_Barras_Producto INT not null,
 	Porcion_Producto INT not null,
-	primary key (ID_Receta, Codigo_Barras_Producto);
+	primary key (ID_Receta, Codigo_Barras_Producto)
 );
 
 create table ASOCIACION_PLAN_TIEMPOCOMIDA(
 	ID_Plan int,
-	ID_Tiempo_Comida,
-	primary key (ID_Plan, ID_Tiempo_Comida);
+	ID_Tiempo_Comida int,
+	primary key (ID_Plan, ID_Tiempo_Comida)
 );
 
 create table MEDIDAS(
@@ -144,7 +144,7 @@ create table MEDIDAS(
 	Caderas int not null,
 	Porcentaje_Musculo float not null,
 	Porcentaje_Grasa float not null,
-	primary key (Cedula_Paciente, Fecha);
+	primary key (Cedula_Paciente, Fecha)
 );
 
 create table ASOCIACION_PLAN_PACIENTE(
@@ -152,7 +152,7 @@ create table ASOCIACION_PLAN_PACIENTE(
 	ID_Plan int,
 	Fecha_Inicio DATE not null,
 	Fecha_Fin DATE not null,
-	primary key (Cedula_Paciente, ID_Plan);
+	primary key (Cedula_Paciente, ID_Plan)
 );
 
 alter table PLAN
@@ -203,7 +203,7 @@ references CLIENTE (Cedula);
 alter table ASOCIACION_RECETA_PRODUCTO
 add constraint llaves4
 foreign key (ID_Receta)
-references RECETA (ID)
+references RECETA (ID);
 
 alter table ASOCIACION_RECETA_PRODUCTO
 add constraint llaves5
@@ -213,7 +213,7 @@ references PRODUCTO (Codigo_Barras_Producto);
 alter table ASOCIACION_PLAN_TIEMPOCOMIDA
 add constraint llaves6
 foreign key (ID_Plan)
-references PLAN (ID)
+references PLAN (ID);
 
 alter table ASOCIACION_PLAN_TIEMPOCOMIDA
 add constraint llaves7
@@ -234,10 +234,3 @@ alter table ASOCIACION_PLAN_PACIENTE
 add constraint llaves10
 foreign key (ID_Plan)
 references PLAN (ID);
-
-
-
-
-
-
- 
