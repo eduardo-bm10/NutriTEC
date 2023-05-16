@@ -2,19 +2,6 @@
 
 -- DROP DATABASE IF EXISTS "NutriTEC-DB";
 
-CREATE DATABASE "NutriTEC-DB"
-    WITH
-    OWNER = postgres
-    ENCODING = 'UTF8'
-    LC_COLLATE = 'Spanish_Costa Rica.1252'
-    LC_CTYPE = 'Spanish_Costa Rica.1252'
-    TABLESPACE = pg_default
-    CONNECTION LIMIT = -1
-    IS_TEMPLATE = False;
-
-COMMENT ON DATABASE "NutriTEC-DB"
-    IS 'Database for ITCR NutriTEC project ';
-	
 CREATE TABLE ADMINISTRADOR(
    Cedula VARCHAR (9) primary KEY,
    Nombre VARCHAR (50) not null,
@@ -38,7 +25,7 @@ CREATE TABLE NUTRICIONISTA(
    Foto BYTEA not null
 );
 
-CREATE TABLE CLIENTE(
+CREATE TABLE PACIENTE(
    Cedula VARCHAR (9) primary KEY,
    Nombre VARCHAR (50) NOT null,
    Apellido1 VARCHAR (50) not null,
@@ -54,9 +41,9 @@ CREATE TABLE CLIENTE(
 );
 
 create table PLAN(
-	ID serial,
-	Cedula_Nutri VARCHAR(50),
-	Descripcion VARCHAR(50) not null,
+	ID serial unique not null,
+	Cedula_Nutri VARCHAR(50) unique not null,
+	Descripcion VARCHAR(50) unique not null,
 	primary key (ID, Cedula_Nutri)
 );
 
@@ -93,7 +80,7 @@ create table TIPO_COBRO(
 create table CONSUMO(
 	Cedula_Paciente VARCHAR(9) primary key,
 	Fecha DATE not null,
-	Tiempo_Comida VARCHAR(50) not null
+	Tiempo_Comida int not null
 );
 
 create table MEDIDAS(
@@ -106,11 +93,6 @@ create table MEDIDAS(
 	Porcentaje_Grasa FLOAT not null
 );
 
-create table RECETA(
-	ID serial primary KEY,
-	Descripcion VARCHAR(50) not null
-);
-
 create table ASOCIACION_ADMIN_PRODUCTO(
 	Cedula_Admin VARCHAR(9),
 	Codigo_Barras_Producto INTEGER,
@@ -120,7 +102,7 @@ create table ASOCIACION_ADMIN_PRODUCTO(
 create table ASOCIACION_PACIENTE_NUTRI(
 	Cedula_Nutri VARCHAR(9),
 	Cedula_Paciente VARCHAR(9),
-	primary key (Cedula_Nutri, Cedula_Cliente)
+	primary key (Cedula_Nutri, Cedula_Paciente)
 );
 
 create table ASOCIACION_RECETA_PRODUCTO(
@@ -134,17 +116,6 @@ create table ASOCIACION_PLAN_TIEMPOCOMIDA(
 	ID_Plan int,
 	ID_Tiempo_Comida int,
 	primary key (ID_Plan, ID_Tiempo_Comida)
-);
-
-create table MEDIDAS(
-	Cedula_Paciente VARCHAR(9),
-	Fecha DATE not null,
-	Cintura int not null, 
-	Cuello int not null,
-	Caderas int not null,
-	Porcentaje_Musculo float not null,
-	Porcentaje_Grasa float not null,
-	primary key (Cedula_Paciente, Fecha)
 );
 
 create table ASOCIACION_PLAN_PACIENTE(
@@ -168,7 +139,7 @@ references NUTRICIONISTA (Cedula);
 alter table CONSUMO
 add constraint llavesA
 foreign key (Cedula_Paciente)
-references PAICENTE (Cedula);
+references PACIENTE (Cedula);
 
 alter table CONSUMO
 add constraint llavesB
@@ -197,8 +168,8 @@ references NUTRICIONISTA (Cedula);
 
 alter table  ASOCIACION_PACIENTE_NUTRI
 add constraint llaves3
-foreign key (cedula_cliente)
-references CLIENTE (Cedula);
+foreign key (Cedula_Paciente)
+references PACIENTE (Cedula);
 
 alter table ASOCIACION_RECETA_PRODUCTO
 add constraint llaves4
@@ -208,7 +179,7 @@ references RECETA (ID);
 alter table ASOCIACION_RECETA_PRODUCTO
 add constraint llaves5
 foreign key (Codigo_Barras_Producto)
-references PRODUCTO (Codigo_Barras_Producto);
+references PRODUCTO (Codigo_Barras);
 
 alter table ASOCIACION_PLAN_TIEMPOCOMIDA
 add constraint llaves6
