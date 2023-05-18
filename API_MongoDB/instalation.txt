@@ -1,0 +1,24 @@
+- Descargar e instalar MongoDB (obviamente)
+- Descargar e instalar mongosh (Es una terminal para gestionar las bases de datos y no viene incluida en la primera descarga)
+- Ejecutar el comando 'mongod' en una terminal aparte, esto abre el servidor.
+- En otra terminal, ejecutar el oomando 'mongosh'
+
+En mongosh:
+
+- test> use nutritec [Este comando crea la base de datos "nutritec"]
+- nutritec> db.createCollection('Feedback') [Este comando crea la colección Feedback]
+
+- El formato de documentos de Feedback es:
+
+{
+    "id" : [Este lo genera Mongo]
+    "senderSsn": [Este es el número de cédula del que escribe el mensaje de retroalimentación]
+    "receptorSsn": [Este es el número de cédula a quien va dirigido el mensaje]
+    "date": [La fecha en que se publicó el mensaje]
+    "message": [La retroalimentación como tal]
+}
+
+- Ejecutar el API con dotnet run desde la carpeta API_MongoDB (siempre que 'mongod' este corriendo en segundo plano)
+
+Listo chau
+
