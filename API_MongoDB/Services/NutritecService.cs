@@ -26,7 +26,7 @@ namespace API_MongoDB.Services {
             return feedbacks.Find(f => f.SenderSsn == ssn).ToList();
         }
         public List<Feedback> GetByDate(string date) {
-            return feedbacks.Find(f => f.Date == date).ToList();
+            return feedbacks.Find(f => f.Date.Contains(date)).ToList();
         }
         public void Remove(string id) {
             feedbacks.DeleteOne(f => f.Id == id);

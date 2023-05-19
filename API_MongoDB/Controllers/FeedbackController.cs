@@ -11,15 +11,15 @@ namespace API_MongoDB.Controllers {
 
         [HttpPost]
         [Route("createFeedback")]
-        public dynamic CreateFeedback(string senderSsn, string receptorSsn, string date, string message) {
+        public dynamic CreateFeedback(string senderSsn, string receptorSsn, string message) {
             Feedback f = new Feedback();
             f.SenderSsn = senderSsn;
             f.ReceptorSsn = receptorSsn;
-            f.Date = date;
+            f.Date = DateTime.Now.ToString();
             f.Message = message;
 
             service.Create(f);
-            return new { message = "Successfully created on " + date + " by " + senderSsn};
+            return new { message = "Successfully created on " + f.Date + " by " + senderSsn};
         }
 
         [HttpGet]
