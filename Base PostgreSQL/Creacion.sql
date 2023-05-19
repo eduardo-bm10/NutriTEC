@@ -191,11 +191,6 @@ add constraint llaves7
 foreign key (ID_Tiempo_Comida)
 references PLAN (ID);
 
-alter table MEDIDAS
-add constraint llaves8
-foreign key (Cedula_Paciente)
-references PACIENTE (Cedula);
-
 alter table ASOCIACION_PLAN_PACIENTE
 add constraint llaves9
 foreign key (Cedula_Paciente)
