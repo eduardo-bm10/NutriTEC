@@ -20,18 +20,12 @@ class RecipesManagementScreen extends StatefulWidget {
 /// This is the stateful class that will be replaced by the home page.
 class _RecipesManagementScreenState extends State<RecipesManagementScreen> {
   /// This is the controller for the text field.
-  late TextEditingController _controllerPassword;
   TextEditingController emailAddress = TextEditingController();
-  bool texterror = false;
-  bool passwordVisible=false;
   
 
   @override
   void initState() {
     super.initState();
-    _controllerPassword = TextEditingController();
-    passwordVisible=true;
-    emailAddress.text = "";
   }
 
   @override
@@ -41,7 +35,7 @@ class _RecipesManagementScreenState extends State<RecipesManagementScreen> {
         backgroundColor: Colors.cyan[100],
         appBar: AppBar(
             title: const Text(
-          "Bienvenido a NutriTEC",
+          "Recetas | NutriTEC",
           style: TextStyle(fontSize: title_size, fontWeight: FontWeight.normal),
         )),
         body: Center(
@@ -61,19 +55,32 @@ class _RecipesManagementScreenState extends State<RecipesManagementScreen> {
                 const Expanded(
                   child: Image(image: AssetImage('assets/logoNutriTec.png')),
                 ),
-                ElevatedButton(
-                    style: style,
-                    onPressed: () {
-                      _navigateToDailyRegister(context);
-                    },
-                    child: const Text('Registro Diario'),
+                const Text(
+                  "Datos de la Receta",
+                  style: TextStyle(fontSize: title_size, fontWeight: FontWeight.normal),
+                ),
+                const Text(
+                  "Nombre de la Receta: ",
+                ),
+                const Text(
+                  "Producto: ",
+                ),
+                const Text(
+                  "Porción: ",
                 ),
                 ElevatedButton(
                     style: style,
                     onPressed: () {
-                      _navigateToRecipesManagement(context);
+                      _addNewProduct(context);
                     },
-                    child: const Text('Gestión de Recetas'),
+                    child: const Text('Añadir Producto'),
+                ),
+                ElevatedButton(
+                    style: style,
+                    onPressed: () {
+                      _addRecipes(context);
+                    },
+                    child: const Text('Añadir Recetas'),
                 ),
               ],
             ),
@@ -82,20 +89,10 @@ class _RecipesManagementScreenState extends State<RecipesManagementScreen> {
   }
 
   /// This method is used to navigate to the welcome screen.
-  void _navigateToDailyRegister(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => RecipesManagementScreen()));
+  void _addNewProduct(BuildContext context) {
   }
 
   /// This method is used to navigate to the register screen.
-  void _navigateToRecipesManagement(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => RecipesManagementScreen()));
-  }
-
-  /// This method is used to verify if the client exist in the database.
-  bool _verCliente(String correo, String password) {
-    String generateMd5(String input) {
-      return md5.convert(utf8.encode(input)).toString();
-    }
-    return true;
+  void _addRecipes(BuildContext context) {
   }
 }
