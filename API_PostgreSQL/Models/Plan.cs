@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Postgre_API;
+namespace Postgre_API.Models;
 
 public partial class Plan
 {
     public int Id { get; set; }
 
-    public string CedulaNutri { get; set; } = null!;
+    public string Nutritionistid { get; set; } = null!;
 
-    public string Descripcion { get; set; } = null!;
+    public string Description { get; set; } = null!;
 
-    public virtual ICollection<AsociacionPlanPaciente> AsociacionPlanPacientes { get; set; } = new List<AsociacionPlanPaciente>();
+    public virtual Nutritionist Nutritionist { get; set; } = null!;
 
-    public virtual Nutricionistum CedulaNutriNavigation { get; set; } = null!;
+    public virtual ICollection<PlanMealtimeAssociation> PlanMealtimeAssociationMealtimes { get; set; } = new List<PlanMealtimeAssociation>();
 
-    public virtual ICollection<Plan> IdPlans { get; set; } = new List<Plan>();
+    public virtual ICollection<PlanMealtimeAssociation> PlanMealtimeAssociationPlans { get; set; } = new List<PlanMealtimeAssociation>();
 
-    public virtual ICollection<Plan> IdTiempoComida { get; set; } = new List<Plan>();
+    public virtual ICollection<PlanPatientAssociation> PlanPatientAssociations { get; set; } = new List<PlanPatientAssociation>();
 }
