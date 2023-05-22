@@ -20,8 +20,9 @@ class RecipesManagementScreen extends StatefulWidget {
 /// This is the stateful class that will be replaced by the home page.
 class _RecipesManagementScreenState extends State<RecipesManagementScreen> {
   /// This is the controller for the text field.
-  TextEditingController emailAddress = TextEditingController();
-  
+  TextEditingController nameRecipe = TextEditingController();
+  TextEditingController nameProduct = TextEditingController();
+  TextEditingController portionProduct = TextEditingController();
 
   @override
   void initState() {
@@ -62,11 +63,21 @@ class _RecipesManagementScreenState extends State<RecipesManagementScreen> {
                 const Text(
                   "Nombre de la Receta: ",
                 ),
+                TextField(
+                  controller: nameRecipe,
+                ),
                 const Text(
                   "Producto: ",
                 ),
+                TextField(
+                  controller: nameProduct,
+                ),
                 const Text(
                   "Porción: ",
+                ),
+                TextField(
+                  keyboardType: TextInputType.number,
+                  controller: portionProduct,
                 ),
                 ElevatedButton(
                     style: style,
