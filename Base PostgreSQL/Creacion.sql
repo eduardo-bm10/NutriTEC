@@ -1,7 +1,3 @@
--- Database: NutriTEC-DB
-
--- DROP DATABASE IF EXISTS "NutriTEC-DB";
-
 CREATE TABLE ADMINISTRADOR(
    Cedula VARCHAR (9) primary KEY,
    Nombre VARCHAR (50) not null,
@@ -127,76 +123,76 @@ create table ASOCIACION_PLAN_PACIENTE(
 );
 
 alter table PLAN
-add constraint llavesZ
+add constraint llaves1
 foreign key (Cedula_Nutri)
 references NUTRICIONISTA (Cedula);
 
 alter table TIPO_COBRO
-add constraint llaves
-foreign key (Cedula_Nutri)
-references NUTRICIONISTA (Cedula);
-
-alter table CONSUMO
-add constraint llavesA
-foreign key (Cedula_Paciente)
-references PACIENTE (Cedula);
-
-alter table CONSUMO
-add constraint llavesB
-foreign key (Tiempo_Comida)
-references TIEMPO_COMIDA (ID);
-
-alter table MEDIDAS
-add constraint llavesC
-foreign key (Cedula_Paciente)
-references PACIENTE (Cedula);
- 
-alter table ASOCIACION_ADMIN_PRODUCTO
-add constraint llaves0
-foreign key (Cedula_Admin)
-references ADMINISTRADOR (Cedula);
-
-alter table ASOCIACION_ADMIN_PRODUCTO
-add constraint llaves1
-foreign key (Codigo_Barras_Producto)
-references PRODUCTO (Codigo_Barras);
-
-alter table  ASOCIACION_PACIENTE_NUTRI
 add constraint llaves2
 foreign key (Cedula_Nutri)
 references NUTRICIONISTA (Cedula);
 
-alter table  ASOCIACION_PACIENTE_NUTRI
+alter table CONSUMO
 add constraint llaves3
 foreign key (Cedula_Paciente)
 references PACIENTE (Cedula);
 
-alter table ASOCIACION_RECETA_PRODUCTO
+alter table CONSUMO
 add constraint llaves4
-foreign key (ID_Receta)
-references RECETA (ID);
+foreign key (Tiempo_Comida)
+references TIEMPO_COMIDA (ID);
 
-alter table ASOCIACION_RECETA_PRODUCTO
+alter table MEDIDAS
 add constraint llaves5
+foreign key (Cedula_Paciente)
+references PACIENTE (Cedula);
+ 
+alter table ASOCIACION_ADMIN_PRODUCTO
+add constraint llaves6
+foreign key (Cedula_Admin)
+references ADMINISTRADOR (Cedula);
+
+alter table ASOCIACION_ADMIN_PRODUCTO
+add constraint llaves7
 foreign key (Codigo_Barras_Producto)
 references PRODUCTO (Codigo_Barras);
 
-alter table ASOCIACION_PLAN_TIEMPOCOMIDA
-add constraint llaves6
-foreign key (ID_Plan)
-references PLAN (ID);
+alter table  ASOCIACION_PACIENTE_NUTRI
+add constraint llaves8
+foreign key (Cedula_Nutri)
+references NUTRICIONISTA (Cedula);
 
-alter table ASOCIACION_PLAN_TIEMPOCOMIDA
-add constraint llaves7
-foreign key (ID_Tiempo_Comida)
-references PLAN (ID);
-
-alter table ASOCIACION_PLAN_PACIENTE
+alter table  ASOCIACION_PACIENTE_NUTRI
 add constraint llaves9
 foreign key (Cedula_Paciente)
 references PACIENTE (Cedula);
 
-alter table ASOCIACION_PLAN_PACIENTE
+alter table ASOCIACION_RECETA_PRODUCTO
 add constraint llaves10
+foreign key (ID_Receta)
+references RECETA (ID);
+
+alter table ASOCIACION_RECETA_PRODUCTO
+add constraint llaves11
+foreign key (Codigo_Barras_Producto)
+references PRODUCTO (Codigo_Barras);
+
+alter table ASOCIACION_PLAN_TIEMPOCOMIDA
+add constraint llaves12
+foreign key (ID_Plan)
+references PLAN (ID);
+
+alter table ASOCIACION_PLAN_TIEMPOCOMIDA
+add constraint llaves13
+foreign key (ID_Tiempo_Comida)
+references PLAN (ID);
+
+alter table ASOCIACION_PLAN_PACIENTE
+add constraint llaves14
+foreign key (Cedula_Paciente)
+references PACIENTE (Cedula);
+
+alter table ASOCIACION_PLAN_PACIENTE
+add constraint llaves15
 foreign key (ID_Plan)
 references PLAN (ID);
