@@ -2,9 +2,7 @@
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
-import 'package:nutritec/DailyRegisterScreen.dart';
-
-import 'RecipesManagementScreen.dart';
+import 'package:validators/validators.dart';
 
 // Global variables for the components of the application.
 const double font_size = 20;
@@ -12,15 +10,15 @@ const double title_size = 32;
 
 
 /// This is the home page of the application.
-class WelcomeScreen extends StatefulWidget {
-  const WelcomeScreen({super.key});
+class RecipesManagementScreen extends StatefulWidget {
+  const RecipesManagementScreen({super.key});
   @override
-  _WelcomeScreenState createState() => _WelcomeScreenState();
+  _RecipesManagementScreenState createState() => _RecipesManagementScreenState();
 }
 
 
 /// This is the stateful class that will be replaced by the home page.
-class _WelcomeScreenState extends State<WelcomeScreen> {
+class _RecipesManagementScreenState extends State<RecipesManagementScreen> {
   /// This is the controller for the text field.
   late TextEditingController _controllerPassword;
   TextEditingController emailAddress = TextEditingController();
@@ -85,7 +83,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   /// This method is used to navigate to the welcome screen.
   void _navigateToDailyRegister(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => DailyRegisterScreen()));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => RecipesManagementScreen()));
   }
 
   /// This method is used to navigate to the register screen.
