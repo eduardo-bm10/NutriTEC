@@ -18,7 +18,8 @@ CREATE TABLE NUTRICIONISTA(
    Peso INTEGER not null,
    IMC FLOAT not null,
    Direccion VARCHAR (50) not null,
-   Foto BYTEA not null
+   Foto BYTEA not null,
+	Id_cobro SERIAL
 );
 
 CREATE TABLE PACIENTE(
@@ -37,14 +38,14 @@ CREATE TABLE PACIENTE(
 );
 
 create table PLAN(
-	ID serial unique not null,
+	Identificador serial unique not null,
 	Cedula_Nutri VARCHAR(50) unique not null,
 	Descripcion VARCHAR(50) unique not null,
-	primary key (ID, Cedula_Nutri)
+	primary key (Identificador, Cedula_Nutri)
 );
 
 create table RECETA(
-	ID serial primary key,
+	Identificador serial primary key,
 	Descripcion VARCHAR(50) not null,
 	Porciones VARCHAR(50) not null
 );
@@ -63,13 +64,12 @@ create table PRODUCTO(
 );
 
 create table TIEMPO_COMIDA(
-	ID serial primary key,
+	Identificador serial primary key,
 	Nombre VARCHAR(50) not null
 );
 
 create table TIPO_COBRO(
-	ID serial primary key,
-	Cedula_Nutri VARCHAR(9) not null,
+	Identificador serial primary key,
 	Descripcion VARCHAR(50) not null
 );
 
@@ -127,10 +127,10 @@ add constraint llaves1
 foreign key (Cedula_Nutri)
 references NUTRICIONISTA (Cedula);
 
-alter table TIPO_COBRO
+alter table NUTRICIONISTA
 add constraint llaves2
-foreign key (Cedula_Nutri)
-references NUTRICIONISTA (Cedula);
+foreign key (Id_cobro)
+references TIPO_COBRO (Identificador);
 
 alter table CONSUMO
 add constraint llaves3
@@ -140,7 +140,7 @@ references PACIENTE (Cedula);
 alter table CONSUMO
 add constraint llaves4
 foreign key (Tiempo_Comida)
-references TIEMPO_COMIDA (ID);
+references TIEMPO_COMIDA (Identificador);
 
 alter table MEDIDAS
 add constraint llaves5
@@ -170,7 +170,7 @@ references PACIENTE (Cedula);
 alter table ASOCIACION_RECETA_PRODUCTO
 add constraint llaves10
 foreign key (ID_Receta)
-references RECETA (ID);
+references RECETA (Identificador);
 
 alter table ASOCIACION_RECETA_PRODUCTO
 add constraint llaves11
@@ -180,12 +180,12 @@ references PRODUCTO (Codigo_Barras);
 alter table ASOCIACION_PLAN_TIEMPOCOMIDA
 add constraint llaves12
 foreign key (ID_Plan)
-references PLAN (ID);
+references PLAN (Identificador);
 
 alter table ASOCIACION_PLAN_TIEMPOCOMIDA
 add constraint llaves13
 foreign key (ID_Tiempo_Comida)
-references PLAN (ID);
+references PLAN (Identificador);
 
 alter table ASOCIACION_PLAN_PACIENTE
 add constraint llaves14
@@ -195,4 +195,4 @@ references PACIENTE (Cedula);
 alter table ASOCIACION_PLAN_PACIENTE
 add constraint llaves15
 foreign key (ID_Plan)
-references PLAN (ID);
+references PLAN (Identificador);
