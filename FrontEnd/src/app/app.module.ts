@@ -13,9 +13,9 @@ import { FormsModule } from '@angular/forms';
 
 const appRoutes:Routes=[
   {path:'', component: LoginComponent},
-  {path:'cliente/:cedula', component:ClienteComponent},
-  {path:'admin/:cedula', component:AdminComponent},
-  {path:'nutri/:cedula', component:NutriComponent},
+  {path:'cliente', component:ClienteComponent},
+  {path:'admin', component:AdminComponent},
+  {path:'nutri', component:NutriComponent},
   {path:'**', component: NotFoundComponent},
 ]
 

@@ -19,9 +19,8 @@ export class NutriComponent implements OnInit{
   // YA CAMBIÉ LOS NOMBRES DE LOS LIST ITEMS :D
 
   // CAMBIAR NOMBRE DE PANTALLAS PARA NUTRICIONISTA
-  pantallas = ['gestSucSpa', 'gestSucTienda', 'gestTratSpaP', 'gestTipPlaP', 'gestEmplP', 'gestServP', 'gestTipEquipP'
-    , 'gestInvetP', 'gestProductP', 'confGymPSpa' , 'confGymPProduc' , 'confGymPInventario' , 'confGymPCrear', 'genPlanPComo' , 'genPlanPMensuales' ,
-    'genPlanPHoras' , 'genPlanPClase', 'copCalenP', 'copGymp', 'gestPuestP'];
+  pantallas = ["registro", "gestionDeProductos", "busquedaYAsociacionDeClientesComoPacientes",
+    "gestionDePlanes", "asignacionPlanAPacienteEnUnaFechaOPeriodo", "seguimientoPaciente"];
 
   provincias = ["San José", "Alajuela", "Cartago", "Limón", "Guanacaste", "Puntarenas", "Heredia"]
 
