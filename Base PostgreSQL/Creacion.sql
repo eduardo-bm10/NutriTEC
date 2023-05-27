@@ -18,7 +18,8 @@ CREATE TABLE NUTRITIONIST (
    Weight INTEGER NOT NULL,
    BMI FLOAT NOT NULL,
    Address VARCHAR(50) NOT NULL,
-   Photo BYTEA NOT NULL
+   Photo BYTEA NOT NULL,
+   PaymentID SERIAL
 );
 
 CREATE TABLE PATIENT (
@@ -126,6 +127,11 @@ CREATE TABLE PLAN_PATIENT_ASSOCIATION (
    Filler SERIAL,
    PRIMARY KEY (PatientID, PlanID)
 );
+
+alter table NUTRICIONIST
+add constraint keys0
+foreign key (PaymentID)
+references PAYMENT_TYPE (ID);
 
 ALTER TABLE PLAN
 ADD CONSTRAINT keys1
