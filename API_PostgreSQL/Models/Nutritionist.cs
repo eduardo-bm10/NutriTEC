@@ -27,7 +27,11 @@ public partial class Nutritionist
 
     public byte[] Photo { get; set; } = null!;
 
+    public int Paymentid { get; set; }
+
     public virtual ICollection<PatientNutritionistAssociation> PatientNutritionistAssociations { get; set; } = new List<PatientNutritionistAssociation>();
+
+    public virtual PaymentType Payment { get; set; } = null!;
 
     public virtual ICollection<PaymentType> PaymentTypes { get; set; } = new List<PaymentType>();
 

@@ -128,7 +128,7 @@ CREATE TABLE PLAN_PATIENT_ASSOCIATION (
    PRIMARY KEY (PatientID, PlanID)
 );
 
-alter table NUTRICIONIST
+alter table NUTRITIONIST
 add constraint keys0
 foreign key (PaymentID)
 references PAYMENT_TYPE (ID);
