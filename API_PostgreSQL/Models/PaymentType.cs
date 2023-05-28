@@ -7,11 +7,7 @@ public partial class PaymentType
 {
     public int Id { get; set; }
 
-    public string Nutritionistid { get; set; } = null!;
-
     public string Description { get; set; } = null!;
-
-    public virtual Nutritionist Nutritionist { get; set; } = null!;
 
     public virtual ICollection<Nutritionist> Nutritionists { get; set; } = new List<Nutritionist>();
 }

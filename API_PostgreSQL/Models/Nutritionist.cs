@@ -33,7 +33,5 @@ public partial class Nutritionist
 
     public virtual PaymentType Payment { get; set; } = null!;
 
-    public virtual ICollection<PaymentType> PaymentTypes { get; set; } = new List<PaymentType>();
-
     public virtual ICollection<Plan> Plans { get; set; } = new List<Plan>();
 }

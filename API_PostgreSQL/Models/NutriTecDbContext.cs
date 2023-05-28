@@ -277,14 +277,6 @@ public partial class NutritecDbContext : DbContext
             entity.Property(e => e.Description)
                 .HasMaxLength(50)
                 .HasColumnName("description");
-            entity.Property(e => e.Nutritionistid)
-                .HasMaxLength(9)
-                .HasColumnName("nutritionistid");
-
-            entity.HasOne(d => d.Nutritionist).WithMany(p => p.PaymentTypes)
-                .HasForeignKey(d => d.Nutritionistid)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("keys2");
         });
 
         modelBuilder.Entity<Plan>(entity =>

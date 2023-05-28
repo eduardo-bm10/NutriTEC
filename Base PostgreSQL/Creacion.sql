@@ -70,7 +70,6 @@ CREATE TABLE MEAL_TIME (
 
 CREATE TABLE PAYMENT_TYPE (
    ID SERIAL PRIMARY KEY,
-   NutritionistID VARCHAR(9) NOT NULL,
    Description VARCHAR(50) NOT NULL
 );
 
@@ -127,11 +126,6 @@ CREATE TABLE PLAN_PATIENT_ASSOCIATION (
    Filler SERIAL,
    PRIMARY KEY (PatientID, PlanID)
 );
-
-alter table NUTRITIONIST
-add constraint keys0
-foreign key (PaymentID)
-references PAYMENT_TYPE (ID);
 
 ALTER TABLE PLAN
 ADD CONSTRAINT keys1
