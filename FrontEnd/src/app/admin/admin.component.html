@@ -10,9 +10,9 @@
         <!-- Sidebar - Brand -->
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
           <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fas fad fa-utensils"></i>
+            <i class="fa-solid fa-dumbbell fa-bounce"></i>
           </div>
-          <div class="sidebar-brand-text mx-3">Admin/NutriTEC</div>
+          <div class="sidebar-brand-text mx-3">Admin/{{tipo}}</div>
         </a>
 
         <li class="nav-item">
@@ -36,18 +36,18 @@
 
 
         <li class="nav-item">
-          <a id='gestTratSpa' class="nav-link collapsed" data-toggle="collapse"
-             (click)="mostrarPantalla('aprobacionDeProductos')">
-            <i class="fas fa-regular fa-egg"></i>
+          <a id='ID_aprobacionProductos' class="nav-link collapsed" data-toggle="collapse"
+             (click)="mostrarPantalla('aprobacionProductos')">
+             <i class="fa-regular fa-building"></i>
             <span>Aprobación de productos</span>
           </a>
         </li>
 
         <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
-          <a id='gestTratSpa2' class="nav-link collapsed" data-toggle="collapse"
-             (click)="mostrarPantalla('reporteDeCobro')">
-            <i class="fas fa-light fa-money-bills"></i>
+          <a id='ID_reporteCobro' class="nav-link collapsed" data-toggle="collapse"
+             (click)="mostrarPantalla('reporteCobro')">
+            <i class="fas fa-regular fa-spa"></i>
             <span>Reporte de cobro</span>
           </a>
         </li>
@@ -112,26 +112,8 @@
           <!-- End of Topbar -->
 
 
+          <!-- Begin Page Content -->
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-          <!-- AQUI COMIENZAN LAS PANTALLAS -->
-          <!--------------------------------------------- COMIENZA PANTALLA PRINCIPAL --------------------------------------------->
           <div id="principal">
             <div class="container-fluid">
               <!-- Page Heading -->
@@ -200,52 +182,50 @@
 
             </div> <!-- termina el page content -->
           </div>
-          <!--------------------------------------------- TERMINA PANTALLA PRINCIPAL --------------------------------------------->
 
+          <!-- EMPIEZA LA VENTANA APROBACION DE PRODUCTOS -->
 
+          <div id="aprobacionProductos" class="container-fluid">
+            <h1 style="font-size:40px;" class="h3 mb-4 text-gray-800">Aprovación de productos</h1>
+            <h2 style="font-size:20px;" class="h3 mb-4 text-gray-800">Verifique que los datos correspondientes al producto son veridicos y apruebelo si así lo considera.</h2>
 
+            <div class="form-group row">
+              <div class="col-sm">
+                <label for="aprobacionProductosSelect">Producto o alimento</label>
+                <select class="form-control form-control-user" id="aprobacionProductosSelect"></select>
+              </div>
+            </div>
 
-          <!--------------------------------------------- COMIENZA PANTALLA Aprobación de productos: --------------------------------------------->
-          <div id="aprobacionDeProductos">
-            Esta es la pantalla de aprobacion de productos
+            <div class="col-sm">
+              <label for="aprobacionProductosDatos">El producto/alimento muestra los siguientes datos:</label>
+              <textarea class="form-control form-control-user" id="aprobacionProductosDatos" rows="4"
+                        cols="50"></textarea>
+            </div>
+
+            <br>
+
+            <a class="btn btn-outline-primary btn-user btn-block">
+              Aprobar
+            </a>
+
           </div>
-          <!--------------------------------------------- TERMINA PANTALLA Aprobación de productos: --------------------------------------------->
+
+          <!-- TERMIINA VENTANA APROBACION DE PRODUCTOS -->
 
 
+          <!-- EMPIEZA VENTANA REPORTE DE COBRO -->
 
+          <div id="reporteCobro" class="container-fluid">
+            <h1 style="font-size:40px;" class="h3 mb-4 text-gray-800">Reporte de cobro</h1>
+            <h2 style="font-size:20px;" class="h3 mb-4 text-gray-800">No entendí ni pichaaaaaaaaaaaaaaaaaaaaaaaaa</h2>
 
-          <!--------------------------------------------- COMIENZA PANTALLA Reporte de Cobro: --------------------------------------------->
-          <div id="reporteDeCobro">
-            Esta es la pantalla de reporte de cobro
+            No entiendo que diablos pide
+
           </div>
-          <!--------------------------------------------- TERMINA PANTALLA Reporte de Cobro: --------------------------------------------->
 
+          <!-- TERMINA VENTANA REPORTE DE COBRO -->
 
-          <!-- AQUI COMIENZAN LAS PANTALLAS -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+          <!-- End of Main Content -->
 
           <!-- Footer -->
           <footer class="sticky-footer bg-white">
@@ -267,6 +247,26 @@
       <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
       </a>
+
+      <!-- Logout Modal-->
+      <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+           aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+              <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+              <a class="btn btn-primary" href="login.html">Logout</a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

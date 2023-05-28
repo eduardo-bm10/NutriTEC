@@ -1,3 +1,4 @@
+<p>nutri works!</p>
 <div id="visual">
   <div id="page-top">
 
@@ -5,14 +6,14 @@
     <div id="wrapper">
 
       <!-- Sidebar -->
-      <ul class="navbar-nav bg-gradient-success sidebar sidebar-dark accordion" id="accordionSidebar">
+      <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
         <!-- Sidebar - Brand -->
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
           <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fas fad fa-utensils"></i>
+            <i class="fa-solid fa-dumbbell fa-bounce"></i>
           </div>
-          <div class="sidebar-brand-text mx-3">Nutricionista</div>
+          <div class="sidebar-brand-text mx-3">Admin/{{tipo}}</div>
         </a>
 
         <li class="nav-item">
@@ -36,54 +37,49 @@
 
 
         <li class="nav-item">
-          <a class="nav-link collapsed" data-toggle="collapse"
-             (click)="mostrarPantalla('registro')">
-            <i class="fas fa-solid fa-registered"></i>
-            <span>Registro</span>
-          </a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link collapsed" data-toggle="collapse"
-             (click)="mostrarPantalla('gestionDeProductos')">
-            <i class="fas fa-solid fa-bowl-food"></i>
+          <a id='ID_gestionProductosLEFT' class="nav-link collapsed" data-toggle="collapse"
+             (click)="mostrarPantalla('gestionProductos')">
+             <i class="fa-regular fa-building"></i>
             <span>Gestión de productos/platillos</span>
           </a>
         </li>
 
+        <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
-          <a class="nav-link collapsed" data-toggle="collapse"
-             (click)="mostrarPantalla('busquedaYAsociacionDeClientesComoPacientes')">
-            <i class="fas fa-solid fa-person-falling"></i>
+          <a id='ID_busquedaAsociacionClientesComoPacientesLEFT' class="nav-link collapsed" data-toggle="collapse"
+             (click)="mostrarPantalla('busquedaAsociacionClientesComoPacientes')">
+            <i class="fas fa-regular fa-spa"></i>
             <span>Búsqueda y Asociación de clientes como pacientes</span>
           </a>
         </li>
 
+
         <li class="nav-item">
-          <a class="nav-link collapsed" data-toggle="collapse"
-             (click)="mostrarPantalla('gestionDePlanes')">
-            <i class="fas fa-solid fa-laptop-file"></i>
+          <a id='ID_gestionPlanesLEFT' class="nav-link collapsed" data-toggle="collapse" (click)="mostrarPantalla('gestionPlanes')">
+            <i class="fa-solid fa-person"></i>
             <span>Gestión de planes</span>
           </a>
         </li>
 
+        <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
-          <a class="nav-link collapsed" data-toggle="collapse"
-             (click)="mostrarPantalla('asignacionPlanAPacienteEnUnaFechaOPeriodo')">
-            <i class="fas fa-solid fa-hospital-user"></i>
-            <span>Asignación de un plan a un paciente en una fecha o periodo</span>
+          <a id='ID_asignacionPlanLEFT' class="nav-link collapsed" data-toggle="collapse" (click)="mostrarPantalla('asignacionPlan')">
+            <i class="fa-solid fa-person"></i>
+            <span>Asignación de plan a un paciente en una fecha o periodo</span>
           </a>
         </li>
 
+
+        <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
-          <a class="nav-link collapsed" data-toggle="collapse"
-             (click)="mostrarPantalla('seguimientoPaciente')">
-            <i class="fas fa-solid fa-user-pen"></i>
-            <span>Seguimiento Paciente:</span>
+          <a id='ID_seguimientoPacienteLEFT' class="nav-link collapsed" data-toggle="collapse" (click)="mostrarPantalla('seguimientoPaciente')">
+            <i class="fa-solid fa-person-shelter"></i>
+            <span>Seguimiento paciente</span>
           </a>
         </li>
 
-        <!-- solo esas pantallas para admin :D -->
+        <!-- solo esas pantallas :D -->
+
 
 
         <!-- Divider -->
@@ -142,27 +138,7 @@
           </nav>
           <!-- End of Topbar -->
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-          <!-- AQUI COMIENZAN LAS PANTALLAS -->
-          <!--------------------------------------------- COMIENZA PANTALLA PRINCIPAL --------------------------------------------->
+          <!-- Begin Page Content -->
           <div id="principal">
             <div class="container-fluid">
               <!-- Page Heading -->
@@ -195,7 +171,6 @@
                 </div>
               </div>
 
-
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
                   <h6 class="m-0 font-weight-bold text-primary">Clases Impartidas</h6>
@@ -227,91 +202,265 @@
                          aria-valuemin="0" aria-valuemax="100"></div>
                   </div>
                 </div>
-              </div> -->
+              </div>
 
             </div> <!-- termina el page content -->
           </div>
-          <!--------------------------------------------- TERMINA PANTALLA PRINCIPAL --------------------------------------------->
 
+          <!-- EMPIEZA LA VENTANA GESTION DE PRODUCTOS/PLATILLOS -->
 
+          <div id="gestionProductos" class="container-fluid">
 
+            <h1 style="font-size:40px;" class="h3 mb-4 text-gray-800">Gestión de productos/platillos</h1>
+            <h2 style="font-size:20px;" class="h3 mb-4 text-gray-800">Complete los datos del platillo o producto que desea agregar (se asignará un código de barras al producto de manera automática).</h2>
 
-          <!--------------------------------------------- COMIENZA PANTALLA Registro: --------------------------------------------->
-          <div id="registro">
-            Esta es la pantalla de registro
+            <div class="form-group row">
+              <div class="col-sm-6 mb-3 mb-sm-0">
+                <label for="gestionProductosDescripcion">Descripción</label>
+                <input type="text" class="form-control form-control-user" id="gestionProductosDescripcion">
+              </div>
+
+              <div class="col-sm-6 mb-3 mb-sm-0">
+                <label for="gestionProductosPorcion">Tamaño de la porción (g/ml)</label>
+                <input type="text" class="form-control form-control-user" id="gestionProductosPorcion">
+              </div>
+
+              <div class="col-sm-6 mb-3 mb-sm-0">
+                <label for="gestionProductosEnergia">Energía (Kcal)</label>
+                <input type="text" class="form-control form-control-user" id="gestionProductosEnergia">
+              </div>
+
+              <div class="col-sm-6 mb-3 mb-sm-0">
+                <label for="gestionProductosGrasa">Grasa (g)</label>
+                <input type="text" class="form-control form-control-user" id="gestionProductosGrasa">
+              </div>
+
+              <div class="col-sm-6 mb-3 mb-sm-0">
+                <label for="gestionProductosSodio">Sodio (mg)</label>
+                <input type="text" class="form-control form-control-user" id="gestionProductosSodio">
+              </div>
+
+              <div class="col-sm-6 mb-3 mb-sm-0">
+                <label for="gestionProductosCarbohidratos">Carbohidratos (g)</label>
+                <input type="text" class="form-control form-control-user" id="gestionProductosCarbohidratos">
+              </div>
+
+              <div class="col-sm-6 mb-3 mb-sm-0">
+                <label for="gestionProductosProteina">Proteína (g)</label>
+                <input type="text" class="form-control form-control-user" id="gestionProductosProteina">
+              </div>
+
+              <div class="col-sm-6 mb-3 mb-sm-0">
+                <label for="gestionProductosVitaminas">Vitaminas</label>
+                <input type="text" class="form-control form-control-user" id="gestionProductosVitaminas">
+              </div>
+
+              <div class="col-sm-6 mb-3 mb-sm-0">
+                <label for="gestionProductosCalcio">Calcio (mg)</label>
+                <input type="text" class="form-control form-control-user" id="gestionProductosCalcio">
+              </div>
+
+              <div class="col-sm-6 mb-3 mb-sm-0">
+                <label for="gestionProductosHierro">Hierro (mg)</label>
+                <input type="text" class="form-control form-control-user" id="gestionProductosHierro">
+              </div>
+
+            </div>
+
+            <a class="btn btn-outline-primary btn-user btn-block">
+              Guardar
+            </a>
+
           </div>
-          <!--------------------------------------------- TERMINA PANTALLA Registro: --------------------------------------------->
+
+          <!-- TERMIINA VENTANA GESTION DE PRODUCTOS/PLATILLOS -->
 
 
+          <!-- EMPIEZA VENTANA BUSQUEDA Y ASOCIACIÓN DE CLIENTES COMO PACIENTES -->
 
+          <div id="busquedaAsociacionClientesComoPacientes" class="container-fluid">
 
-          <!--------------------------------------------- COMIENZA PANTALLA  Gestión de productos/platillos: --------------------------------------------->
-          <div id="gestionDeProductos">
-            Esta es la pantalla de gestion de productos
+            <h1 style="font-size:40px;" class="h3 mb-4 text-gray-800">Búsqueda y Asociación de clientes como pacientes</h1>
+            <h2 style="font-size:20px;" class="h3 mb-4 text-gray-800">Seleccione el individuo que desea asociar a su lista de pacientes</h2>
+
+            <div class="form-group row">
+              <div class="col-sm">
+                <label for="busquedaAsociacionClientesComoPacientesSELECT">Paciente</label>
+                <select class="form-control form-control-user" id="busquedaAsociacionClientesComoPacientesSELECT"></select>
+              </div>
+
+            </div>
+
+            <a class="btn btn-outline-primary btn-user btn-block">
+              Asociar
+            </a>
+
           </div>
-          <!--------------------------------------------- TERMINA PANTALLA  Gestión de productos/platillos: --------------------------------------------->
+
+          <!-- TERMINA VENTANA BUSQUEDA Y ASOCIACIÓN DE CLIENTES COMO PACIENTES -->
 
 
+          <!-- EMPIEZA VENTANA GESTION DE PLANES -->
+
+          <div id="gestionPlanes" class="container-fluid">
+            <h1 style="font-size:40px;" class="h3 mb-4 text-gray-800">Gestión de planes</h1>
+            <h2 style="font-size:20px;" class="h3 mb-4 text-gray-800">Seleccione el plan a gestionar. Respectivamente, podrá eliminaralo, modificarlos o crear uno nuevo.</h2>
+
+            <div class="form-group row">
+              <div class="col-sm">
+                <label for="gestionPlanesSELECT">Seleccione un plan</label>
+                <select class="form-control form-control-user" id="gestionPlanesSELECT"></select>
+              </div>
+
+              <br><br><br><br>
+
+              <a class="btn btn-outline-primary btn-user btn-block">
+                Eliminar
+              </a>
+
+            </div>
+
+            <br>
+
+            <h3 style="font-size:20px;" class="h3 mb-4 text-gray-800">Datos del plan seleccionado. Cambie los datos que desea modificar y luego clickee en "Confirmar cambios"</h3>
+
+            <div class="col-sm">
+              <label for="gestionPlanesESTADOACTUAL">El plan seleccionado se conforma de los siguientes productos:</label>
+              <textarea class="form-control form-control-user" id="gestionPlanesESTADOACTUAL" rows="4"
+                        cols="50"></textarea>
+            </div>
+
+            <div class="form-group row">
 
 
-          <!--------------------------------------------- COMIENZA PANTALLA   Búsqueda y Asociación de clientes como pacientes: --------------------------------------------->
-          <div id="busquedaYAsociacionDeClientesComoPacientes">
-            Esta es la pantalla de  Búsqueda y Asociación de clientes como pacientes
+              <mark>HAY QUE DE ALGUNA MANERA GENERAR CHECKBOXES DINAMICAS, QUE CARGUEN TODOS LOS PRODUCTOS APROBADOS PARA MOSTRAR, QUE SE PUEDAN CHECKEAR, GENERAR LA LISTA QUE COMPONE
+              A TODOS LOS TIEMPOS  DE COMIDA, Y LUEGO ENVIAR EL JSON</mark>
+
+
+              <div class="col-sm">
+                <label for="gestionPlanesNombreExistente">Nombre del plan</label>
+                <input type="text" class="form-control form-control-user" id="gestionPlanesNombreExistente">
+              </div>
+
+              <div class="col-sm">
+                <label for="gestionPlanesCaloriasExistente">Total de calorias</label>
+                <input type="text" class="form-control form-control-user" id="gestionPlanesCaloriasExistente">
+              </div>
+
+              <br><br><br><br>
+
+              <a class="btn btn-outline-primary btn-user btn-block">
+                Modificar
+              </a>
+
+            </div>
+
+            <br>
+
+            <h3 style="font-size:20px;" class="h3 mb-4 text-gray-800">Cree un nuevo plan</h3>
+
+            <div class="form-group row">
+
+
+              <mark>HAY QUE DE ALGUNA MANERA GENERAR CHECKBOXES DINAMICAS, QUE CARGUEN TODOS LOS PRODUCTOS APROBADOS PARA MOSTRAR, QUE SE PUEDAN CHECKEAR, GENERAR LA LISTA QUE COMPONE
+                A TODOS LOS TIEMPOS  DE COMIDA, Y LUEGO ENVIAR EL JSON</mark>
+
+
+              <div class="col-sm">
+                <label for="gestionPlanesNombreNuevo">Nombre del plan</label>
+                <input type="text" class="form-control form-control-user" id="gestionPlanesNombreNuevo">
+              </div>
+
+              <div class="col-sm">
+                <label for="gestionPlanesCaloriasNuevo">Total de calorias</label>
+                <input type="text" class="form-control form-control-user" id="gestionPlanesCaloriasNuevo">
+              </div>
+
+              <br><br><br><br>
+
+              <a class="btn btn-outline-primary btn-user btn-block">
+                Crear
+              </a>
+
+            </div>
+
+
           </div>
-          <!--------------------------------------------- TERMINA PANTALLA   Búsqueda y Asociación de clientes como pacientes: --------------------------------------------->
+
+          <!-- TERMINA VENTANA GESTION DE PLANES -->
 
 
+          <!-- EMPIEZA VENTANA ASIGNACION DE PLAN A PACIENTE -->
 
 
-          <!--------------------------------------------- COMIENZA PANTALLA   Gestión de planes: --------------------------------------------->
-          <div id="gestionDePlanes">
-            Esta es la pantalla de Gestión de planes:
+          <div id="asignacionPlan" class="container-fluid">
+            <h1 class="h3 mb-4 text-gray-800">Asignación de plan a un paciente en una fecha o periodo</h1>
+            <h2 style="font-size:20px;" class="h3 mb-4 text-gray-800">Seleccione un paciente, un plan, y el periodo de tiempo por el que esa persona deberá seguir ese régimen</h2>
+
+            <div class="form-group row">
+              <div class="col-sm">
+                <label for="asignacionPlanPaciente">Seleccione un paciente</label>
+                <select class="form-control form-control-user" id="asignacionPlanPaciente"></select>
+              </div>
+
+              <div class="col-sm">
+                <label for="asignacionPlanPlan">Seleccione un plan</label>
+                <select class="form-control form-control-user" id="asignacionPlanPlan"></select>
+              </div>
+
+              <div class="col-sm">
+                <label for="asignacionPlanTiempo">Números de días de seguimiento del plan</label>
+                <input type="number" class="form-control form-control-user" id="asignacionPlanTiempo">
+              </div>
+
+            </div>
+
+            <a class="btn btn-outline-primary btn-user btn-block">
+              Asignar
+            </a>
+
+
           </div>
-          <!--------------------------------------------- TERMINA PANTALLA   Gestión de planes: --------------------------------------------->
+
+          <!-- TERMINA VENTANA ASIGNACION DE PLAN A PACIENTE -->
+
+          <!-- EMPIEZA VENTANA SEGUIMIENTO DE PLAN -->
+
+          <div id="seguimientoPaciente" class="container-fluid">
+            <h1 class="h3 mb-4 text-gray-800">Seguimiento paciente</h1>
+
+            <div class="col-sm">
+              <label for="seguimientoPacienteSELECT">Seleccione un paciente</label>
+              <select class="form-control form-control-user" id="seguimientoPacienteSELECT"></select>
+            </div>
+
+            <br>
+
+            <div class="form-group row">
+              <div class="col-sm-6 mb-3 mb-sm-0">
+                <label for="seguimientoPacienteRegistro">Registro diario:</label>
+                <textarea class="form-control form-control-user" id="seguimientoPacienteRegistro" rows="4"
+                          cols="50" readonly></textarea>
+              </div>
+
+              <div class="col-sm-6 mb-3 mb-sm-0">
+                <label for="seguimientoPacienteRetroalimentacion">Retroalimentacion:</label>
+                <textarea class="form-control form-control-user" id="seguimientoPacienteRetroalimentacion" rows="4"
+                          cols="50"></textarea>
+              </div>
+            </div>
+
+            <a class="btn btn-outline-primary btn-user btn-block">
+              Enviar retroalimentación
+            </a>
 
 
 
-
-          <!--------------------------------------------- COMIENZA PANTALLA   Asignación de un plan a un paciente en una fecha o periodo: --------------------------------------------->
-          <div id="asignacionPlanAPacienteEnUnaFechaOPeriodo">
-            Esta es la pantalla de Asignación de un plan a un paciente en una fecha o periodo:
           </div>
-          <!--------------------------------------------- TERMINA PANTALLA   Asignación de un plan a un paciente en una fecha o periodo: --------------------------------------------->
 
+          <!-- TERMINA VENTANA SEGUIMIENTO DE PLAN -->
 
-
-
-          <!--------------------------------------------- COMIENZA PANTALLA   Seguimiento Paciente: --------------------------------------------->
-          <div id="seguimientoPaciente">
-            Esta es la pantalla de Seguimiento Paciente:
-          </div>
-          <!--------------------------------------------- TERMINA PANTALLA   Seguimiento Paciente: --------------------------------------------->
-
-          <!-- AQUI COMIENZAN LAS PANTALLAS -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+          <!-- End of Main Content -->
 
           <!-- Footer -->
           <footer class="sticky-footer bg-white">
@@ -333,6 +482,27 @@
       <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
       </a>
+
+      <!-- Logout Modal-->
+      <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+           aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+              <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+              <a class="btn btn-primary" href="login.html">Logout</a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
+

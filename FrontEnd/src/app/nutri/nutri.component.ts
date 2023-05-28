@@ -19,8 +19,7 @@ export class NutriComponent implements OnInit{
   // YA CAMBIÉ LOS NOMBRES DE LOS LIST ITEMS :D
 
   // CAMBIAR NOMBRE DE PANTALLAS PARA NUTRICIONISTA
-  pantallas = ["registro", "gestionDeProductos", "busquedaYAsociacionDeClientesComoPacientes",
-    "gestionDePlanes", "asignacionPlanAPacienteEnUnaFechaOPeriodo", "seguimientoPaciente"];
+  pantallas = ["gestionProductos", "busquedaAsociacionClientesComoPacientes", "gestionPlanes", "asignacionPlan", "seguimientoPaciente"];
 
   provincias = ["San José", "Alajuela", "Cartago", "Limón", "Guanacaste", "Puntarenas", "Heredia"]
 

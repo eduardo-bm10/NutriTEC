@@ -13,7 +13,7 @@ export class AdminComponent implements OnInit{
 
   pantallaActual = 'principal';
 
-  pantallas = ["reporteDeCobro", "aprobacionDeProductos"];
+  pantallas = ["aprobacionProductos","reporteCobro"];
 
   provincias = ["San José", "Alajuela", "Cartago", "Limón", "Guanacaste", "Puntarenas", "Heredia"]
 
