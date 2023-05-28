@@ -1,4 +1,3 @@
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -38,9 +37,12 @@ namespace Postgre_API.Controllers
             return adminProductAssociation;
         }
 
-        [HttpPost]
-        public async Task<ActionResult<AdminProductAssociation>> CreateAdminProductAssociation(AdminProductAssociation adminProductAssociation)
+        [HttpPost("{adminId}/{productBarcode}")]
+        public async Task<ActionResult<AdminProductAssociation>> CreateAdminProductAssociation(string adminId, int productBarcode, [FromBody] AdminProductAssociation adminProductAssociation)
         {
+            adminProductAssociation.Adminid = adminId;
+            adminProductAssociation.Productbarcode = productBarcode;
+
             _dbContext.AdminProductAssociations.Add(adminProductAssociation);
             await _dbContext.SaveChangesAsync();
 
@@ -48,7 +50,7 @@ namespace Postgre_API.Controllers
         }
 
         [HttpPut("{adminId}/{productBarcode}")]
-        public async Task<IActionResult> UpdateAdminProductAssociation(string adminId, int productBarcode, AdminProductAssociation updatedAdminProductAssociation)
+        public async Task<IActionResult> UpdateAdminProductAssociation(string adminId, int productBarcode, [FromBody] AdminProductAssociation updatedAdminProductAssociation)
         {
             var adminProductAssociation = await _dbContext.AdminProductAssociations.FindAsync(adminId, productBarcode);
 
