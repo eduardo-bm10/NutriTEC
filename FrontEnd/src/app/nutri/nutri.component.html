@@ -1,4 +1,3 @@
-<p>nutri works!</p>
 <div id="visual">
   <div id="page-top">
 
@@ -6,14 +5,14 @@
     <div id="wrapper">
 
       <!-- Sidebar -->
-      <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+      <ul class="navbar-nav bg-gradient-success sidebar sidebar-dark accordion" id="accordionSidebar">
 
         <!-- Sidebar - Brand -->
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
           <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fa-solid fa-dumbbell fa-bounce"></i>
+            <i class="fas fad fa-utensils"></i>
           </div>
-          <div class="sidebar-brand-text mx-3">Admin/{{tipo}}</div>
+          <div class="sidebar-brand-text mx-3">Nutricionista</div>
         </a>
 
         <li class="nav-item">
@@ -37,49 +36,54 @@
 
 
         <li class="nav-item">
-          <a id='ID_gestionProductosLEFT' class="nav-link collapsed" data-toggle="collapse"
+          <a class="nav-link collapsed" data-toggle="collapse"
+             (click)="mostrarPantalla('registro')">
+            <i class="fas fa-solid fa-registered"></i>
+            <span>Registro</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link collapsed" data-toggle="collapse"
              (click)="mostrarPantalla('gestionProductos')">
-             <i class="fa-regular fa-building"></i>
+            <i class="fas fa-solid fa-bowl-food"></i>
             <span>Gestión de productos/platillos</span>
           </a>
         </li>
 
-        <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
-          <a id='ID_busquedaAsociacionClientesComoPacientesLEFT' class="nav-link collapsed" data-toggle="collapse"
+          <a class="nav-link collapsed" data-toggle="collapse"
              (click)="mostrarPantalla('busquedaAsociacionClientesComoPacientes')">
-            <i class="fas fa-regular fa-spa"></i>
+            <i class="fas fa-solid fa-person-falling"></i>
             <span>Búsqueda y Asociación de clientes como pacientes</span>
           </a>
         </li>
 
-
         <li class="nav-item">
-          <a id='ID_gestionPlanesLEFT' class="nav-link collapsed" data-toggle="collapse" (click)="mostrarPantalla('gestionPlanes')">
-            <i class="fa-solid fa-person"></i>
+          <a class="nav-link collapsed" data-toggle="collapse"
+             (click)="mostrarPantalla('gestionPlanes')">
+            <i class="fas fa-solid fa-laptop-file"></i>
             <span>Gestión de planes</span>
           </a>
         </li>
 
-        <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
-          <a id='ID_asignacionPlanLEFT' class="nav-link collapsed" data-toggle="collapse" (click)="mostrarPantalla('asignacionPlan')">
-            <i class="fa-solid fa-person"></i>
-            <span>Asignación de plan a un paciente en una fecha o periodo</span>
+          <a class="nav-link collapsed" data-toggle="collapse"
+             (click)="mostrarPantalla('asignacionPlan')">
+            <i class="fas fa-solid fa-hospital-user"></i>
+            <span>Asignación de un plan a un paciente en una fecha o periodo</span>
           </a>
         </li>
 
-
-        <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
-          <a id='ID_seguimientoPacienteLEFT' class="nav-link collapsed" data-toggle="collapse" (click)="mostrarPantalla('seguimientoPaciente')">
-            <i class="fa-solid fa-person-shelter"></i>
-            <span>Seguimiento paciente</span>
+          <a class="nav-link collapsed" data-toggle="collapse"
+             (click)="mostrarPantalla('seguimientoPaciente')">
+            <i class="fas fa-solid fa-user-pen"></i>
+            <span>Seguimiento Paciente:</span>
           </a>
         </li>
 
-        <!-- solo esas pantallas :D -->
-
+        <!-- solo esas pantallas para admin :D -->
 
 
         <!-- Divider -->
@@ -138,7 +142,27 @@
           </nav>
           <!-- End of Topbar -->
 
-          <!-- Begin Page Content -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          <!-- AQUI COMIENZAN LAS PANTALLAS -->
+          <!--------------------------------------------- COMIENZA PANTALLA PRINCIPAL --------------------------------------------->
           <div id="principal">
             <div class="container-fluid">
               <!-- Page Heading -->
@@ -171,6 +195,7 @@
                 </div>
               </div>
 
+
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
                   <h6 class="m-0 font-weight-bold text-primary">Clases Impartidas</h6>
@@ -202,12 +227,21 @@
                          aria-valuemin="0" aria-valuemax="100"></div>
                   </div>
                 </div>
-              </div>
+              </div> -->
 
             </div> <!-- termina el page content -->
           </div>
+          <!--------------------------------------------- TERMINA PANTALLA PRINCIPAL --------------------------------------------->
+
+
+
 
           <!-- EMPIEZA LA VENTANA GESTION DE PRODUCTOS/PLATILLOS -->
+
+          <div id="registro" class="container-fluid">
+            TEST
+
+          </div>
 
           <div id="gestionProductos" class="container-fluid">
 
@@ -334,7 +368,7 @@
 
 
               <mark>HAY QUE DE ALGUNA MANERA GENERAR CHECKBOXES DINAMICAS, QUE CARGUEN TODOS LOS PRODUCTOS APROBADOS PARA MOSTRAR, QUE SE PUEDAN CHECKEAR, GENERAR LA LISTA QUE COMPONE
-              A TODOS LOS TIEMPOS  DE COMIDA, Y LUEGO ENVIAR EL JSON</mark>
+                A TODOS LOS TIEMPOS  DE COMIDA, Y LUEGO ENVIAR EL JSON</mark>
 
 
               <div class="col-sm">
@@ -460,7 +494,31 @@
 
           <!-- TERMINA VENTANA SEGUIMIENTO DE PLAN -->
 
-          <!-- End of Main Content -->
+          <!-- AQUI COMIENZAN LAS PANTALLAS -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
           <!-- Footer -->
           <footer class="sticky-footer bg-white">
@@ -482,27 +540,6 @@
       <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
       </a>
-
-      <!-- Logout Modal-->
-      <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-           aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-              <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">×</span>
-              </button>
-            </div>
-            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-            <div class="modal-footer">
-              <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-              <a class="btn btn-primary" href="login.html">Logout</a>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </div>
-
