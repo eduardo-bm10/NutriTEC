@@ -1,0 +1,151 @@
+<div id="login">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+        <div class="card border-0 shadow rounded-3 my-5">
+          <div class="card-body p-4 p-sm-5">
+            <h5 class="card-title text-center mb-5 fw-light fs-5">
+              <div class="center">
+                <i class="fa-solid fa-image-portrait fa-2xl" style="color: #42a896;"></i>
+                Login Nutri
+              </div>
+            </h5>
+
+
+
+            <form #form="ngForm" (ngSubmit)="login(form)">
+              <div class="form-floating mb-3">
+                <input type="number" class="form-control" id="floatingInput" placeholder="1001001001" step="1" name="cedula" ngModel>
+                <label for="floatingInput">Cedula</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password" ngModel>
+                <label for="floatingPassword">Password</label>
+              </div>
+
+              <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" value="" id="showPass" (click)="mostrarContra()">
+                <label class="form-check-label" for="showPass">
+                  Mostrar Contraseña
+                </label>
+              </div>
+
+              <div class="d-grid">
+                <button class="btn btn-success btn-login text-uppercase fw-bold" type="submit">Login Nutri</button>
+                <button class="btn btn-danger btn-login text-uppercase fw-bold" style="margin-left: 10px;" (click)="cambiarPantalla(0, $event)">Sign Up Nutri</button>
+              </div>
+              <hr class="my-4">
+              <div class="copyright text-center my-auto">
+                <span>Copyright &copy; GymTEC 2023</span>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="signin">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+        <div class="card border-0 shadow rounded-3 my-5">
+          <div class="card-body p-4 p-sm-5">
+            <h5 class="card-title text-center mb-5 fw-light fs-5">
+              <div class="center">
+                <i class="fa-solid fa-image-portrait fa-2xl" style="color: #42a896;"></i>
+                Sign Up Nutri
+              </div>
+            </h5>
+
+
+
+            <form #form="ngForm" (ngSubmit)="register(form)">
+              <div class="form-floating mb-3">
+                <input type="number" class="form-control" id="cedula" step="1" placeholder="Cédula" name="cedula" ngModel>
+                <label for="floatingInput">Cédula</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="nombre" placeholder="Nombre" name="nombre" ngModel>
+                <label for="floatingInput">Nombre</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="apellido1" placeholder="Apellido 1" name="apellido1" ngModel>
+                <label for="floatingInput">Apellido 1</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="apellido2" placeholder="Apellido2" name="apellido2" ngModel>
+                <label for="floatingInput">Apellido 2</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="number" class="form-control" id="codigoNutri" placeholder="0000" name="codigoNutri" ngModel>
+                <label for="floatingInput">Código de nutricionista</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="number" class="form-control" id="edad" placeholder="30" name="edad" ngModel>
+                <label for="floatingInput">Edad</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="date" class="form-control" id="fecha" placeholder="Fecha de Nacimiento" name="fechaDenNcimiento" ngModel>
+                <label for="floatingInput">Fecha de Nacimiento</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="number" class="form-control" id="peso" step="0.01" placeholder="Peso en Kg"name="peso" ngModel>
+                <label for="floatingInput">Peso en Kg</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="number" class="form-control" id="imc" step="0.1" placeholder="Índice de Masa Corporal" name="imc" ngModel>
+                <label for="floatingInput">Índice de Masa Corporal</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="direccion" placeholder="Dirección" name="direccion" ngModel>
+                <label for="floatingInput">Dirección</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="file" class="form-control" id="foto" placeholder="Dirección" name="foto" accept="image/*" ngModel>
+                <label for="floatingInput">Foto</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="tarjeta" placeholder="0000-0000-0000-0000" name="tarjeta" pattern="[0-9]{13,16}" ngModel>
+                <label for="floatingInput">Número de tarjeta</label>
+              </div>
+              <div class="form-floating mb-3">
+                <select type="text" class="form-control" id="tipoCobro" name="tipoCobro" ngModel>
+                  <option value="Semanal">Semanal</option>
+                  <option value="Mensual">Mensual</option>
+                  <option value="Anual">Anual</option>
+                </select>
+                <label for="floatingInput">Tipo de cobro</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="email" class="form-control" id="floatingInput1" placeholder="name@example.com" name="email" ngModel>
+                <label for="floatingInput">Email address</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="password" class="form-control" id="floatingPassword1" placeholder="Password" name="password" ngModel>
+                <label for="floatingPassword">Password</label>
+              </div>
+
+              <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" value="" id="showPass1" (click)="mostrarContra2()">
+                <label class="form-check-label" for="showPass">
+                  Mostrar Contraseña
+                </label>
+              </div>
+
+              <div class="d-grid">
+                <button class="btn btn-success btn-login text-uppercase fw-bold" type="submit">Sign Up Nutri</button>
+                <button class="btn btn-danger btn-login text-uppercase fw-bold" style="margin-left: 10px;" (click)="cambiarPantalla(1, $event)">Login Nutri</button>
+              </div>
+              <hr class="my-4">
+              <div class="copyright text-center my-auto">
+                <span>Copyright &copy; GymTEC 2023</span>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
