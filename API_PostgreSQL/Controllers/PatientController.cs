@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Postgre_API.Models;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Postgre_API.Controllers
 {
@@ -16,6 +18,21 @@ namespace Postgre_API.Controllers
         public PatientsController(NutritecDbContext dbContext)
         {
             _dbContext = dbContext;
+        }
+
+        private dynamic encryptPassword_MD5(string password){
+            string encryptedPassword = "";
+            using (MD5 md5 = MD5.Create()) {
+                byte[] inputBytes = Encoding.UTF8.GetBytes(password);
+                byte[] hashBytes = md5.ComputeHash(inputBytes);
+                StringBuilder sb = new StringBuilder();
+                foreach (byte b in hashBytes) {
+                    sb.Append(b.ToString("x2"));
+                }
+                encryptedPassword = sb.ToString();
+                Console.WriteLine(sb.ToString()); // borrar luego
+            }            
+            return encryptedPassword;
         }
 
         [HttpGet]
@@ -37,9 +54,17 @@ namespace Postgre_API.Controllers
             return patient;
         }
 
+    
         [HttpPost]
-        public async Task<ActionResult<Patient>> CreatePatient(string id,string firstname,string lastname1,string lastname2,string email,string password,int weight,double bmi,string address,DateTime birthdate,string country,double maxconsumption)
+        public async Task<ActionResult<Patient>> CreatePatient(string id,string firstname,string lastname1,string lastname2,string email,string password,int weight,double bmi,string address,DateTime birthdate,string country,double maxconsumption, double waist, double neck, double hips, double musclePercentage, double fatPercentage)
         {
+            var patient0 = await _dbContext.Patients.FindAsync(id);
+
+            if (patient0 != null)
+            {
+                return Content("Patient already exists!");
+            }
+            string thePassword = encryptPassword_MD5(password);
             var patient = new Patient
             {
                 Id = id,
@@ -47,15 +72,26 @@ namespace Postgre_API.Controllers
                 Lastname1 = lastname1,
                 Lastname2 = lastname2,
                 Email = email,
-                Password = password,
+                Password = thePassword,
                 Weight = weight,
                 Bmi = bmi,
                 Address = address,
-                Birthdate = birthdate,
+                Birthdate = new DateOnly(birthdate.Year, birthdate.Month, birthdate.Day),
                 Country = country,
                 Maxconsumption = maxconsumption
             };
 
+            var measurements = new Measurement
+            {
+                Date = new DateOnly(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day),
+                Waist = waist,
+                Neck = neck,
+                Hips = hips,
+                Musclepercentage = musclePercentage,
+                Fatpercentage = fatPercentage
+            };
+
+            _dbContext.Measurements.Add(measurements);
             _dbContext.Patients.Add(patient);
             await _dbContext.SaveChangesAsync();
 
@@ -81,7 +117,7 @@ namespace Postgre_API.Controllers
             patient.Weight = weight;
             patient.Bmi = bmi;
             patient.Address = address;
-            patient.Birthdate = new DateTime(birthdate.Year, birthdate.Month, birthdate.Day, 0, 0, 0);;
+            patient.Birthdate = new DateOnly(birthdate.Year, birthdate.Month, birthdate.Day);
             patient.Country = country;
             patient.Maxconsumption = maxconsumption;
 

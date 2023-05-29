@@ -38,19 +38,30 @@ namespace Postgre_API.Controllers
         }
 
         [HttpPost("{adminId}/{productBarcode}")]
-        public async Task<ActionResult<AdminProductAssociation>> CreateAdminProductAssociation(string adminId, int productBarcode, [FromBody] AdminProductAssociation adminProductAssociation)
+        public async Task<ActionResult<AdminProductAssociation>> CreateAdminProductAssociation(string adminId, int productBarcode, bool status)
         {
-            adminProductAssociation.Adminid = adminId;
-            adminProductAssociation.Productbarcode = productBarcode;
 
-            _dbContext.AdminProductAssociations.Add(adminProductAssociation);
+             var product0 = await _dbContext.Products.FindAsync(productBarcode);
+             var admin = await _dbContext.Administrators.FindAsync(adminId);
+
+            if (product0 == null || admin == null)
+            {
+                return Content("Product or Admin does not exist!");
+            }
+
+            var _adminProductAssociation = new AdminProductAssociation();
+            _adminProductAssociation.Adminid = adminId;
+            _adminProductAssociation.Productbarcode = productBarcode;
+
+            product0.Status = status;
+            _dbContext.AdminProductAssociations.Add(_adminProductAssociation);
             await _dbContext.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetAdminProductAssociation), new { adminId = adminProductAssociation.Adminid, productBarcode = adminProductAssociation.Productbarcode }, adminProductAssociation);
+            return CreatedAtAction(nameof(GetAdminProductAssociation), new { adminId = _adminProductAssociation.Adminid, productBarcode = _adminProductAssociation.Productbarcode }, _adminProductAssociation);
         }
 
         [HttpPut("{adminId}/{productBarcode}")]
-        public async Task<IActionResult> UpdateAdminProductAssociation(string adminId, int productBarcode, [FromBody] AdminProductAssociation updatedAdminProductAssociation)
+        public async Task<IActionResult> UpdateAdminProductAssociation(string adminId, int productBarcode)
         {
             var adminProductAssociation = await _dbContext.AdminProductAssociations.FindAsync(adminId, productBarcode);
 
@@ -59,7 +70,6 @@ namespace Postgre_API.Controllers
                 return NotFound();
             }
 
-            adminProductAssociation.Filler = updatedAdminProductAssociation.Filler;
 
             await _dbContext.SaveChangesAsync();
 

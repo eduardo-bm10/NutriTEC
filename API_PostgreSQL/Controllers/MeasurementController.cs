@@ -39,8 +39,25 @@ namespace Postgre_API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Measurement>> CreateMeasurement(Measurement measurement)
+        public async Task<ActionResult<Measurement>> CreateMeasurement(string patiendId,double waist, double neck, double hips, double musclePercentage, double fatPercentage)
         {
+            DateOnly dateOnly = new DateOnly(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+            var measurement0 = _dbContext.Measurements.FirstOrDefault(m => m.Date == dateOnly && m.Patientid == patiendId);
+            if (measurement0 != null)
+            {
+                return Content("Measurement already exists!");
+            }
+
+            var measurement = new Measurement{
+                Patientid = patiendId,
+                Date = dateOnly,
+                Waist = waist,
+                Neck = neck,
+                Hips = hips,
+                Musclepercentage = musclePercentage,
+                Fatpercentage = fatPercentage
+            };
+
             _dbContext.Measurements.Add(measurement);
             await _dbContext.SaveChangesAsync();
 
@@ -48,7 +65,7 @@ namespace Postgre_API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateMeasurement(int id, Measurement updatedMeasurement)
+        public async Task<IActionResult> UpdateMeasurement(int id, double waist, double neck, double hips, double musclePercentage, double fatPercentage)
         {
             var measurement = await _dbContext.Measurements.FindAsync(id);
 
@@ -57,8 +74,13 @@ namespace Postgre_API.Controllers
                 return NotFound();
             }
 
-            measurement.Patientid = updatedMeasurement.Patientid;
-            measurement.Date = updatedMeasurement.Date;
+            var updatedMeasurement = new Measurement{
+                Waist = waist,
+                Neck = neck,
+                Hips = hips,
+                Musclepercentage = musclePercentage,
+                Fatpercentage = fatPercentage
+            };
             measurement.Waist = updatedMeasurement.Waist;
             measurement.Neck = updatedMeasurement.Neck;
             measurement.Hips = updatedMeasurement.Hips;

@@ -26,7 +26,7 @@ namespace Postgre_API.Controllers
         }
 
         [HttpGet("{patientId}/{date}")]
-        public async Task<ActionResult<Consumption>> GetConsumption(string patientId, DateTime date)
+        public async Task<ActionResult<Consumption>> GetConsumption(string patientId, DateTime date, int mealtimeId)
         {
             var consumption = await _dbContext.Consumptions.FindAsync(patientId, date);
 

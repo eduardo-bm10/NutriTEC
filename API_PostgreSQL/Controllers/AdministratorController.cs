@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Postgre_API.Models;
+using System.Security.Cryptography;
+using System.Text;
+
 
 namespace Postgre_API.Controllers
 {
@@ -16,6 +19,21 @@ namespace Postgre_API.Controllers
         public AdministratorsController(NutritecDbContext dbContext)
         {
             _dbContext = dbContext;
+        }
+
+        private dynamic encryptPassword_MD5(string password){
+            string encryptedPassword = "";
+            using (MD5 md5 = MD5.Create()) {
+                byte[] inputBytes = Encoding.UTF8.GetBytes(password);
+                byte[] hashBytes = md5.ComputeHash(inputBytes);
+                StringBuilder sb = new StringBuilder();
+                foreach (byte b in hashBytes) {
+                    sb.Append(b.ToString("x2"));
+                }
+                encryptedPassword = sb.ToString();
+                Console.WriteLine(sb.ToString()); // borrar luego
+            }            
+            return encryptedPassword;
         }
 
         [HttpGet]
@@ -40,6 +58,7 @@ namespace Postgre_API.Controllers
         [HttpPost("{id}")]
         public async Task<ActionResult<Administrator>> CreateAdministrator(string id, string firstname, string lastname1, string lastname2, string email, string password)
         {
+            string thePassword = encryptPassword_MD5(password);
             var administrator = new Administrator
             {
                 Id = id,
@@ -47,7 +66,7 @@ namespace Postgre_API.Controllers
                 Lastname1 = lastname1,
                 Lastname2 = lastname2,
                 Email = email,
-                Password = password
+                Password = thePassword
             };
 
             _dbContext.Administrators.Add(administrator);

@@ -4,6 +4,8 @@ using Postgre_API.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Postgre_API.Controllers
 {
@@ -18,6 +20,20 @@ namespace Postgre_API.Controllers
             _context = context;
         }
 
+        private dynamic encryptPassword_MD5(string password){
+            string encryptedPassword = "";
+            using (MD5 md5 = MD5.Create()) {
+                byte[] inputBytes = Encoding.UTF8.GetBytes(password);
+                byte[] hashBytes = md5.ComputeHash(inputBytes);
+                StringBuilder sb = new StringBuilder();
+                foreach (byte b in hashBytes) {
+                    sb.Append(b.ToString("x2"));
+                }
+                encryptedPassword = sb.ToString();
+                Console.WriteLine(sb.ToString()); // borrar luego
+            }            
+            return encryptedPassword;
+        }
         // GET: api/Nutritionists
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Nutritionist>>> GetNutritionists()
@@ -41,8 +57,29 @@ namespace Postgre_API.Controllers
 
         // POST: api/Nutritionists
         [HttpPost]
-        public async Task<ActionResult<Nutritionist>> CreateNutritionist(Nutritionist nutritionist)
+        public async Task<ActionResult<Nutritionist>> CreateNutritionist(string id, string nutritionistcode, string firstname, string lastname1, string lastname2, string email, string password, int weight, double bmi, string address, byte[]? photo = null, int paymentid = 0)
         {
+            var patient = await _context.Nutritionists.FindAsync(id);
+
+            if (patient != null)
+            {
+                return Content("The nutritionist already exists!");
+            }
+            string thePassword = encryptPassword_MD5(password);
+            var nutritionist = new Nutritionist{
+                Id = id,
+                Nutritionistcode = nutritionistcode,
+                Firstname = firstname,
+                Lastname1 = lastname1,
+                Lastname2 = lastname2,
+                Email = email,
+                Password = password,
+                Weight = weight,
+                Bmi = bmi, 
+                Address = address, 
+                Photo = photo, 
+                Paymentid = paymentid
+            };
             _context.Nutritionists.Add(nutritionist);
             await _context.SaveChangesAsync();
 
