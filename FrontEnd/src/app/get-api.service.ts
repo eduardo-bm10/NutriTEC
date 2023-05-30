@@ -177,4 +177,44 @@ export class GetApiService {
     const url = `${this.baseUrl}/api/Patients/${id}`;
     return this.http.delete(url);
   }
-}
+
+  // Measurements
+
+  getMeasurements() {
+    return this.http.get(`${this.baseUrl}/Measurements`);
+  }
+
+  createMeasurement(
+    patientId: string,
+    waist: number,
+    neck: number,
+    hips: number,
+    musclePercentage: number,
+    fatPercentage: number
+  ) {
+    const url = `${this.baseUrl}/Measurements?patientId=${patientId}&waist=${waist}&neck=${neck}&hips=${hips}&musclePercentage=${musclePercentage}&fatPercentage=${fatPercentage}`;
+    return this.http.post(url, {});
+  }
+
+  getMeasurementById(id: number) {
+    const url = `${this.baseUrl}/Measurements/${id}`;
+    return this.http.get(url);
+  }
+
+  updateMeasurement(
+    id: number,
+    waist: number,
+    neck: number,
+    hips: number,
+    musclePercentage: number,
+    fatPercentage: number
+  ) {
+    const url = `${this.baseUrl}/Measurements/${id}?waist=${waist}&neck=${neck}&hips=${hips}&musclePercentage=${musclePercentage}&fatPercentage=${fatPercentage}`;
+    return this.http.put(url, {});
+  }
+
+  deleteMeasurement(id: number) {
+    const url = `${this.baseUrl}/Measurements/${id}`;
+    return this.http.delete(url);
+  }
+} 
