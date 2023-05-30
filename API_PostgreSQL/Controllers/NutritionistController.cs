@@ -57,7 +57,7 @@ namespace Postgre_API.Controllers
 
         // POST: api/Nutritionists
         [HttpPost]
-        public async Task<ActionResult<Nutritionist>> CreateNutritionist(string id, string nutritionistcode, string firstname, string lastname1, string lastname2, string email, string password, int weight, double bmi, string address, byte[] photo, int paymentid = 0)
+        public async Task<ActionResult<Nutritionist>> CreateNutritionist(string id, string nutritionistcode, string firstname, string lastname1, string lastname2, string email, string password, int weight, double bmi,  int cardNumber,string address, byte[] photo, int paymentid = 0)
         {
             var nutritionist_exists = await _context.Nutritionists.FindAsync(id);
 
@@ -76,6 +76,7 @@ namespace Postgre_API.Controllers
                 Password = password,
                 Weight = weight,
                 Bmi = bmi, 
+                CardNumber =cardNumber,
                 Address = address, 
                 Photo = photo, 
                 Paymentid = paymentid
@@ -88,7 +89,7 @@ namespace Postgre_API.Controllers
 
         // PUT: api/Nutritionists/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateNutritionist(string id, string nutritionistcode, string firstname, string lastname1, string lastname2, string email, string password, int weight, double bmi, string address, byte[] photo, int paymentid = 0)
+        public async Task<IActionResult> UpdateNutritionist(string id, string nutritionistcode, string firstname, string lastname1, string lastname2, string email, string password, int weight, double bmi, int cardNumber,string address, byte[] photo, int paymentid = 0)
         {
             var nutritionist_exists = await _context.Nutritionists.FindAsync(id);
 
@@ -107,6 +108,7 @@ namespace Postgre_API.Controllers
                 Password = password,
                 Weight = weight,
                 Bmi = bmi, 
+                CardNumber = cardNumber,
                 Address = address, 
                 Photo = photo, 
                 Paymentid = paymentid

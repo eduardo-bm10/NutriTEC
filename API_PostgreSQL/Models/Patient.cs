@@ -29,7 +29,7 @@ public partial class Patient
 
     public double Maxconsumption { get; set; }
 
-    public virtual Consumption? Consumption { get; set; }
+    public virtual ICollection<Consumption> Consumptions { get; set; } = new List<Consumption>();
 
     public virtual Measurement? Measurement { get; set; }
 

@@ -9,7 +9,5 @@ public partial class Recipe
 
     public string Description { get; set; } = null!;
 
-    public string Portions { get; set; } = null!;
-
     public virtual ICollection<RecipeProductAssociation> RecipeProductAssociations { get; set; } = new List<RecipeProductAssociation>();
 }

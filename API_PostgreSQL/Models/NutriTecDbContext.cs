@@ -45,6 +45,8 @@ public partial class NutritecDbContext : DbContext
 
     public virtual DbSet<RecipeProductAssociation> RecipeProductAssociations { get; set; }
 
+    public virtual DbSet<Vitamin> Vitamins { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseNpgsql("Server=server-nutritec.postgres.database.azure.com;Database=nutritec-db;Port=5432;User Id=jimena;Password=Nutri_TEC;Ssl Mode=VerifyFull;");
@@ -104,7 +106,7 @@ public partial class NutritecDbContext : DbContext
 
         modelBuilder.Entity<Consumption>(entity =>
         {
-            entity.HasKey(e => e.Patientid).HasName("consumption_pkey");
+            entity.HasKey(e => new { e.Patientid, e.Date }).HasName("consumption_pkey");
 
             entity.ToTable("consumption");
 
@@ -119,8 +121,8 @@ public partial class NutritecDbContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("keys4");
 
-            entity.HasOne(d => d.Patient).WithOne(p => p.Consumption)
-                .HasForeignKey<Consumption>(d => d.Patientid)
+            entity.HasOne(d => d.Patient).WithMany(p => p.Consumptions)
+                .HasForeignKey(d => d.Patientid)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("keys3");
         });
@@ -135,6 +137,25 @@ public partial class NutritecDbContext : DbContext
             entity.Property(e => e.Name)
                 .HasMaxLength(50)
                 .HasColumnName("name");
+
+            entity.HasMany(d => d.ProductBarcodes).WithMany(p => p.Mealtimes)
+                .UsingEntity<Dictionary<string, object>>(
+                    "MealtimeProduct",
+                    r => r.HasOne<Product>().WithMany()
+                        .HasForeignKey("ProductBarcode")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("keys15"),
+                    l => l.HasOne<MealTime>().WithMany()
+                        .HasForeignKey("Mealtimeid")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("keys14"),
+                    j =>
+                    {
+                        j.HasKey("Mealtimeid", "ProductBarcode").HasName("mealtime_product_pkey");
+                        j.ToTable("mealtime_product");
+                        j.IndexerProperty<int>("Mealtimeid").HasColumnName("mealtimeid");
+                        j.IndexerProperty<int>("ProductBarcode").HasColumnName("product_barcode");
+                    });
         });
 
         modelBuilder.Entity<Measurement>(entity =>
@@ -174,6 +195,7 @@ public partial class NutritecDbContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("address");
             entity.Property(e => e.Bmi).HasColumnName("bmi");
+            entity.Property(e => e.CardNumber).HasColumnName("card_number");
             entity.Property(e => e.Email)
                 .HasMaxLength(50)
                 .HasColumnName("email");
@@ -192,16 +214,14 @@ public partial class NutritecDbContext : DbContext
             entity.Property(e => e.Password)
                 .HasMaxLength(50)
                 .HasColumnName("password");
-            entity.Property(e => e.Paymentid)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("paymentid");
+            entity.Property(e => e.Paymentid).HasColumnName("paymentid");
             entity.Property(e => e.Photo).HasColumnName("photo");
             entity.Property(e => e.Weight).HasColumnName("weight");
 
             entity.HasOne(d => d.Payment).WithMany(p => p.Nutritionists)
                 .HasForeignKey(d => d.Paymentid)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("keys0");
+                .HasConstraintName("keys1");
         });
 
         modelBuilder.Entity<Patient>(entity =>
@@ -281,26 +301,22 @@ public partial class NutritecDbContext : DbContext
 
         modelBuilder.Entity<Plan>(entity =>
         {
-            entity.HasKey(e => new { e.Id, e.Nutritionistid }).HasName("plan_pkey");
+            entity.HasKey(e => e.Id).HasName("plan_pkey");
 
             entity.ToTable("plan");
 
-            entity.HasIndex(e => e.Id, "plan_id_key").IsUnique();
-
-            entity.Property(e => e.Id)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("id");
-            entity.Property(e => e.Nutritionistid)
-                .HasMaxLength(50)
-                .HasColumnName("nutritionistid");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Description)
                 .HasMaxLength(50)
                 .HasColumnName("description");
+            entity.Property(e => e.Nutritionistid)
+                .HasMaxLength(50)
+                .HasColumnName("nutritionistid");
 
             entity.HasOne(d => d.Nutritionist).WithMany(p => p.Plans)
                 .HasForeignKey(d => d.Nutritionistid)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("keys1");
+                .HasConstraintName("keys2");
         });
 
         modelBuilder.Entity<PlanMealtimeAssociation>(entity =>
@@ -316,13 +332,11 @@ public partial class NutritecDbContext : DbContext
                 .HasColumnName("filler");
 
             entity.HasOne(d => d.Mealtime).WithMany(p => p.PlanMealtimeAssociationMealtimes)
-                .HasPrincipalKey(p => p.Id)
                 .HasForeignKey(d => d.Mealtimeid)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("keys13");
 
             entity.HasOne(d => d.Plan).WithMany(p => p.PlanMealtimeAssociationPlans)
-                .HasPrincipalKey(p => p.Id)
                 .HasForeignKey(d => d.Planid)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("keys12");
@@ -347,13 +361,12 @@ public partial class NutritecDbContext : DbContext
             entity.HasOne(d => d.Patient).WithMany(p => p.PlanPatientAssociations)
                 .HasForeignKey(d => d.Patientid)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("keys14");
+                .HasConstraintName("keys16");
 
             entity.HasOne(d => d.Plan).WithMany(p => p.PlanPatientAssociations)
-                .HasPrincipalKey(p => p.Id)
                 .HasForeignKey(d => d.Planid)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("keys15");
+                .HasConstraintName("keys17");
         });
 
         modelBuilder.Entity<Product>(entity =>
@@ -388,9 +401,6 @@ public partial class NutritecDbContext : DbContext
             entity.Property(e => e.Description)
                 .HasMaxLength(50)
                 .HasColumnName("description");
-            entity.Property(e => e.Portions)
-                .HasMaxLength(50)
-                .HasColumnName("portions");
         });
 
         modelBuilder.Entity<RecipeProductAssociation>(entity =>
@@ -415,6 +425,23 @@ public partial class NutritecDbContext : DbContext
                 .HasForeignKey(d => d.Recipeid)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("keys10");
+        });
+
+        modelBuilder.Entity<Vitamin>(entity =>
+        {
+            entity.HasKey(e => new { e.ProductBarcode, e.Vitamin1 }).HasName("vitamins_pkey");
+
+            entity.ToTable("vitamins");
+
+            entity.Property(e => e.ProductBarcode).HasColumnName("product_barcode");
+            entity.Property(e => e.Vitamin1)
+                .HasMaxLength(20)
+                .HasColumnName("vitamin");
+
+            entity.HasOne(d => d.ProductBarcodeNavigation).WithMany(p => p.Vitamins)
+                .HasForeignKey(d => d.ProductBarcode)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("keys18");
         });
 
         OnModelCreatingPartial(modelBuilder);

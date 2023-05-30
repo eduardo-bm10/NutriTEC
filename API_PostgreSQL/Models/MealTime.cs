@@ -10,4 +10,6 @@ public partial class MealTime
     public string Name { get; set; } = null!;
 
     public virtual ICollection<Consumption> Consumptions { get; set; } = new List<Consumption>();
+
+    public virtual ICollection<Product> ProductBarcodes { get; set; } = new List<Product>();
 }
