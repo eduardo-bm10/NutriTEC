@@ -54,4 +54,4 @@ jobs:
           app-name: 'PostgreSQLAPI'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_242AFDB70BCD4652AAE92FB15CA6D676 }}
-          package: .
+          package: API_PostgreSQL
