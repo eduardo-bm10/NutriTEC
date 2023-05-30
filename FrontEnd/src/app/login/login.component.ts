@@ -11,7 +11,7 @@ export class LoginComponent implements OnInit{
   ngOnInit() {
     const signin = document.getElementById("signin") as HTMLInputElement
     signin.style.display = 'none'
-
+    this.getPaises();
   }
 
   mostrarContra(){
@@ -58,5 +58,31 @@ export class LoginComponent implements OnInit{
 
   register(form:any){
     const valor = form.value;
+  }
+
+  createOption(texto:string){
+    const option = document.createElement("option");
+    option.text = texto;
+    option.value = texto;
+    return option;
+  }
+  getPaises(){
+    fetch('https://restcountries.com/v3.1/all')
+      .then(response => response.json())
+      .then(data => {
+        const select = document.getElementById("pais") as HTMLSelectElement;
+        const todos:string[] = [];
+        data.forEach((info: any) => {
+          todos.push(info.name.common)
+        })
+
+        todos.sort();
+        todos.forEach((pais: any) => {
+          select.add(this.createOption(pais))
+        })
+      })
+      .catch(error => {
+        alert(`Error al realizar la solicitud ---- ${error.message}:`);
+      });
   }
 }

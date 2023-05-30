@@ -12,6 +12,7 @@ import {HttpClientModule} from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { LoginNUTRIComponent } from './login-nutri/login-nutri.component';
 import { LoginADMINComponent } from './login-admin/login-admin.component';
+import { NavVarComponent } from './nav-var/nav-var.component';
 
 const appRoutes:Routes=[
   {path:'', component: LoginComponent},
@@ -32,7 +33,8 @@ const appRoutes:Routes=[
     AdminComponent,
     NutriComponent,
     LoginNUTRIComponent,
-    LoginADMINComponent
+    LoginADMINComponent,
+    NavVarComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

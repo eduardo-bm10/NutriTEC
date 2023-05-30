@@ -1,3 +1,4 @@
+<app-nav-var [color]="'info'"></app-nav-var>
 <div id="login">
   <div class="container">
     <div class="row">
@@ -6,10 +7,7 @@
           <div class="card-body p-4 p-sm-5">
             <h5 class="card-title text-center mb-5 fw-light fs-5">
               <div class="center">
-                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-file-person" viewBox="0 0 20 20">
-                  <path d="M12 1a1 1 0 0 1 1 1v10.755S12 11 8 11s-5 1.755-5 1.755V2a1 1 0 0 1 1-1h8zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4z"/>
-                  <path d="M8 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-                </svg>
+                <i class="fa-solid fa-image-portrait fa-2xl" style="color: #54B4D3;"></i>
                 Login
               </div>
             </h5>
@@ -34,7 +32,7 @@
               </div>
 
               <div class="d-grid">
-                <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit">Login</button>
+                <button class="btn btn-info btn-login text-uppercase fw-bold" type="submit">Login</button>
                 <button class="btn btn-danger btn-login text-uppercase fw-bold" style="margin-left: 10px;" (click)="cambiarPantalla(0, $event)">Sign Upx</button>
               </div>
               <hr class="my-4">
@@ -57,10 +55,7 @@
           <div class="card-body p-4 p-sm-5">
             <h5 class="card-title text-center mb-5 fw-light fs-5">
               <div class="center">
-                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-file-person" viewBox="0 0 20 20">
-                  <path d="M12 1a1 1 0 0 1 1 1v10.755S12 11 8 11s-5 1.755-5 1.755V2a1 1 0 0 1 1-1h8zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4z"/>
-                  <path d="M8 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-                </svg>
+                <i class="fa-solid fa-image-portrait fa-2xl" style="color: #54B4D3;"></i>
                 Sign Up
               </div>
             </h5>
@@ -85,6 +80,10 @@
                 <label for="floatingInput">Apellido 2</label>
               </div>
               <div class="form-floating mb-3">
+                <input type="number" class="form-control" id="edad" placeholder="20" name="edad" ngModel>
+                <label for="floatingInput">Edad</label>
+              </div>
+              <div class="form-floating mb-3">
                 <input type="date" class="form-control" id="fecha" placeholder="Fecha de Nacimiento" name="fechaDenNcimiento" ngModel>
                 <label for="floatingInput">Fecha de Nacimiento</label>
               </div>
@@ -97,10 +96,33 @@
                 <label for="floatingInput">Índice de Masa Corporal</label>
               </div>
               <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="direccion" placeholder="Dirección" name="direccion" ngModel>
-                <label for="floatingInput">Dirección</label>
+                <select type="text" class="form-control" id="pais" placeholder="Costa Rica" name="pais" ngModel></select>
+                <label for="floatingInput">País donde reside</label>
               </div>
-
+              <div class="form-floating mb-3">
+                <input type="number" class="form-control" id="cintura" placeholder="0" name="cintura" ngModel>
+                <label for="floatingInput">Medida de cintura</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="number" class="form-control" id="cuello" placeholder="0" name="cuello" ngModel>
+                <label for="floatingInput">Medida de cuello</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="number" class="form-control" id="caderas" placeholder="0" name="caderas" ngModel>
+                <label for="floatingInput">Medida de caderas</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="number" class="form-control" id="musculo" placeholder="0" name="musculo" ngModel>
+                <label for="floatingInput">% de musculo</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="number" class="form-control" id="grasa" placeholder="0" name="grasa" ngModel>
+                <label for="floatingInput">% de grasa</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="number" class="form-control" id="calorias" placeholder="0" name="calorias" ngModel>
+                <label for="floatingInput">Consumo diario máximo de calorías</label>
+              </div>
               <div class="form-floating mb-3">
                 <input type="email" class="form-control" id="floatingInput1" placeholder="name@example.com" name="email" ngModel>
                 <label for="floatingInput">Email address</label>
@@ -118,7 +140,7 @@
               </div>
 
               <div class="d-grid">
-                <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit">Sign Up</button>
+                <button class="btn btn-info btn-login text-uppercase fw-bold" type="submit">Sign Up</button>
                 <button class="btn btn-danger btn-login text-uppercase fw-bold" style="margin-left: 10px;" (click)="cambiarPantalla(1, $event)">Login</button>
               </div>
               <hr class="my-4">
