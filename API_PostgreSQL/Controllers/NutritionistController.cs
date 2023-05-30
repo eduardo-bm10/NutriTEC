@@ -57,11 +57,11 @@ namespace Postgre_API.Controllers
 
         // POST: api/Nutritionists
         [HttpPost]
-        public async Task<ActionResult<Nutritionist>> CreateNutritionist(string id, string nutritionistcode, string firstname, string lastname1, string lastname2, string email, string password, int weight, double bmi, string address, byte[]? photo = null, int paymentid = 0)
+        public async Task<ActionResult<Nutritionist>> CreateNutritionist(string id, string nutritionistcode, string firstname, string lastname1, string lastname2, string email, string password, int weight, double bmi, string address, byte[] photo, int paymentid = 0)
         {
-            var patient = await _context.Nutritionists.FindAsync(id);
+            var nutritionist_exists = await _context.Nutritionists.FindAsync(id);
 
-            if (patient != null)
+            if (nutritionist_exists != null)
             {
                 return Content("The nutritionist already exists!");
             }
@@ -88,12 +88,29 @@ namespace Postgre_API.Controllers
 
         // PUT: api/Nutritionists/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateNutritionist(string id, Nutritionist nutritionist)
+        public async Task<IActionResult> UpdateNutritionist(string id, string nutritionistcode, string firstname, string lastname1, string lastname2, string email, string password, int weight, double bmi, string address, byte[] photo, int paymentid = 0)
         {
-            if (id != nutritionist.Id)
+            var nutritionist_exists = await _context.Nutritionists.FindAsync(id);
+
+            if (nutritionist_exists == null)
             {
-                return BadRequest();
+                return Content("The nutritionist does not exists!");
             }
+            string thePassword = encryptPassword_MD5(password);
+            var nutritionist = new Nutritionist{
+                Id = id,
+                Nutritionistcode = nutritionistcode,
+                Firstname = firstname,
+                Lastname1 = lastname1,
+                Lastname2 = lastname2,
+                Email = email,
+                Password = password,
+                Weight = weight,
+                Bmi = bmi, 
+                Address = address, 
+                Photo = photo, 
+                Paymentid = paymentid
+            };
 
             _context.Entry(nutritionist).State = EntityState.Modified;
 

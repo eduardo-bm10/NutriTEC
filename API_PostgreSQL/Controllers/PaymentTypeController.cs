@@ -38,12 +38,20 @@ namespace Postgre_API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<PaymentType>> CreatePaymentType(PaymentType paymentType)
+        public async Task<ActionResult<PaymentType>> CreatePaymentType(int id, string descripcion)
         {
-            _dbContext.PaymentTypes.Add(paymentType);
+            var exists_payment = await _dbContext.PaymentTypes.FindAsync(id);
+            if (exists_payment != null)
+            {
+                return Content("The payment type already exists!");
+            }
+
+            var myPay = new PaymentType{Id = id, Description = descripcion};
+
+            _dbContext.PaymentTypes.Add(myPay);
             await _dbContext.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetPaymentType), new { id = paymentType.Id }, paymentType);
+            return CreatedAtAction(nameof(GetPaymentType), new { id = myPay.Id }, myPay);
         }
 
         [HttpPut("{id}")]
