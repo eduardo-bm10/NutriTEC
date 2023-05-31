@@ -41,11 +41,28 @@ namespace Postgre_API.Controllers
 
         // POST: api/Recipes
         [HttpPost]
-        public async Task<ActionResult<Recipe>> CreateRecipe(Recipe recipe)
+        public async Task<ActionResult<Recipe>> CreateRecipe(string description, int productBarcode, int Productportion)
         {
+            var productBarcode_exists = await _context.Products.FindAsync(productBarcode);
+            if (productBarcode_exists == null)
+            {
+                return NotFound("Product not found");
+            }
+            var recipe = new Recipe
+            {
+                Description = description
+            };
             _context.Recipes.Add(recipe);
             await _context.SaveChangesAsync();
-
+            var recipeId = await _context.Recipes.FirstOrDefaultAsync(r => r.Description == description);
+            var recipeProductAssociation = new RecipeProductAssociation
+            {
+                Recipeid = recipeId.Id,
+                Productbarcode = productBarcode,
+                Productportion = Productportion,
+            };
+            _context.RecipeProductAssociations.Add(recipeProductAssociation);
+            await _context.SaveChangesAsync();
             return CreatedAtAction("GetRecipe", new { id = recipe.Id }, recipe);
         }
 

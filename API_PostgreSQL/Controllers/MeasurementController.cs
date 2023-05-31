@@ -43,9 +43,12 @@ namespace Postgre_API.Controllers
         {
             DateOnly dateOnly = new DateOnly(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
             var measurement0 = _dbContext.Measurements.FirstOrDefault(m => m.Date == dateOnly && m.Patientid == patiendId);
+            var patientId_exists = await _dbContext.Patients.FindAsync(patiendId);
             if (measurement0 != null)
             {
                 return Content("Measurement already exists!");
+            }else if(patientId_exists == null){
+                return NotFound("Patient not found!");
             }
 
             var measurement = new Measurement{

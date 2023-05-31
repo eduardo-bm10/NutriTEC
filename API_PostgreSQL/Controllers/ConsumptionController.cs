@@ -39,8 +39,33 @@ namespace Postgre_API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Consumption>> CreateConsumption(Consumption consumption)
+        public async Task<ActionResult<Consumption>> CreateConsumption(string patientId, DateTime date, int mealtimeId, int productBarcode)
         {
+            var patientId_exists = await _dbContext.Patients.FindAsync(patientId);
+            var mealtimeId_exists = await _dbContext.MealTimes.FindAsync(mealtimeId);
+            var productBarcode_exists = await _dbContext.Products.FindAsync(productBarcode);
+            if (patientId_exists == null)
+            {
+                return NotFound("Patient not found");
+            }
+            else if (mealtimeId_exists == null)
+            {
+                return NotFound("Mealtime not found");
+            }
+            else if (productBarcode_exists == null)
+            {
+                return NotFound("Product not found");
+            }
+
+
+            // Falta agrear los productos que se consumen
+            var consumption = new Consumption
+            {
+                Patientid = patientId,
+                Date = new DateOnly(date.Year, date.Month, date.Day),
+                Mealtime = mealtimeId,
+            };
+
             _dbContext.Consumptions.Add(consumption);
             await _dbContext.SaveChangesAsync();
 
