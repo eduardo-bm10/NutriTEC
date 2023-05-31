@@ -65,11 +65,12 @@ export class GetApiService {
     password: string,
     weight: number,
     bmi: number,
+    creditCard: number,
     address: string,
     paymentid: number,
     photo: string
   ) {
-    const url = `${this.baseUrl}/api/Nutritionists?id=${id}&nutritionistcode=${nutritionistcode}&firstname=${firstname}&lastname1=${lastname1}&lastname2=${lastname2}&email=${email}&password=${password}&weight=${weight}&bmi=${bmi}&address=${address}&paymentid=${paymentid}&photo=${photo}`;
+    const url = `${this.baseUrl}/api/Nutritionists?id=${id}&nutritionistcode=${nutritionistcode}&firstname=${firstname}&lastname1=${lastname1}&lastname2=${lastname2}&email=${email}&password=${password}&weight=${weight}&bmi=${bmi}&creditCard=${creditCard}&address=${address}&paymentid=${paymentid}&photo=${photo}`;
 
     return this.http.post(url, null, {
       headers: { 'Content-Type': 'application/json' }
