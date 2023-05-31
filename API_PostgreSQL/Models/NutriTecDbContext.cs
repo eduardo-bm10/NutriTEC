@@ -23,6 +23,8 @@ public partial class NutritecDbContext : DbContext
 
     public virtual DbSet<MealTime> MealTimes { get; set; }
 
+    public virtual DbSet<MealtimeProduct> MealtimeProducts { get; set; }
+
     public virtual DbSet<Measurement> Measurements { get; set; }
 
     public virtual DbSet<Nutritionist> Nutritionists { get; set; }
@@ -137,25 +139,29 @@ public partial class NutritecDbContext : DbContext
             entity.Property(e => e.Name)
                 .HasMaxLength(50)
                 .HasColumnName("name");
+        });
 
-            entity.HasMany(d => d.ProductBarcodes).WithMany(p => p.Mealtimes)
-                .UsingEntity<Dictionary<string, object>>(
-                    "MealtimeProduct",
-                    r => r.HasOne<Product>().WithMany()
-                        .HasForeignKey("ProductBarcode")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("keys15"),
-                    l => l.HasOne<MealTime>().WithMany()
-                        .HasForeignKey("Mealtimeid")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("keys14"),
-                    j =>
-                    {
-                        j.HasKey("Mealtimeid", "ProductBarcode").HasName("mealtime_product_pkey");
-                        j.ToTable("mealtime_product");
-                        j.IndexerProperty<int>("Mealtimeid").HasColumnName("mealtimeid");
-                        j.IndexerProperty<int>("ProductBarcode").HasColumnName("product_barcode");
-                    });
+        modelBuilder.Entity<MealtimeProduct>(entity =>
+        {
+            entity.HasKey(e => new { e.Mealtimeid, e.ProductBarcode }).HasName("mealtime_product_pkey");
+
+            entity.ToTable("mealtime_product");
+
+            entity.Property(e => e.Mealtimeid).HasColumnName("mealtimeid");
+            entity.Property(e => e.ProductBarcode).HasColumnName("product_barcode");
+            entity.Property(e => e.Filler)
+                .ValueGeneratedOnAdd()
+                .HasColumnName("filler");
+
+            entity.HasOne(d => d.Mealtime).WithMany(p => p.MealtimeProducts)
+                .HasForeignKey(d => d.Mealtimeid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("keys14");
+
+            entity.HasOne(d => d.ProductBarcodeNavigation).WithMany(p => p.MealtimeProducts)
+                .HasForeignKey(d => d.ProductBarcode)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("keys15");
         });
 
         modelBuilder.Entity<Measurement>(entity =>

@@ -41,9 +41,30 @@ namespace Postgre_API.Controllers
 
         // POST: api/Plans
         [HttpPost]
-        public async Task<ActionResult<Plan>> CreatePlan(Plan plan)
+        public async Task<ActionResult<Plan>> CreatePlan(string description, string nutritionistId, int mealtimeId, int productBarcode)
         {
+            var mealtime_exists = await _dbContext.MealTimes.FindAsync(mealtimeId);
+            var nutritionistId_exists = await _dbContext.Nutritionists.FindAsync(nutritionistId);
+            var productBarcode_exists = await _dbContext.Products.FindAsync(productBarcode);
+            if(mealtime_exists == null){
+                return NotFound("Mealtime not found");
+            }else if(nutritionistId_exists == null){
+                return NotFound("Nutritionist not found");
+            }else if(productBarcode_exists == null){
+                return NotFound("Product not found");
+            }
+            var plan = new Plan
+            {
+                Nutritionistid = nutritionistId,
+                Description = description
+            };
+            var Mealtime_Product = new MealtimeProduct
+            {
+                Mealtimeid = mealtimeId,
+                ProductBarcode = productBarcode
+            };
             _dbContext.Plans.Add(plan);
+            _dbContext.MealtimeProducts.Add(Mealtime_Product);
             await _dbContext.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetPlan), new { id = plan.Id }, plan);

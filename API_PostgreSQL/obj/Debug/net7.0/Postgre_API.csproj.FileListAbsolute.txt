@@ -253,6 +253,13 @@ C:\Users\jimen\OneDrive\Escritorio\NutriTEC\API_PostgreSQL\bin\Debug\net7.0\Micr
 C:\Users\jimen\OneDrive\Escritorio\NutriTEC\API_PostgreSQL\bin\Debug\net7.0\Microsoft.Extensions.DependencyModel.dll
 C:\Users\jimen\OneDrive\Escritorio\NutriTEC\API_PostgreSQL\bin\Debug\net7.0\Mono.TextTemplating.dll
 C:\Users\jimen\OneDrive\Escritorio\NutriTEC\API_PostgreSQL\bin\Debug\net7.0\System.CodeDom.dll
+C:\Users\jusfb\OneDrive\Escritorio\Proyectos\NutriTEC\API_PostgreSQL\obj\Debug\net7.0\Postgre_API.csproj.AssemblyReference.cache
+C:\Users\jusfb\OneDrive\Escritorio\Proyectos\NutriTEC\API_PostgreSQL\obj\Debug\net7.0\Postgre_API.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\jusfb\OneDrive\Escritorio\Proyectos\NutriTEC\API_PostgreSQL\obj\Debug\net7.0\Postgre_API.AssemblyInfoInputs.cache
+C:\Users\jusfb\OneDrive\Escritorio\Proyectos\NutriTEC\API_PostgreSQL\obj\Debug\net7.0\Postgre_API.AssemblyInfo.cs
+C:\Users\jusfb\OneDrive\Escritorio\Proyectos\NutriTEC\API_PostgreSQL\obj\Debug\net7.0\Postgre_API.csproj.CoreCompileInputs.cache
+C:\Users\jusfb\OneDrive\Escritorio\Proyectos\NutriTEC\API_PostgreSQL\obj\Debug\net7.0\Postgre_API.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\jusfb\OneDrive\Escritorio\Proyectos\NutriTEC\API_PostgreSQL\obj\Debug\net7.0\Postgre_API.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\jusfb\OneDrive\Escritorio\Proyectos\NutriTEC\API_PostgreSQL\bin\Debug\net7.0\appsettings.Development.json
 C:\Users\jusfb\OneDrive\Escritorio\Proyectos\NutriTEC\API_PostgreSQL\bin\Debug\net7.0\appsettings.json
 C:\Users\jusfb\OneDrive\Escritorio\Proyectos\NutriTEC\API_PostgreSQL\bin\Debug\net7.0\Postgre_API.exe
@@ -487,13 +494,6 @@ C:\Users\jusfb\OneDrive\Escritorio\Proyectos\NutriTEC\API_PostgreSQL\bin\Debug\n
 C:\Users\jusfb\OneDrive\Escritorio\Proyectos\NutriTEC\API_PostgreSQL\bin\Debug\net7.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
 C:\Users\jusfb\OneDrive\Escritorio\Proyectos\NutriTEC\API_PostgreSQL\bin\Debug\net7.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\jusfb\OneDrive\Escritorio\Proyectos\NutriTEC\API_PostgreSQL\bin\Debug\net7.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
-C:\Users\jusfb\OneDrive\Escritorio\Proyectos\NutriTEC\API_PostgreSQL\obj\Debug\net7.0\Postgre_API.csproj.AssemblyReference.cache
-C:\Users\jusfb\OneDrive\Escritorio\Proyectos\NutriTEC\API_PostgreSQL\obj\Debug\net7.0\Postgre_API.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\jusfb\OneDrive\Escritorio\Proyectos\NutriTEC\API_PostgreSQL\obj\Debug\net7.0\Postgre_API.AssemblyInfoInputs.cache
-C:\Users\jusfb\OneDrive\Escritorio\Proyectos\NutriTEC\API_PostgreSQL\obj\Debug\net7.0\Postgre_API.AssemblyInfo.cs
-C:\Users\jusfb\OneDrive\Escritorio\Proyectos\NutriTEC\API_PostgreSQL\obj\Debug\net7.0\Postgre_API.csproj.CoreCompileInputs.cache
-C:\Users\jusfb\OneDrive\Escritorio\Proyectos\NutriTEC\API_PostgreSQL\obj\Debug\net7.0\Postgre_API.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\jusfb\OneDrive\Escritorio\Proyectos\NutriTEC\API_PostgreSQL\obj\Debug\net7.0\Postgre_API.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\jusfb\OneDrive\Escritorio\Proyectos\NutriTEC\API_PostgreSQL\obj\Debug\net7.0\staticwebassets\msbuild.Postgre_API.Microsoft.AspNetCore.StaticWebAssets.props
 C:\Users\jusfb\OneDrive\Escritorio\Proyectos\NutriTEC\API_PostgreSQL\obj\Debug\net7.0\staticwebassets\msbuild.build.Postgre_API.props
 C:\Users\jusfb\OneDrive\Escritorio\Proyectos\NutriTEC\API_PostgreSQL\obj\Debug\net7.0\staticwebassets\msbuild.buildMultiTargeting.Postgre_API.props

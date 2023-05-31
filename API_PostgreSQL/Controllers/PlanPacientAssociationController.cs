@@ -41,8 +41,29 @@ namespace Postgre_API.Controllers
 
         // POST: api/PlanPatientAssociations
         [HttpPost]
-        public async Task<ActionResult<PlanPatientAssociation>> CreatePlanPatientAssociation(PlanPatientAssociation planPatientAssociation)
+        public async Task<ActionResult<PlanPatientAssociation>> CreatePlanPatientAssociation(string nutritionistId,int planId, string patientId, DateTime startdate, DateTime enddate)
         {
+            var plan_exists = await _context.Plans.FindAsync(planId);
+            var patientId_exists = await _context.Patients.FindAsync(patientId);
+            var nutritionist_exists = await _context.Nutritionists.FindAsync(nutritionistId);
+            var PatientNutritionistAssociation_exists = await _context.PatientNutritionistAssociations.FindAsync(nutritionistId, patientId);
+            if(plan_exists == null){
+                return NotFound("Plan not found!");
+            }else if(patientId_exists == null){
+                return NotFound("Patient not found!");
+            }else if(nutritionist_exists == null){
+                return NotFound("Nutritionist not found!");
+            }else if(PatientNutritionistAssociation_exists == null){
+                return NotFound("Patient not associated with Nutritionist!");
+            }
+
+            var planPatientAssociation = new PlanPatientAssociation
+            {
+                Patientid = patientId,
+                Planid = planId,
+                Startdate = new DateOnly(startdate.Year, startdate.Month, startdate.Day),
+                Enddate = new DateOnly(enddate.Year, enddate.Month, enddate.Day),
+            };
             _context.PlanPatientAssociations.Add(planPatientAssociation);
             await _context.SaveChangesAsync();
 

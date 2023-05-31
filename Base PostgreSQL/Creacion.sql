@@ -121,6 +121,7 @@ CREATE TABLE PLAN_MEALTIME_ASSOCIATION (
 CREATE TABLE MEALTIME_PRODUCT (
 	MealtimeID INT,
 	Product_barcode INT,
+   Filler SERIAL,
 	PRIMARY KEY (MealtimeID, Product_barcode)
 );
 

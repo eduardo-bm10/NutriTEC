@@ -1,4 +1,4 @@
-INSERT INTO ADMINISTRATOR VALUES ('123456789', 'Stuart', 'Jackson', 'Newman', 'jackson_st@gmail.com', 'stuart1234');
+INSERT INTO ADMINISTRATOR VALUES ('123456789', 'Stuart', 'Jackson', 'Newman', 'jackson_st@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055');
 
 INSERT INTO MEAL_TIME VALUES (DEFAULT, 'Breakfast');
 INSERT INTO MEAL_TIME VALUES (DEFAULT, 'Morning snack');

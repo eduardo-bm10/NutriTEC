@@ -83,6 +83,7 @@ namespace Postgre_API.Controllers
 
             var measurements = new Measurement
             {
+                Patientid = id,
                 Date = new DateOnly(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day),
                 Waist = waist,
                 Neck = neck,
@@ -91,8 +92,8 @@ namespace Postgre_API.Controllers
                 Fatpercentage = fatPercentage
             };
 
-            _dbContext.Measurements.Add(measurements);
             _dbContext.Patients.Add(patient);
+            _dbContext.Measurements.Add(measurements);
             await _dbContext.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetPatient), new { id = patient.Id }, patient);
@@ -131,10 +132,16 @@ namespace Postgre_API.Controllers
         public async Task<IActionResult> DeletePatient(string id)
         {
             var patient = await _dbContext.Patients.FindAsync(id);
-
+            var measurementsForPatient = _dbContext.Measurements.Where(m => m.Patientid == id).ToList();
             if (patient == null)
             {
                 return NotFound();
+            }
+
+            // Delete each measurement for the patient
+            foreach (var measurement0 in measurementsForPatient)
+            {
+                _dbContext.Measurements.Remove(measurement0);
             }
 
             _dbContext.Patients.Remove(patient);

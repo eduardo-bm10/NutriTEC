@@ -41,11 +41,16 @@ namespace Postgre_API.Controllers
         public async Task<ActionResult<PatientNutritionistAssociation>> CreatePatientNutritionistAssociation(string nutritionistId, string patientId)
         {
             var association0 = await _dbContext.PatientNutritionistAssociations.FindAsync(nutritionistId, patientId);
+            var patient = await _dbContext.Patients.FindAsync(patientId);
+            var nutritionist = await _dbContext.Nutritionists.FindAsync(nutritionistId);
             if (association0 != null)
             {
                 return Content("Association already exists!");
+            }else if(patient == null){
+                return Content("Patient does not exist!");
+            }else if(nutritionist == null){
+                return Content("Nutritionist does not exist!");
             }
-
             var association = new PatientNutritionistAssociation
             {
                 Nutritionistid = nutritionistId,

@@ -80,7 +80,6 @@ namespace Postgre_API.Controllers
         public async Task<IActionResult> UpdateAdministrator(string id, string firstname, string lastname1, string lastname2, string email, string password)
         {
             var administrator = await _dbContext.Administrators.FindAsync(id);
-
             if (administrator == null)
             {
                 return NotFound();

@@ -11,5 +11,5 @@ public partial class MealTime
 
     public virtual ICollection<Consumption> Consumptions { get; set; } = new List<Consumption>();
 
-    public virtual ICollection<Product> ProductBarcodes { get; set; } = new List<Product>();
+    public virtual ICollection<MealtimeProduct> MealtimeProducts { get; set; } = new List<MealtimeProduct>();
 }

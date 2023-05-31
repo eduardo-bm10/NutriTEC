@@ -87,6 +87,8 @@ namespace Postgre_API.Controllers
             return CreatedAtAction("GetNutritionist", new { id = nutritionist.Id }, nutritionist);
         }
 
+    
+
         // PUT: api/Nutritionists/5
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateNutritionist(string id, string nutritionistcode, string firstname, string lastname1, string lastname2, string email, string password, int weight, double bmi, int cardNumber,string address, byte[] photo, int paymentid = 0)
