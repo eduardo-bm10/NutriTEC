@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:validators/validators.dart';
 import 'WelcomeScreen.dart';
 import 'RegisterScreen.dart';
+import 'package:http/http.dart' as http;
 
 // Global variables for the components of the application.
 const double font_size = 20;
@@ -33,6 +34,7 @@ class _MyHomePageState extends State<MyHomePage> {
     _controllerPassword = TextEditingController();
     passwordVisible=true;
     emailAddress.text = "";
+    _getClient("", "");
   }
 
   @override
@@ -145,6 +147,15 @@ class _MyHomePageState extends State<MyHomePage> {
     String generateMd5(String input) {
       return md5.convert(utf8.encode(input)).toString();
     }
+    return true;
+  }
+
+  Future <bool> _getClient(String correo, String password) async {
+    String generateMd5(String input) {
+      return md5.convert(utf8.encode(input)).toString();
+    }
+    String thePassword = generateMd5(password);
+    print(await http.get('https://postgresqlapi.azurewebsites.net/api/Patients' as Uri));
     return true;
   }
 }

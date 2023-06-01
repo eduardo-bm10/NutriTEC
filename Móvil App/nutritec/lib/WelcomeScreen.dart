@@ -8,7 +8,7 @@ import 'RecipesManagementScreen.dart';
 
 // Global variables for the components of the application.
 const double font_size = 20;
-const double title_size = 32;
+const double title_size = 26;
 
 
 /// This is the home page of the application.

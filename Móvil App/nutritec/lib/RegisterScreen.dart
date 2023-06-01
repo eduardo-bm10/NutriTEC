@@ -47,14 +47,14 @@ class _RegisterScreenState extends State<RegisterScreen>{
     /// Scaffold for the sign up screen.
     return Scaffold(
       backgroundColor: Colors.cyan[100],
-      appBar: AppBar(title: const Text('Bienvenido a GymTec')),
+      appBar: AppBar(title: const Text('Bienvenido a NutriTec')),
       body: Center(
           child: Container(
             child: ListView(
               padding: EdgeInsets.all(20),
               children: <Widget>[
                 Expanded(
-                  child: Image(image: AssetImage('assets/logoGymTec.png')),
+                  child: Image(image: AssetImage('assets/logoNutriTec.png')),
                 ),
                 Icon(IconData(0xe043, fontFamily: 'MaterialIcons'),size:60),
                 Text(
