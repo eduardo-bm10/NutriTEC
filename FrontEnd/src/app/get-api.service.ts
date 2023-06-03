@@ -8,15 +8,15 @@ export class GetApiService {
 
   private baseUrl = 'https://postgresqlapi.azurewebsites.net';
 
-  constructor(private http: HttpClient) {} 
-  
-  // Iniciar sesión
+  constructor(private http: HttpClient) {}
+
+  // Iniciar sesión--------------------------------------------
   login(email: string, password: string) {
     const url = `${this.baseUrl}/api/Login/login?email=${email}&password=${password}`;
     return this.http.post(url, null);
   }
-  // Administrador
-  
+  // Administrador--------------------------------------------
+
   // Obtener todos los administradores
   getAllAdministrators() {
     const url = `${this.baseUrl}/api/Administrator`;
@@ -47,7 +47,7 @@ export class GetApiService {
     return this.http.delete(url);
   }
 
-  // Nutritionist
+  // Nutritionist--------------------------------------------
   // Obtener lista de nutricionistas
   getNutritionists() {
     const url = `${this.baseUrl}/api/Nutritionists`;
@@ -111,7 +111,7 @@ export class GetApiService {
     return this.http.delete(url);
   }
 
-  // Patient
+  // Patient--------------------------------------------
   // Obtener lista de pacientes
   getPatients() {
     const url = `${this.baseUrl}/api/Patients`;
@@ -179,7 +179,7 @@ export class GetApiService {
     return this.http.delete(url);
   }
 
-  // Measurements
+  // Measurements--------------------------------------------
 
   getMeasurements() {
     return this.http.get(`${this.baseUrl}/Measurements`);
@@ -218,4 +218,158 @@ export class GetApiService {
     const url = `${this.baseUrl}/Measurements/${id}`;
     return this.http.delete(url);
   }
-} 
+
+  // PaymentType--------------------------------------------
+
+  getPaymentTypes() {
+    const url = `${this.baseUrl}/PaymentTypes`;
+    return this.http.get(url);
+  }
+
+  getPaymentTypeById(id: number) {
+    const url = `${this.baseUrl}/PaymentTypes/${id}`;
+    return this.http.get(url);
+  }
+
+  createPaymentType(description: string) {
+    const url = `${this.baseUrl}/PaymentTypes?description=${description}`;
+    return this.http.post(url, {});
+  }
+
+  updatePaymentType(id: number, description: string) {
+    const url = `${this.baseUrl}/PaymentTypes/${id}?description=${description}`;
+    return this.http.put(url, {});
+  }
+
+  deletePaymentType(id: number) {
+    const url = `${this.baseUrl}/PaymentTypes/${id}`;
+    return this.http.delete(url);
+  }
+
+  // Product--------------------------------------------
+  // Obtener lista de productos
+  getProducts() {
+    const url = `${this.baseUrl}/api/Products`;
+    return this.http.get(url);
+  }
+
+  // Obtener un producto por su barcode
+  getProductById(barcode: number) {
+    const url = `${this.baseUrl}/api/Products/${barcode}`;
+    return this.http.get(url);
+  }
+
+  // Crear un nuevo producto
+  createProduct(
+    barcode: number,
+    description: string,
+    iron: number,
+    sodium: number,
+    energy: number,
+    fat: number,
+    calcium: number,
+    carbohydrates: number,
+    protein: number,
+    status: boolean
+    ){
+    const url = `${this.baseUrl}/api/Products?barcode=${barcode}&description=${description}&iron=${iron}&sodium=${sodium}&energy=${energy}&fat=${fat}&calcium=${calcium}&carbohydrates=${carbohydrates}&protein=${protein}&status=${status}`;
+    return this.http.post(url, null, {});
+  }
+
+  // Actualizar un producto
+  updateProduct(
+    barcode: number,
+    description: string,
+    iron: number,
+    sodium: number,
+    energy: number,
+    fat: number,
+    calcium: number,
+    carbohydrates: number,
+    protein: number,
+    status: boolean
+  ) {
+    const url = `${this.baseUrl}/api/Products/${barcode}?description=${description}&iron=${iron}&sodium=${sodium}&energy=${energy}&fat=${fat}&calcium=${calcium}&carbohydrates=${carbohydrates}&protein=${protein}&status=${status}`;
+    return this.http.put(url, null, {});
+  }
+
+  // Eliminar un producto
+  deleteProduct(barcode: number) {
+    const url = `${this.baseUrl}/api/Products/${barcode}`;
+    return this.http.delete(url);
+  }
+
+  // Plan--------------------------------------------
+
+  getPlans() {
+    const url = `${this.baseUrl}/Plans`;
+    return this.http.get(url);
+  }
+
+  getPlanById(id: number) {
+    const url = `${this.baseUrl}/Plans/${id}`;
+    return this.http.get(url);
+  }
+
+  createPlan(
+    nutritionistId: string,
+    description: string,
+  ) {
+    const url = `${this.baseUrl}/Plans?nutritionistId=${nutritionistId}&description=${description}`;
+    return this.http.post(url, {});
+  }
+
+  updatePlan(
+    id: number,
+    nutritionistId: string,
+    description: string,
+  ) {
+    const url = `${this.baseUrl}/Plans/${id}?nutritionistId=${nutritionistId}&description=${description}`;
+    return this.http.put(url, {});
+  }
+
+  deletePlan(id: number) {
+    const url = `${this.baseUrl}/Plans/${id}`;
+    return this.http.delete(url);
+  }
+
+  // Vitamin--------------------------------------------
+
+  getVitamins() {
+    const url = `${this.baseUrl}/Vitamins`;
+    return this.http.get(url);
+  }
+
+  getVitaminById(productBarcode: number) {
+    const url = `${this.baseUrl}/Vitamins/${productBarcode}`;
+    return this.http.get(url);
+  }
+
+  createVitamin(
+    productBarcode: number,
+    vitamin: string
+  ) {
+    const url = `${this.baseUrl}/Vitamins?productBarcode=${productBarcode}&vitamin=${vitamin}`;
+    return this.http.post(url, {});
+  }
+
+  updateVitamin(
+    productBarcode: number,
+    vitamin: string
+  ) {
+    const url = `${this.baseUrl}/Vitamins/${productBarcode}?vitamin=${vitamin}`;
+    return this.http.put(url, {});
+  }
+
+  deleteVitamin(productBarcode: number) {
+    const url = `${this.baseUrl}/Vitamins/${productBarcode}`;
+    return this.http.delete(url);
+  }
+
+  
+
+
+
+
+
+}
