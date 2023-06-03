@@ -19,7 +19,7 @@ export class ClienteComponent implements OnInit{
   // YA CAMBIÉ LOS NOMBRES DE LOS LIST ITEMS :D
 
   // CAMBIAR NOMBRE DE PANTALLAS PARA NUTRICIONISTA
-  pantallas = ["registroDeMedidas", "registroDiarioDeConsumo", "gestionDeProductosPlatillos", "gestionDeRecetas", "reporteDeAvances"];
+  pantallas = ["registroMedidas", "registroConsumo", "gestionProductosPlatillos", "gestionRecetas", "reporteAvance"];
 
   provincias = ["San José", "Alajuela", "Cartago", "Limón", "Guanacaste", "Puntarenas", "Heredia"]
 

@@ -1,4 +1,4 @@
-<app-nav-var [color]="'info'"></app-nav-var>
+<app-nav-var [color]="'success'"></app-nav-var>
 <div id="login">
   <div class="container">
     <div class="row">
@@ -7,8 +7,8 @@
           <div class="card-body p-4 p-sm-5">
             <h5 class="card-title text-center mb-5 fw-light fs-5">
               <div class="center">
-                <i class="fa-solid fa-image-portrait fa-2xl" style="color: #54B4D3;"></i>
-                Login
+                <i class="fa-solid fa-image-portrait fa-2xl" style="color: #14A44D;"></i>
+                Login Nutri
               </div>
             </h5>
 
@@ -32,12 +32,12 @@
               </div>
 
               <div class="d-grid">
-                <button class="btn btn-info btn-login text-uppercase fw-bold" type="submit">Login</button>
-                <button class="btn btn-danger btn-login text-uppercase fw-bold" style="margin-left: 10px;" (click)="cambiarPantalla(0, $event)">Sign Upx</button>
+                <button class="btn btn-success btn-login text-uppercase fw-bold" type="submit">Login Nutri</button>
+                <button class="btn btn-danger btn-login text-uppercase fw-bold" style="margin-left: 10px;" (click)="cambiarPantalla(0, $event)">Sign Up Nutri</button>
               </div>
               <hr class="my-4">
               <div class="copyright text-center my-auto">
-                <span>Copyright &copy; GymTEC 2023</span>
+                <span>Copyright &copy; NutriTEC 2023</span>
               </div>
             </form>
           </div>
@@ -55,8 +55,8 @@
           <div class="card-body p-4 p-sm-5">
             <h5 class="card-title text-center mb-5 fw-light fs-5">
               <div class="center">
-                <i class="fa-solid fa-image-portrait fa-2xl" style="color: #54B4D3;"></i>
-                Sign Up
+                <i class="fa-solid fa-image-portrait fa-2xl" style="color: #42a896;"></i>
+                Sign Up Nutri
               </div>
             </h5>
 
@@ -80,7 +80,11 @@
                 <label for="floatingInput">Apellido 2</label>
               </div>
               <div class="form-floating mb-3">
-                <input type="number" class="form-control" id="edad" placeholder="20" name="edad" ngModel>
+                <input type="number" class="form-control" id="codigoNutri" placeholder="0000" name="codigoNutri" ngModel>
+                <label for="floatingInput">Código de nutricionista</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="number" class="form-control" id="edad" placeholder="30" name="edad" ngModel>
                 <label for="floatingInput">Edad</label>
               </div>
               <div class="form-floating mb-3">
@@ -96,32 +100,24 @@
                 <label for="floatingInput">Índice de Masa Corporal</label>
               </div>
               <div class="form-floating mb-3">
-                <select type="text" class="form-control" id="pais" placeholder="Costa Rica" name="pais" ngModel></select>
-                <label for="floatingInput">País donde reside</label>
+                <input type="text" class="form-control" id="direccion" placeholder="Dirección" name="direccion" ngModel>
+                <label for="floatingInput">Dirección</label>
               </div>
               <div class="form-floating mb-3">
-                <input type="number" class="form-control" id="cintura" placeholder="0" name="cintura" ngModel>
-                <label for="floatingInput">Medida de cintura</label>
+                <input type="file" class="form-control" id="foto" placeholder="Dirección" name="foto" accept="image/*" ngModel>
+                <label for="floatingInput">Foto</label>
               </div>
               <div class="form-floating mb-3">
-                <input type="number" class="form-control" id="cuello" placeholder="0" name="cuello" ngModel>
-                <label for="floatingInput">Medida de cuello</label>
+                <input type="text" class="form-control" id="tarjeta" placeholder="0000-0000-0000-0000" name="tarjeta" pattern="[0-9]{13,16}" ngModel>
+                <label for="floatingInput">Número de tarjeta</label>
               </div>
               <div class="form-floating mb-3">
-                <input type="number" class="form-control" id="caderas" placeholder="0" name="caderas" ngModel>
-                <label for="floatingInput">Medida de caderas</label>
-              </div>
-              <div class="form-floating mb-3">
-                <input type="number" class="form-control" id="musculo" placeholder="0" name="musculo" ngModel>
-                <label for="floatingInput">% de musculo</label>
-              </div>
-              <div class="form-floating mb-3">
-                <input type="number" class="form-control" id="grasa" placeholder="0" name="grasa" ngModel>
-                <label for="floatingInput">% de grasa</label>
-              </div>
-              <div class="form-floating mb-3">
-                <input type="number" class="form-control" id="calorias" placeholder="0" name="calorias" ngModel>
-                <label for="floatingInput">Consumo diario máximo de calorías</label>
+                <select type="text" class="form-control" id="tipoCobro" name="tipoCobro" ngModel>
+                  <option value="Semanal">Semanal</option>
+                  <option value="Mensual">Mensual</option>
+                  <option value="Anual">Anual</option>
+                </select>
+                <label for="floatingInput">Tipo de cobro</label>
               </div>
               <div class="form-floating mb-3">
                 <input type="email" class="form-control" id="floatingInput1" placeholder="name@example.com" name="email" ngModel>
@@ -140,12 +136,12 @@
               </div>
 
               <div class="d-grid">
-                <button class="btn btn-info btn-login text-uppercase fw-bold" type="submit">Sign Up</button>
-                <button class="btn btn-danger btn-login text-uppercase fw-bold" style="margin-left: 10px;" (click)="cambiarPantalla(1, $event)">Login</button>
+                <button class="btn btn-success btn-login text-uppercase fw-bold" type="submit">Sign Up Nutri</button>
+                <button class="btn btn-danger btn-login text-uppercase fw-bold" style="margin-left: 10px;" (click)="cambiarPantalla(1, $event)">Login Nutri</button>
               </div>
               <hr class="my-4">
               <div class="copyright text-center my-auto">
-                <span>Copyright &copy; GymTEC 2023</span>
+                <span>Copyright &copy; NutriTEC 2023</span>
               </div>
             </form>
           </div>

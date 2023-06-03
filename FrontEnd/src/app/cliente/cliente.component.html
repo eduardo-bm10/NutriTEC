@@ -37,7 +37,7 @@
 
         <li class="nav-item">
           <a class="nav-link collapsed" data-toggle="collapse"
-             (click)="mostrarPantalla('registroDeMedidas')">
+             (click)="mostrarPantalla('registroMedidas')">
             <i class="fas fa-solid fa-ruler"></i>
             <span>Registro de Medidas</span>
           </a>
@@ -45,7 +45,7 @@
 
         <li class="nav-item">
           <a class="nav-link collapsed" data-toggle="collapse"
-             (click)="mostrarPantalla('registroDiarioDeConsumo')">
+             (click)="mostrarPantalla('registroConsumo')">
             <i class="fas fa-regular fa-address-card"></i>
             <span>Registro diario de consumo</span>
           </a>
@@ -53,7 +53,7 @@
 
         <li class="nav-item">
           <a class="nav-link collapsed" data-toggle="collapse"
-             (click)="mostrarPantalla('gestionDeProductosPlatillos')">
+             (click)="mostrarPantalla('gestionProductosPlatillos')">
             <i class="fas fa-brands fa-product-hunt"></i>
             <span> Gestión de productos/platillos</span>
           </a>
@@ -61,7 +61,7 @@
 
         <li class="nav-item">
           <a class="nav-link collapsed" data-toggle="collapse"
-             (click)="mostrarPantalla('gestionDeRecetas')">
+             (click)="mostrarPantalla('gestionRecetas')">
             <i class="fas fa-solid fa-stroopwafel"></i>
             <span> Gestión de Recetas</span>
           </a>
@@ -69,7 +69,7 @@
 
         <li class="nav-item">
           <a class="nav-link collapsed" data-toggle="collapse"
-             (click)="mostrarPantalla('reporteDeAvances')">
+             (click)="mostrarPantalla('reporteAvance')">
             <i class="fas fa-solid fa-file-invoice"></i>
             <span> Reporte de Avance</span>
           </a>
@@ -228,48 +228,154 @@
 
 
 
-          <!--------------------------------------------- COMIENZA PANTALLA Registro de Medidas: --------------------------------------------->
-          <div id="registroDeMedidas">
-            Esta es la pantalla de Registro de Medidas:
+          <!-- EMPIEZA LA VENTANA GESTION DE REGISTRO DE MEDIDAS -->
+
+          <div id="registroMedidas" class="container-fluid">
+            <h1 style="font-size:40px;" class="h3 mb-4 text-gray-800">Registro de medidas</h1>
+            <h2 style="font-size:20px;" class="h3 mb-4 text-gray-800">Complete los datos de las medidas que se le solicitan junto con la fecha del día de hoy.</h2>
+
+
+            <div class="form-group row">
+              <div class="col-sm-6 mb-3 mb-sm-0">
+                <label for="registroMedidasFecha">Fecha actual</label>
+                <input type="date" class="form-control form-control-user" id="registroMedidasFecha">
+              </div>
+
+              <div class="col-sm-6 mb-3 mb-sm-0">
+                <label for="registroMedidasCintura">Cintura (cm)</label>
+                <input type="text" class="form-control form-control-user" id="registroMedidasCintura">
+              </div>
+
+              <div class="col-sm-6 mb-3 mb-sm-0">
+                <label for="registroMedidasCuello">Cuello (cm)</label>
+                <input type="text" class="form-control form-control-user" id="registroMedidasCuello">
+              </div>
+
+              <div class="col-sm-6 mb-3 mb-sm-0">
+                <label for="registroMedidasCadera">Cadera (cm)</label>
+                <input type="text" class="form-control form-control-user" id="registroMedidasCadera">
+              </div>
+
+              <div class="col-sm-6 mb-3 mb-sm-0">
+                <label for="registroMedidasMusculo">Porcentaje de músculo</label>
+                <input type="text" class="form-control form-control-user" id="registroMedidasMusculo">
+              </div>
+
+              <div class="col-sm-6 mb-3 mb-sm-0">
+                <label for="registroMedidasGrasa">Porcentaje de grasa</label>
+                <input type="text" class="form-control form-control-user" id="registroMedidasGrasa">
+              </div>
+            </div>
+
+            <a class="btn btn-outline-info btn-user btn-block">
+              Guardar
+            </a>
+
+
           </div>
-          <!--------------------------------------------- TERMINA PANTALLA Registro de Medidas: --------------------------------------------->
+
+          <!-- TERMIINA VENTANA GESTION DE REGISTRO DE MEDIDAS -->
 
 
+          <!-- EMPIEZA VENTANA REGISTRO DIARIO DE CONSUMO -->
 
+          <div id="registroConsumo" class="container-fluid">
+            <h1 style="font-size:40px;" class="h3 mb-4 text-gray-800">Registro diario de consumo</h1>
+            <h2 style="font-size:20px;" class="h3 mb-4 text-gray-800">Seleccione el tiempo de comida, el alimento o producto y agreguelo a su registro</h2>
 
-          <!--------------------------------------------- COMIENZA PANTALLA Registro diario de consumo: --------------------------------------------->
-          <div id="registroDiarioDeConsumo">
-            Esta es la pantalla de Registro diario de consumo:
+            <div class="form-group row">
+              <div class="col-sm-6 mb-3 mb-sm-0">
+                <label for="registroConsumoProducto">Producto o alimento</label>
+                <select class="form-control form-control-user" id="registroConsumoProducto"></select>
+              </div>
+
+              <div class="col-sm-6 mb-3 mb-sm-0"> <!-- HAY QUE CARGAR AQUI LOS TIEMPOS DE COMIDA -->
+                <label for="registroConsumoTiempo">Tiempo de comida</label>
+                <select class="form-control form-control-user" id="registroConsumoTiempo"></select>
+              </div>
+
+              <div class="col-sm-6 mb-3 mb-sm-0">
+                <label for="registroConsumoCodigo">Código de producto o alimento</label>
+                <select class="form-control form-control-user" id="registroConsumoCodigo"></select>
+              </div>
+            </div>
+
+            <a class="btn btn-outline-info btn-user btn-block">
+              Registrar
+            </a>
+
           </div>
-          <!--------------------------------------------- TERMINA PANTALLA Registro diario de consumo: --------------------------------------------->
+
+          <!-- TERMINA VENTANA REGISTRO DIARIO DE CONSUMO -->
 
 
+          <!-- EMPIEZA VENTANA GESTION DE PRODUCTOS/PLATILLOS -->
+
+          <div id="gestionProductosPlatillos" class="container-fluid">
+            <h1 style="font-size:40px;" class="h3 mb-4 text-gray-800">Gestión de productos/platillos</h1>
 
 
-          <!--------------------------------------------- COMIENZA PANTALLA Gestión de productos/platillos: --------------------------------------------->
-          <div id="gestionDeProductosPlatillos">
-            Esta es la pantalla de Gestión de productos/platillos:
+            ESTA PANTALLA ESTÁ RARA, NO ENTIENDO LA ASIGNACIÓN QUE VIENE EN EL PDF
+
           </div>
-          <!--------------------------------------------- TERMINA PANTALLA Gestión de productos/platillos: --------------------------------------------->
+
+          <!-- TERMINA VENTANA GESTION DE PRODUCTOS/PLATILLOS -->
 
 
+          <!-- EMPIEZA VENTANA GESTION RECETAS -->
 
 
-          <!--------------------------------------------- COMIENZA PANTALLA Gestión de Recetas:  --------------------------------------------->
-          <div id="gestionDeRecetas">
-            Esta es la pantalla de Gestión de Recetas:
+          <div id="gestionRecetas" class="container-fluid">
+            <h1 style="font-size:40px;" class="h3 mb-4 text-gray-800">Gestión de recetas</h1>
+
+            ESTA PANTALLA REQUIERE CHECKBOXES DINAMICOS, HAY QUE CARGAR TODOS LOS PRODUCTOS O ALIMENTOS QUE EXISTAN, Y SER CAPAZ DE COMBINARLOS EN UNA RECETA
+
           </div>
-          <!--------------------------------------------- TERMINA PANTALLA Gestión de Recetas:  --------------------------------------------->
+
+          <!-- TERMINA VENTANA GESTION RECETAS -->
+
+          <!-- EMPIEZA VENTANA REPORTE DE AVANCE -->
+
+          <div id="reporteAvance" class="container-fluid">
+            <h1 style="font-size:40px;" class="h3 mb-4 text-gray-800">Reporte de avance</h1>
+            <h2 style="font-size:20px;" class="h3 mb-4 text-gray-800">Seleccione un rango de tiempo para mostrar las medidas de cada uno de los registros realizados</h2>
+
+            <div class="form-group row">
+              <div class="col-sm-6 mb-3 mb-sm-0">
+                <label for="reporteAvanceInicial">Fecha inicial</label>
+                <input type="date" class="form-control form-control-user" id="reporteAvanceInicial">
+              </div>
+
+              <div class="col-sm-6 mb-3 mb-sm-0">
+                <label for="reporteAvanceFinal">Fecha final</label>
+                <input type="date" class="form-control form-control-user" id="reporteAvanceFinal">
+              </div>
+            </div>
+
+            <br>
+
+            <a class="btn btn-outline-info btn-user btn-block">
+              Generar registro
+            </a>
+
+            <br>
+
+            <div class="col-sm">
+              <label for="reporteAvanceRegistro">El registro muestra los siguientes datos:</label>
+              <textarea class="form-control form-control-user" id="reporteAvanceRegistro" rows="4"
+                        cols="50"></textarea>
+            </div>
+
+            <br>
+
+            <a class="btn btn-outline-info btn-user btn-block">
+              Generar PDF
+            </a>
 
 
-
-
-
-          <!--------------------------------------------- COMIENZA PANTALLA Reporte de Avance:  --------------------------------------------->
-          <div id="reporteDeAvances">
-            Esta es la pantalla de Reporte de Avance:
           </div>
-          <!--------------------------------------------- TERMINA PANTALLA Reporte de Avance:  --------------------------------------------->
+
+          <!-- TERMINA VENTANA REPORTE DE AVANCE -->
 
 
           <!-- AQUI COMIENZAN LAS PANTALLAS -->

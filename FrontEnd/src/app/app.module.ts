@@ -10,12 +10,17 @@ import { AdminComponent } from './admin/admin.component';
 import { NutriComponent } from './nutri/nutri.component';
 import {HttpClientModule} from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { LoginNUTRIComponent } from './login-nutri/login-nutri.component';
+import { LoginADMINComponent } from './login-admin/login-admin.component';
+import { NavVarComponent } from './nav-var/nav-var.component';
 
 const appRoutes:Routes=[
   {path:'', component: LoginComponent},
   {path:'cliente', component:ClienteComponent},
   {path:'admin', component:AdminComponent},
   {path:'nutri', component:NutriComponent},
+  {path:'login-admin', component:LoginADMINComponent},
+  {path:'login-nutri', component:LoginNUTRIComponent},
   {path:'**', component: NotFoundComponent},
 ]
 
@@ -26,7 +31,10 @@ const appRoutes:Routes=[
     NotFoundComponent,
     ClienteComponent,
     AdminComponent,
-    NutriComponent
+    NutriComponent,
+    LoginNUTRIComponent,
+    LoginADMINComponent,
+    NavVarComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

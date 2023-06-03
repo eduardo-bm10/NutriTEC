@@ -37,7 +37,7 @@
 
         <li class="nav-item">
           <a id='gestTratSpa' class="nav-link collapsed" data-toggle="collapse"
-             (click)="mostrarPantalla('aprobacionDeProductos')">
+             (click)="mostrarPantalla('aprobacionProductos')">
             <i class="fas fa-regular fa-egg"></i>
             <span>Aprobación de productos</span>
           </a>
@@ -46,7 +46,7 @@
         <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
           <a id='gestTratSpa2' class="nav-link collapsed" data-toggle="collapse"
-             (click)="mostrarPantalla('reporteDeCobro')">
+             (click)="mostrarPantalla('reporteCobro')">
             <i class="fas fa-light fa-money-bills"></i>
             <span>Reporte de cobro</span>
           </a>
@@ -205,20 +205,47 @@
 
 
 
-          <!--------------------------------------------- COMIENZA PANTALLA Aprobación de productos: --------------------------------------------->
-          <div id="aprobacionDeProductos">
-            Esta es la pantalla de aprobacion de productos
+          <!-- EMPIEZA LA VENTANA APROBACION DE PRODUCTOS -->
+
+          <div id="aprobacionProductos" class="container-fluid">
+            <h1 style="font-size:40px;" class="h3 mb-4 text-gray-800">Aprovación de productos</h1>
+            <h2 style="font-size:20px;" class="h3 mb-4 text-gray-800">Verifique que los datos correspondientes al producto son veridicos y apruebelo si así lo considera.</h2>
+
+            <div class="form-group row">
+              <div class="col-sm">
+                <label for="aprobacionProductosSelect">Producto o alimento</label>
+                <select class="form-control form-control-user" id="aprobacionProductosSelect"></select>
+              </div>
+            </div>
+
+            <div class="col-sm">
+              <label for="aprobacionProductosDatos">El producto/alimento muestra los siguientes datos:</label>
+              <textarea class="form-control form-control-user" id="aprobacionProductosDatos" rows="4"
+                        cols="50"></textarea>
+            </div>
+
+            <br>
+
+            <a class="btn btn-outline-primary btn-user btn-block">
+              Aprobar
+            </a>
+
           </div>
-          <!--------------------------------------------- TERMINA PANTALLA Aprobación de productos: --------------------------------------------->
+
+          <!-- TERMIINA VENTANA APROBACION DE PRODUCTOS -->
 
 
+          <!-- EMPIEZA VENTANA REPORTE DE COBRO -->
 
+          <div id="reporteCobro" class="container-fluid">
+            <h1 style="font-size:40px;" class="h3 mb-4 text-gray-800">Reporte de cobro</h1>
+            <h2 style="font-size:20px;" class="h3 mb-4 text-gray-800">No entendí ni pichaaaaaaaaaaaaaaaaaaaaaaaaa</h2>
 
-          <!--------------------------------------------- COMIENZA PANTALLA Reporte de Cobro: --------------------------------------------->
-          <div id="reporteDeCobro">
-            Esta es la pantalla de reporte de cobro
+            No entiendo que diablos pide
+
           </div>
-          <!--------------------------------------------- TERMINA PANTALLA Reporte de Cobro: --------------------------------------------->
+
+          <!-- TERMINA VENTANA REPORTE DE COBRO -->
 
 
           <!-- AQUI COMIENZAN LAS PANTALLAS -->
