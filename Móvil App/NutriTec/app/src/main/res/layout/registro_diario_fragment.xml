@@ -1,0 +1,96 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Título: Registro Diario de Consumo -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Registro Diario de Consumo"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <!-- Seleccionar tiempo de comida (lista desplegable) -->
+        <Spinner
+            android:id="@+id/mealTimeSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp" />
+
+        <!-- Buscar producto o receta por nombre -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/productNameEditText"
+            android:layout_width="255dp"
+            android:layout_height="83dp"
+            android:layout_marginTop="16dp"
+            android:hint="Buscar producto o receta por nombre"
+            android:minHeight="48dp" />
+
+
+        <!-- Botón "Buscar por nombre" -->
+        <Button
+            android:id="@+id/searchByNameButton"
+            android:layout_width="118dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Buscar" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal">
+        <!-- Buscar producto por código de barras -->
+        <EditText
+            android:id="@+id/barcodeEditText"
+            android:layout_width="257dp"
+            android:layout_height="88dp"
+            android:layout_marginTop="16dp"
+            android:inputType="number"
+            android:hint="Buscar producto por código de barras"
+            android:minHeight="48dp" />
+
+
+
+        <!-- Botón "Buscar por código de barras" -->
+
+        <!-- Etiqueta de producto/receta encontrada -->
+        <Button
+            android:id="@+id/searchByBarcodeButton"
+            android:layout_width="114dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Buscar" />
+
+        <!-- Botón "Registrar Consumo" -->
+    </LinearLayout>
+        <TextView
+            android:id="@+id/productFoundTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text=""
+            android:textSize="16sp"
+            android:textColor="@android:color/black" />
+        <Button
+            android:id="@+id/registerConsumptionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Registrar Consumo" />
+    </LinearLayout>
+
+</ScrollView>

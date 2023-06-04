@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Título: Datos de la Receta -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Datos de la Receta"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <!-- Nombre de la receta -->
+        <EditText
+            android:id="@+id/recipeNameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="Nombre de la receta"
+            android:minHeight="48dp" />
+
+        <!-- Producto y porción del producto -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/productSpinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:minHeight="48dp" />
+
+            <EditText
+                android:id="@+id/portionEditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Porción"
+                android:minHeight="48dp" />
+
+            <Button
+                android:id="@+id/addProductButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Añadir otro producto" />
+
+        </LinearLayout>
+
+        <!-- Etiqueta de producto/receta encontrada -->
+        <TextView
+            android:id="@+id/productFoundTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text=""
+            android:textSize="16sp"
+            android:textColor="@android:color/black" />
+
+        <!-- Lista de productos añadidos -->
+        <LinearLayout
+            android:id="@+id/productListLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical" />
+
+        <!-- Botón "Añadir receta" -->
+        <Button
+            android:id="@+id/addRecipeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Añadir receta" />
+
+    </LinearLayout>
+
+</ScrollView>
