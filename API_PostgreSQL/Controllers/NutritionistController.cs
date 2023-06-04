@@ -73,7 +73,7 @@ namespace Postgre_API.Controllers
                 Lastname1 = lastname1,
                 Lastname2 = lastname2,
                 Email = email,
-                Password = password,
+                Password = thePassword,
                 Weight = weight,
                 Bmi = bmi, 
                 CardNumber =cardNumber,

@@ -1,26 +1,23 @@
--- Store Procedure: CALCULATE PAYMENT.
+-- Función: CALCULATE PAYMENT.
 -- Description: Calcula el pago que debe realizarse a los nutricionistas
 -- de acuerdo con su modo de pago.
 -- Parameters: Payment
 -- Author: Eduardo Bolívar Minguet
-CREATE OR REPLACE PROCEDURE calculatePayment
-(
-	payment INT
-)
-LANGUAGE PLPGSQL AS
-$$
+CREATE OR REPLACE PROCEDURE calculate_payment(p_payment INT)
+LANGUAGE PLPGSQL AS $$
 DECLARE
-	discount text
+	f_row RECORD;
+	discount TEXT;
 BEGIN
-	IF payment = 1 THEN
-		discount := 'N/A'
-	ELSIF payment = 2 THEN
-		discount  := '5%'
-	ELSIF payment = 3 THEN
-	 	discount := '10%'
+	IF p_payment = 1 THEN
+		discount := 'N/A';
+	ELSIF p_payment = 2 THEN
+		discount  := '5%';
+	ELSIF p_payment = 3 THEN
+	 	discount := '10%';
 	ELSE
-		RAISE NOTICE 'INVALID PAYMENT ID';
-	END IF
+		RAISE NOTICE '% IS AN INVALID PAYMENT ID', p_payment;
+	END IF;
 	SELECT 
 		Email, 
 		CONCAT(FirstName,' ',LastName1,' ',LastName2) AS FullName,
@@ -29,51 +26,86 @@ BEGIN
 		CASE
 			WHEN PaymentID = 1 THEN COUNT(PatientID)
 			WHEN PaymentID = 2 THEN COUNT(PatientID)-(COUNT(PatientID)*0.05)
-			WHEN PaymentID = 2 THEN COUNT(PatientID)-(COUNT(PatientID)*0.10)
+			WHEN PaymentID = 3 THEN COUNT(PatientID)-(COUNT(PatientID)*0.10)
 		END AS FinalAmount
-		FROM 
-		NUTRICIONIST JOIN PATIENT_NUTRITIONIST_ASSOCIATION ON ID = NutritionistID
-		GROUP BY Email, FirstName, LastName1, LastName2, PaymentID
-END 
-$$
+	FROM 
+		NUTRITIONIST JOIN PATIENT_NUTRITIONIST_ASSOCIATION ON ID = NutritionistID
+	WHERE PaymentID = p_payment
+	GROUP BY Email, FirstName, LastName1, LastName2, PaymentID;
+END; $$
 
 -- Store Procedure: CUSTOMERS ADVANCE REPORT.
 -- Description: Muestras las medidas registradas por un específico usuario dentro de un lapso indicado.
 -- Parameters: SSN, StartDate, FinalDate
 -- Author: Eduardo Bolívar Minguet
-CREATE OR REPLACE PROCEDURE customersAdvanceReport(ssn INT, startDate DATE, finalDate DATE)
+CREATE OR REPLACE PROCEDURE customers_advance_report
+(
+	ssn INT, 
+	startDate DATE, 
+	finalDate DATE
+)
 LANGUAGE PLPGSQL AS $$
+DECLARE
+	r_row RECORD;
+	p_exists BOOLEAN := FALSE;
 BEGIN
-	SELECT *
-	FROM 
-	MEASUREMENT WHERE startDate <= Date AND Date <= finalDate AND PatientID = ssn
-END $$
+	FOR r_row IN (	SELECT PatientID
+					FROM 
+					MEASUREMENT)
+	LOOP
+		IF ssn = PatientID THEN
+			p_exists := TRUE;
+		END IF;
+	END LOOP;
+	IF p_exists THEN
+		SELECT 
+			PatientID, 
+			Date, 
+			Waist, 
+			Neck, 
+			Hips, 
+			MusclePercentage, 
+			FatPercentage 
+		FROM 
+			MEASUREMENT 
+		WHERE PatientID = ssn AND Date >= startDate AND Date <= finalDate;
+	ELSE
+		RAISE NOTICE 'Patient with SSN % does not exist', ssn;
+	END IF;
+END; $$
 
 -- Store Procedure: CREATE RECIPE.
 -- Description: Verifica si los ingredientes existen para luego insertar a la base de datos
 -- una nueva receta con dichos ingredientes.
 -- Parameters: Description, Ingredients, Portions
 -- Author: Eduardo Bolívar Minguet
-CREATE OR REPLACE PROCEDURE createRecipe
+CREATE OR REPLACE PROCEDURE create_recipe
 (
-	description text,
-	ingredients text[],
-	portions int[]
+	description TEXT,
+	ingredients TEXT[][] -- This syntax is [['IngredientName1', 'Portion1'], ['IngredientName2', 'Portion2'], etc...]
 )
-LANGUAGE PLPGSQL AS
-$$
+LANGUAGE PLPGSQL 
+AS $$
 DECLARE
-	counter INT := 1
+	r_row RECORD;
+	i TEXT[];
+	counter INT := 0;
 BEGIN
-	FOR i IN ingredients LOOP
-		IF i NOT IN SELECT Description FROM Product THEN
-			RAISE NOTICE 'PRODUCT % DOES NOT EXIST', i;
-	END LOOP
-	INSERT INTO RECIPE VALUES (DEFAULT, description)
-	FOR i IN ingredients LOOP
-		INSERT INTO RECIPE_PRODUCT_ASSOCIATION VALUES (DEFAULT, i, portions[counter], DEFAULT)
-		counter := counter + 1
-	END LOOP
+	FOR r_row IN (SELECT Description FROM Product) 
+	LOOP
+		IF ingredients[counter] = Description THEN
+			counter := counter + 1;
+			CONTINUE;
+		ELSE
+			RAISE NOTICE 'PRODUCT % DOES NOT EXIST', ingredients[counter];
+			EXIT;
+		END IF; 
+	END LOOP;
+	INSERT INTO RECIPE VALUES (DEFAULT, description);
+	FOREACH i IN ARRAY ingredients 
+	LOOP
+		INSERT INTO RECIPE_PRODUCT_ASSOCIATION VALUES (DEFAULT, i[1], CAST(i[2] AS INT), DEFAULT);
+	END LOOP;
 END; $$
 
 -- View: CaloriesPerMealTimeOnPlan
@@ -106,13 +138,14 @@ CREATE VIEW TotalRecipeCalories AS
 		PRODUCT ON ProductBarcode = Barcode;
 		
 -- View: PatientCurrentMeasures
-CREATE VIEW CurrentMeasures AS
+CREATE VIEW NonAssociatedClients AS
 	SELECT
 		PATIENT.ID AS PatientSSN,
 		CONCAT (PATIENT.FirstName, ' ', PATIENT.LastName1, ' ', PATIENT.LastName2) AS PatientName,
 		AGE(NOW(), PATIENT.BirthDate) AS Age
 	FROM
-		PATIENT;
+		PATIENT LEFT JOIN PATIENT_NUTRITIONIST_ASSOCIATION ON ID = PatientID
+	WHERE PatientID IS NULL;
 
 
 
