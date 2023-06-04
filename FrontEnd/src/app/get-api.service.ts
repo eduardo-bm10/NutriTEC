@@ -259,6 +259,12 @@ export class GetApiService {
     return this.http.get(url);
   }
 
+  // Obtener un producto por su descripcion
+  getPorductByDescription(description: string) {
+    const url = `${this.baseUrl}/api/Products?description=${description}`;
+    return this.http.get(url);
+  }
+
   // Crear un nuevo producto
   createProduct(
     barcode: number,
@@ -366,7 +372,22 @@ export class GetApiService {
     return this.http.delete(url);
   }
 
-  
+  // Mealtime--------------------------------------------
+
+  getMealtimes() {
+    const url = `${this.baseUrl}/Mealtime`;
+    return this.http.get(url);
+  }
+
+  getMealtimeById(id: number) {
+    const url = `${this.baseUrl}/Mealtime/${id}`;
+    return this.http.get(url);
+  }
+
+
+
+
+
 
 
 

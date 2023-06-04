@@ -39,6 +39,21 @@ namespace Postgre_API.Controllers
             return NoContent();
         }
 
+        // GET: api/Products/Tomato
+        [HttpGet("{description}")]
+        public async Task<ActionResult<Product>> GetProductByDescripction(string description)
+        {
+            var product = await _dbContext.Products.FindAsync(description);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            product.Description = description;
+            return description;
+        }
+
         // POST: api/Products
         [HttpPost]
         public async Task<ActionResult<Product>> CreateProduct(int barcode, string description, double iron, double sodium, double energy, double fat, double calcium, double carbohydrate, double protein)
