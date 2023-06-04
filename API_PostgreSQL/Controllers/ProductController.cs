@@ -40,19 +40,19 @@ namespace Postgre_API.Controllers
         }
 
         // GET: api/Products/Tomato
-        [HttpGet("{description}")]
-        public async Task<ActionResult<Product>> GetProductByDescripction(string description)
+        [HttpGet("description/{description}")]
+        public async Task<ActionResult<Product>> GetProductByDescription(string description)
         {
-            var product = await _dbContext.Products.FindAsync(description);
+            var product = await _dbContext.Products.FirstOrDefaultAsync(p => p.Description == description);
 
             if (product == null)
             {
                 return NotFound();
             }
 
-            product.Description = description;
-            return description;
+            return Ok(product);
         }
+
 
         // POST: api/Products
         [HttpPost]
