@@ -179,6 +179,18 @@ export class GetApiService {
     return this.http.delete(url);
   }
 
+  // Consumption--------------------------------------------
+  createConsumption(
+    patientId: string,
+    date: Date,
+    mealtimeId: number,
+    productBarcode: number
+  ) {
+    const url = `${this.baseUrl}/api/Consumptions?patientId=${patientId}&date=${date}&mealtimeId=${mealtimeId}&productBarcode=${productBarcode}`;
+    return this.http.post(url, null, {});
+  }
+
+
   // Measurements--------------------------------------------
 
   getMeasurements() {
@@ -384,7 +396,7 @@ export class GetApiService {
     return this.http.get(url);
   }
 
-  
+
 
 
 
