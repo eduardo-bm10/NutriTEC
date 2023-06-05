@@ -4,13 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API_MongoDB.Controllers {
     [ApiController]
-    [Route("api/Feedback")]
+    [Route("api/[controller]")]
     public class FeedbackController : ControllerBase {
-        private static int _id = 0;
         public NutritecService service = new NutritecService();
 
         [HttpPost]
-        [Route("createFeedback/{senderSsn}")]
+        [Route("createFeedback/{senderSsn}/{receptorSsn}/{message}")]
         public dynamic CreateFeedback(string senderSsn, string receptorSsn, string message) {
             Feedback f = new Feedback();
             f.SenderSsn = senderSsn;
