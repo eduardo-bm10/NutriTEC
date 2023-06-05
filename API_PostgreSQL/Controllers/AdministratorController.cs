@@ -85,11 +85,12 @@ namespace Postgre_API.Controllers
                 return NotFound();
             }
 
+            string thePassword = encryptPassword_MD5(password);
             administrator.Firstname = firstname;
             administrator.Lastname1 = lastname1;
             administrator.Lastname2 = lastname2;
             administrator.Email = email;
-            administrator.Password = password;
+            administrator.Password = thePassword;
 
             _dbContext.Entry(administrator).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
