@@ -166,11 +166,70 @@
           <div id="principal">
             <div class="container-fluid">
               <!-- Page Heading -->
-              <h1 class="h3 mb-4 text-gray-800">Bienvenido</h1>
+              <h1 class="h3 mb-4 text-gray-800">Información General</h1>
+
+              <div class="row">
+
+                <!-- Earnings (Monthly) Card Example -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                  <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Total de Estudiantes
+                          </div>
+                          <div class="h5 mb-0 font-weight-bold text-gray-800">
+                            140
+                          </div>
+                        </div>
+                        <div class="col-auto">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                               class="bi bi-person-fill" viewBox="0 0 20 20">
+                            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
 
+              <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Clases Impartidas</h6>
+                </div>
+                <div class="card-body">
+                  <h4 class="small font-weight-bold">Indoor Cycling <span class="float-right"></span></h4>
+                  <div class="progress mb-4">
+                    <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="20"
+                         aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                  <h4 class="small font-weight-bold">Pilates <span class="float-right"></span></h4>
+                  <div class="progress mb-4">
+                    <div class="progress-bar bg-warning" role="progressbar" style="width: 100%" aria-valuenow="40"
+                         aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                  <h4 class="small font-weight-bold">Yoga <span class="float-right"></span></h4>
+                  <div class="progress mb-4">
+                    <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="60"
+                         aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                  <h4 class="small font-weight-bold">Zumba <span class="float-right"></span></h4>
+                  <div class="progress mb-4">
+                    <div class="progress-bar bg-info" role="progressbar" style="width: 100%" aria-valuenow="80"
+                         aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                  <h4 class="small font-weight-bold">Natación <span class="float-right"></span></h4>
+                  <div class="progress">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100"
+                         aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                </div>
+              </div> -->
 
-
+            </div> <!-- termina el page content -->
           </div>
           <!--------------------------------------------- TERMINA PANTALLA PRINCIPAL --------------------------------------------->
 
@@ -187,62 +246,62 @@
           <div id="gestionProductos" class="container-fluid">
 
             <h1 style="font-size:40px;" class="h3 mb-4 text-gray-800">Gestión de productos/platillos</h1>
-            <h2 style="font-size:20px;" class="h3 mb-4 text-gray-800">Complete los datos del platillo o producto que desea agregar (se asignará un código de barras al producto de manera automática).</h2>
+            <h2 style="font-size:20px;" class="h3 mb-4 text-gray-800">Complete los datos del platillo o producto que desea agregar.</h2>
 
             <div class="form-group row">
+              <div class="col-sm-6 mb-3 mb-sm-0">
+                <label for="gestionProductosDescripcion">Código de barras</label>
+                <input type="number" class="form-control form-control-user" id="gestionProductosBarras">
+              </div>
+
               <div class="col-sm-6 mb-3 mb-sm-0">
                 <label for="gestionProductosDescripcion">Descripción</label>
                 <input type="text" class="form-control form-control-user" id="gestionProductosDescripcion">
               </div>
 
               <div class="col-sm-6 mb-3 mb-sm-0">
-                <label for="gestionProductosPorcion">Tamaño de la porción (g/ml)</label>
-                <input type="text" class="form-control form-control-user" id="gestionProductosPorcion">
-              </div>
-
-              <div class="col-sm-6 mb-3 mb-sm-0">
                 <label for="gestionProductosEnergia">Energía (Kcal)</label>
-                <input type="text" class="form-control form-control-user" id="gestionProductosEnergia">
+                <input type="number" class="form-control form-control-user" id="gestionProductosEnergia">
               </div>
 
               <div class="col-sm-6 mb-3 mb-sm-0">
                 <label for="gestionProductosGrasa">Grasa (g)</label>
-                <input type="text" class="form-control form-control-user" id="gestionProductosGrasa">
+                <input type="number" class="form-control form-control-user" id="gestionProductosGrasa">
               </div>
 
               <div class="col-sm-6 mb-3 mb-sm-0">
                 <label for="gestionProductosSodio">Sodio (mg)</label>
-                <input type="text" class="form-control form-control-user" id="gestionProductosSodio">
+                <input type="number" class="form-control form-control-user" id="gestionProductosSodio">
               </div>
 
               <div class="col-sm-6 mb-3 mb-sm-0">
                 <label for="gestionProductosCarbohidratos">Carbohidratos (g)</label>
-                <input type="text" class="form-control form-control-user" id="gestionProductosCarbohidratos">
+                <input type="number" class="form-control form-control-user" id="gestionProductosCarbohidratos">
               </div>
 
               <div class="col-sm-6 mb-3 mb-sm-0">
                 <label for="gestionProductosProteina">Proteína (g)</label>
-                <input type="text" class="form-control form-control-user" id="gestionProductosProteina">
+                <input type="number" class="form-control form-control-user" id="gestionProductosProteina">
               </div>
 
               <div class="col-sm-6 mb-3 mb-sm-0">
                 <label for="gestionProductosVitaminas">Vitaminas</label>
-                <input type="text" class="form-control form-control-user" id="gestionProductosVitaminas">
+                <input type="number" class="form-control form-control-user" id="gestionProductosVitaminas">
               </div>
 
               <div class="col-sm-6 mb-3 mb-sm-0">
                 <label for="gestionProductosCalcio">Calcio (mg)</label>
-                <input type="text" class="form-control form-control-user" id="gestionProductosCalcio">
+                <input type="number" class="form-control form-control-user" id="gestionProductosCalcio">
               </div>
 
               <div class="col-sm-6 mb-3 mb-sm-0">
                 <label for="gestionProductosHierro">Hierro (mg)</label>
-                <input type="text" class="form-control form-control-user" id="gestionProductosHierro">
+                <input type="number" class="form-control form-control-user" id="gestionProductosHierro">
               </div>
 
             </div>
 
-            <a class="btn btn-outline-success btn-user btn-block">
+            <a class="btn btn-outline-success btn-user btn-block" (click)="crearNuevoProducto()">
               Guardar
             </a>
 

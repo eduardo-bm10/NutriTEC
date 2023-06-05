@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import { GetApiService } from '../get-api.service';
+import { HtmlParser } from '@angular/compiler';
 
 @Component({
   selector: 'app-admin',
@@ -7,6 +8,7 @@ import { GetApiService } from '../get-api.service';
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit{
+  constructor(private api:GetApiService){}
   nombre = 'TEC admin';
   tipo = 'SPA';
   dropdown = 0;
@@ -17,14 +19,58 @@ export class AdminComponent implements OnInit{
 
   provincias = ["San José", "Alajuela", "Cartago", "Limón", "Guanacaste", "Puntarenas", "Heredia"]
 
+  opcionesGlobales = {
+    "productos" : {}
+  }
 
   ngOnInit() {
     for (let i = 0; i < this.pantallas.length; i++) {
       const tmp = document.getElementById(this.pantallas[i]) as HTMLInputElement
       tmp.style.display = 'none'
     }
+    this.cargarProductos();
     this.cargarProvincias(["gestSucSpaPROVINCIA", "gestEmplPPROVINCIA", "gestEmplPPROVINCIA2"]);
   }
+
+  cambiarInfo(llegada:string, seleccionador:string, id:string, des:string){
+    const tmp = document.getElementById(seleccionador) as HTMLInputElement;
+    const idA =  document.getElementById(id) as HTMLInputElement;
+    const desA =  document.getElementById(des) as HTMLInputElement;
+    //@ts-ignore
+    const info = this.opcionesGlobales[llegada];
+    for(const op in info){
+      if(tmp.value == info[op].descripcion){
+        idA.value = info[op].identificador;
+        desA.value = info[op].descripcion;
+      }
+    }
+  }
+  
+  cargarProductos(){
+    this.api.getProducts().subscribe((data) => {
+      const llegada = JSON.parse(JSON.stringify(data));
+      this.opcionesGlobales.productos = llegada;
+      const tmp = document.getElementById("aprobacionProductosSelect") as HTMLInputElement;
+      const textarea = document.getElementById("aprobacionProductosDatos") as HTMLTextAreaElement;
+
+      for(const op in llegada){
+        const aux = llegada[op];
+        const opcion = document.createElement('option');
+        opcion.value = aux.barcode;
+        opcion.textContent = aux.barcode;
+        if (aux.status == false){
+          tmp.appendChild(opcion);
+        }
+
+        const info = llegada[op];
+        textarea.append(`Codigo: ${llegada[op].barcode}. Nombre: ${llegada[op].description}, Hierro: ${llegada[op].iron}, Sodio: ${llegada[op].sodium}, Energia: ${llegada[op].energy} , Grasa: ${llegada[op].fat}, Calcio: ${llegada[op].calcium}, Carbohidratos: ${llegada[op].carbohydrate}, Proteina: ${llegada[op].protein}\n`)
+      }
+
+    
+      this.cambiarInfo('productos', 'aprobacionProductosSelect', 'TEST', 'TEST');      
+    })
+  }
+
 
   //Función utilizada para cargar cada una de las 7 provincias en los componentes select que las necesitan
   cargarProvincias(lista:any){
@@ -342,6 +388,19 @@ agregarNuevoInventario(){
   copiarGym(){
     const aCopiar = document.getElementById('copGympSELECT') as HTMLInputElement;
     const aPegar = document.getElementById('copGympNUEVO') as HTMLInputElement;
+  }
+
+  //Funcion encargada de tomar el identificador de un producto que aun no ha sido aprovado, y cambiarle el estado a aprovado
+  aprobarProducto(){
+    const barras = document.getElementById('aprobacionProductosSelect') as HTMLInputElement;
+
+    this.api.getProductById(Number(barras.value)).subscribe((data) => {
+      const llegada = JSON.parse(JSON.stringify(data));
+
+      this.api.updateProduct(llegada[0], llegada[1], llegada[2], llegada[3], llegada[4], llegada[5], llegada[6], llegada[7], llegada[8], true);
+    });
+
+   
   }
 
 }//bracket que cierras

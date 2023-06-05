@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {GetApiService} from '../get-api.service';
+import { GetApiService } from '../get-api.service';
 
 @Component({
   selector: 'app-nutri',
@@ -8,6 +8,7 @@ import {GetApiService} from '../get-api.service';
 })
 
 export class NutriComponent implements OnInit {
+  constructor(private api:GetApiService){}
   nombre = 'Nutricionista Lic. María Fernanda Sánchez';
   totalCalorias = 0;
   dropdown = 0;
@@ -23,6 +24,9 @@ export class NutriComponent implements OnInit {
 
   provincias = ["San José", "Alajuela", "Cartago", "Limón", "Guanacaste", "Puntarenas", "Heredia"]
 
+  opcionesGlobales = {
+    "productos" : {}
+  }
 
   ngOnInit() {
     for (let i = 0; i < this.pantallas.length; i++) {
@@ -31,8 +35,43 @@ export class NutriComponent implements OnInit {
     }
     //this.cargarProvincias(["gestSucSpaPROVINCIA", "gestEmplPPROVINCIA", "gestEmplPPROVINCIA2"]);
     this.cargarCheckBoxesComidas();
+    this.cargarProductos();
     const calorias = document.getElementById('gestionPlanesCaloriasExistente') as HTMLInputElement;
     calorias.value = String(this.totalCalorias);
+  }
+
+  cambiarInfo(llegada:string, seleccionador:string, id:string, des:string){
+    const tmp = document.getElementById(seleccionador) as HTMLInputElement;
+    const idA =  document.getElementById(id) as HTMLInputElement;
+    const desA =  document.getElementById(des) as HTMLInputElement;
+    //@ts-ignore
+    const info = this.opcionesGlobales[llegada];
+    for(const op in info){
+      if(tmp.value == info[op].descripcion){
+        idA.value = info[op].identificador;
+        desA.value = info[op].descripcion;
+      }
+    }
+  }
+
+  cargarProductos(){
+    alert("test")
+    // this.api.getProducts().subscribe((data) => {
+    //   const llegada = JSON.parse(JSON.stringify(data));
+    //   this.opcionesGlobales.productos = llegada;
+    //   const tmp = document.getElementById("aprobacionProductosSelect") as HTMLInputElement;
+
+    //   for(const op in llegada){
+    //     const aux = llegada[op];
+    //     const opcion = document.createElement('option');
+    //     opcion.value = aux.description;
+    //     opcion.textContent = aux.description;
+    //     tmp.appendChild(opcion);
+    //   }
+      
+    //   this.cambiarInfo('productos', 'aprobacionProductosSelect', 'TEST', 'TEST');
+
+    // })
   }
 
   //Función utilizada para cargar cada una de las 7 provincias en los componentes select que las necesitan
@@ -188,5 +227,22 @@ export class NutriComponent implements OnInit {
       aux ++;
     }
 
+  }
+
+  crearNuevoProducto(){
+    const barras = document.getElementById("gestionProductosBarras") as HTMLInputElement
+    const descripcion = document.getElementById("gestionProductosDescripcion") as HTMLInputElement
+    const hierro = document.getElementById("gestionProductosHierro") as HTMLInputElement
+    const sodio = document.getElementById("gestionProductosSodio") as HTMLInputElement
+    const energia = document.getElementById("gestionProductosEnergia") as HTMLInputElement
+    const grasa = document.getElementById("gestionProductosGrasa") as HTMLInputElement
+    const calcio = document.getElementById("gestionProductosCalcio") as HTMLInputElement
+    const carbohidratos = document.getElementById("gestionProductosCarbohidratos") as HTMLInputElement
+    const proteina = document.getElementById("gestionProductosProteina") as HTMLInputElement
+    const estado = false
+  
+    this.api.createProduct(Number(barras.value), descripcion.value, Number(hierro.value), Number(sodio.value), Number(energia.value), Number(grasa.value), Number(calcio.value), Number(carbohidratos.value), Number(proteina.value), estado).subscribe((data) => {
+      alert("swagger")
+    })
   }
 }
