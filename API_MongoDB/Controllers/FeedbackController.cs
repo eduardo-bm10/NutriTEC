@@ -49,9 +49,13 @@ namespace API_MongoDB.Controllers {
         [HttpGet]
         [Route("getByDate/{date}")]
         public dynamic GetByDate(string date) {
-            var result = service.GetByDate(date);
+            string day = date.Split("-")[0];
+            string month = date.Split("-")[1];
+            string year = date.Split("-")[2];
+            string newDate = day + "/" + month + "/" + year;
+            var result = service.GetByDate(newDate);
             if (!result.Any()) {
-                return new { message = "There is no feedback on date: " + date};
+                return new { message = "There is no feedback on date: " + newDate};
             }
             else {
                 return new JsonResult(result);

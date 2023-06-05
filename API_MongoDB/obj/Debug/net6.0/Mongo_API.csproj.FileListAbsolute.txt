@@ -105,3 +105,8 @@ C:\Users\jimen\OneDrive\Escritorio\NutriTEC\API_MongoDB\obj\Debug\net6.0\refint\
 C:\Users\jimen\OneDrive\Escritorio\NutriTEC\API_MongoDB\obj\Debug\net6.0\Mongo_API.pdb
 C:\Users\jimen\OneDrive\Escritorio\NutriTEC\API_MongoDB\obj\Debug\net6.0\Mongo_API.genruntimeconfig.cache
 C:\Users\jimen\OneDrive\Escritorio\NutriTEC\API_MongoDB\obj\Debug\net6.0\ref\Mongo_API.dll
+C:\Users\Usuario\Documents\GitHub\NutriTEC\API_MongoDB\obj\Debug\net6.0\staticwebassets\msbuild.Mongo_API.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\Usuario\Documents\GitHub\NutriTEC\API_MongoDB\obj\Debug\net6.0\staticwebassets\msbuild.build.Mongo_API.props
+C:\Users\Usuario\Documents\GitHub\NutriTEC\API_MongoDB\obj\Debug\net6.0\staticwebassets\msbuild.buildMultiTargeting.Mongo_API.props
+C:\Users\Usuario\Documents\GitHub\NutriTEC\API_MongoDB\obj\Debug\net6.0\staticwebassets\msbuild.buildTransitive.Mongo_API.props
+C:\Users\Usuario\Documents\GitHub\NutriTEC\API_MongoDB\obj\Debug\net6.0\staticwebassets.pack.json
