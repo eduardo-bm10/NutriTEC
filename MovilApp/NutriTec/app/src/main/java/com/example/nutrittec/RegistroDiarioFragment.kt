@@ -172,5 +172,9 @@ class RegistroDiarioFragment : Fragment() {
             }
         })
     }
+
+    //private fun callApiConsumption(){
+
+    //}
 }
 
