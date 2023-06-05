@@ -158,22 +158,49 @@
           <div id="principal">
             <div class="container-fluid">
               <!-- Page Heading -->
-              <h1 class="h3 mb-4 text-gray-800">Información General</h1>
+              <h1 class="h3 mb-4 text-gray-800">{{nombre}}</h1>
 
               <div class="row">
 
                 <!-- Earnings (Monthly) Card Example -->
-                <div class="col-xl-3 col-md-6 mb-4">
-                  <div class="card border-left-primary shadow h-100 py-2">
+                <div class=" col mb-4">
+                  <div class="card border-left-info shadow h-100 py-2">
                     <div class="card-body">
                       <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                          <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                            Total de Estudiantes
+                          <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                            Información General
                           </div>
+                          <br>
+
                           <div class="h5 mb-0 font-weight-bold text-gray-800">
-                            140
-                          </div>
+                            Cedula:
+                            <br><br>
+                            <input type="number" class="form-control form-control-user" id="cedula">
+                          </div><br>
+
+                          <div class="h5 mb-0 font-weight-bold text-gray-800">
+                            Nombre:
+                            <br><br>
+                            <input type="text" class="form-control form-control-user" id="nombre">
+                          </div><br>
+
+                          <div class="h5 mb-0 font-weight-bold text-gray-800">
+                            Primer Apellido:
+                            <br><br>
+                            <input type="text" class="form-control form-control-user" id="apellido1">
+                          </div><br>
+
+                          <div class="h5 mb-0 font-weight-bold text-gray-800">
+                            Fecha de Nacimiento:
+                            <br><br>
+                            <input type="date" class="form-control form-control-user" id="fechaDeNacimiento">
+                          </div><br>
+
+                          <a class="btn btn-outline-info btn-user btn-block">
+                            Guardar
+                          </a>
+
                         </div>
                         <div class="col-auto">
                           <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"

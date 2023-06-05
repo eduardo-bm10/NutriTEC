@@ -11,6 +11,7 @@ import {GetApiService} from "../get-api.service";
 export class ClienteComponent implements OnInit{
   constructor(private api:GetApiService){}
   nombre = 'Juan Vainas';
+  infoAll = {};
   tipo = 'SPA';
   dropdown = 0;
 
@@ -32,14 +33,29 @@ export class ClienteComponent implements OnInit{
       tmp.style.display = 'none'
     }
     //this.cargarProvincias(["gestSucSpaPROVINCIA", "gestEmplPPROVINCIA", "gestEmplPPROVINCIA2"]);
-    alert('ghfggfh');
     this.mostrarNombre();
   }
   mostrarNombre(){
+    const data = localStorage.getItem('usuario');
     // @ts-ignore
-    const info = JSON.parse(localStorage.getItem('usuario'));
-    console.log(info)
-    this.nombre = `${info['firstname']} ${info['lastname1']} ${info['lastname2']}`
+    const info = JSON.parse(data);
+    this.infoAll = info;
+    this.nombre = `${info['firstname']} ${info['lastname1']} ${info['lastname2']}`;
+    const cedula = document.getElementById('cedula') as HTMLInputElement;
+    // @ts-ignore
+    cedula.value = this.infoAll['id'];
+    const nombre = document.getElementById('nombre') as HTMLInputElement;
+    // @ts-ignore
+    nombre.value = this.infoAll['firstname'];
+    const a1 = document.getElementById('apellido1') as HTMLInputElement;
+    // @ts-ignore
+    a1.value = this.infoAll['lastname1'];
+    const a2 = document.getElementById('apellido2') as HTMLInputElement;
+    // @ts-ignore
+    a2.value = this.infoAll['lastname2'];
+    const fecha = document.getElementById('fechaDeNacimiento') as HTMLInputElement;
+    // @ts-ignore
+    fecha.value = this.infoAll['birthday'];
   }
 
   //Función utilizada para cargar cada una de las 7 provincias en los componentes select que las necesitan
