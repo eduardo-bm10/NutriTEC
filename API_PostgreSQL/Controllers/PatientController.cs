@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Postgre_API.Models;
 using System.Security.Cryptography;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace Postgre_API.Controllers
 {
@@ -96,7 +97,14 @@ namespace Postgre_API.Controllers
             _dbContext.Measurements.Add(measurements);
             await _dbContext.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetPatient), new { id = patient.Id }, patient);
+            var options = new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            };
+
+            string json = JsonConvert.SerializeObject(patient, options);
+
+            return Ok(json);
         }
 
 

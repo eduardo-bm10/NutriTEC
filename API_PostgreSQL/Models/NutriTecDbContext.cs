@@ -23,8 +23,6 @@ public partial class NutritecDbContext : DbContext
 
     public virtual DbSet<MealTime> MealTimes { get; set; }
 
-    public virtual DbSet<MealtimeProduct> MealtimeProducts { get; set; }
-
     public virtual DbSet<Measurement> Measurements { get; set; }
 
     public virtual DbSet<Nutritionist> Nutritionists { get; set; }
@@ -117,6 +115,7 @@ public partial class NutritecDbContext : DbContext
                 .HasColumnName("patientid");
             entity.Property(e => e.Date).HasColumnName("date");
             entity.Property(e => e.Mealtime).HasColumnName("mealtime");
+            entity.Property(e => e.Productbarcode).HasColumnName("productbarcode");
 
             entity.HasOne(d => d.MealtimeNavigation).WithMany(p => p.Consumptions)
                 .HasForeignKey(d => d.Mealtime)
@@ -127,6 +126,11 @@ public partial class NutritecDbContext : DbContext
                 .HasForeignKey(d => d.Patientid)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("keys3");
+
+            entity.HasOne(d => d.ProductbarcodeNavigation).WithMany(p => p.Consumptions)
+                .HasForeignKey(d => d.Productbarcode)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("keys15");
         });
 
         modelBuilder.Entity<MealTime>(entity =>
@@ -141,32 +145,9 @@ public partial class NutritecDbContext : DbContext
                 .HasColumnName("name");
         });
 
-        modelBuilder.Entity<MealtimeProduct>(entity =>
-        {
-            entity.HasKey(e => new { e.Mealtimeid, e.ProductBarcode }).HasName("mealtime_product_pkey");
-
-            entity.ToTable("mealtime_product");
-
-            entity.Property(e => e.Mealtimeid).HasColumnName("mealtimeid");
-            entity.Property(e => e.ProductBarcode).HasColumnName("product_barcode");
-            entity.Property(e => e.Filler)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("filler");
-
-            entity.HasOne(d => d.Mealtime).WithMany(p => p.MealtimeProducts)
-                .HasForeignKey(d => d.Mealtimeid)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("keys14");
-
-            entity.HasOne(d => d.ProductBarcodeNavigation).WithMany(p => p.MealtimeProducts)
-                .HasForeignKey(d => d.ProductBarcode)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("keys15");
-        });
-
         modelBuilder.Entity<Measurement>(entity =>
         {
-            entity.HasKey(e => e.Patientid).HasName("measurement_pkey");
+            entity.HasKey(e => new { e.Patientid, e.Date }).HasName("measurement_pkey");
 
             entity.ToTable("measurement");
 
@@ -180,8 +161,8 @@ public partial class NutritecDbContext : DbContext
             entity.Property(e => e.Neck).HasColumnName("neck");
             entity.Property(e => e.Waist).HasColumnName("waist");
 
-            entity.HasOne(d => d.Patient).WithOne(p => p.Measurement)
-                .HasForeignKey<Measurement>(d => d.Patientid)
+            entity.HasOne(d => d.Patient).WithMany(p => p.Measurements)
+                .HasForeignKey(d => d.Patientid)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("keys5");
         });
@@ -336,6 +317,7 @@ public partial class NutritecDbContext : DbContext
             entity.Property(e => e.Filler)
                 .ValueGeneratedOnAdd()
                 .HasColumnName("filler");
+            entity.Property(e => e.Productbarcode).HasColumnName("productbarcode");
 
             entity.HasOne(d => d.Mealtime).WithMany(p => p.PlanMealtimeAssociationMealtimes)
                 .HasForeignKey(d => d.Mealtimeid)
@@ -346,6 +328,10 @@ public partial class NutritecDbContext : DbContext
                 .HasForeignKey(d => d.Planid)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("keys12");
+
+            entity.HasOne(d => d.ProductbarcodeNavigation).WithMany(p => p.PlanMealtimeAssociations)
+                .HasForeignKey(d => d.Productbarcode)
+                .HasConstraintName("keys19");
         });
 
         modelBuilder.Entity<PlanPatientAssociation>(entity =>

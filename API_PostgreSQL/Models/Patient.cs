@@ -31,7 +31,7 @@ public partial class Patient
 
     public virtual ICollection<Consumption> Consumptions { get; set; } = new List<Consumption>();
 
-    public virtual Measurement? Measurement { get; set; }
+    public virtual ICollection<Measurement> Measurements { get; set; } = new List<Measurement>();
 
     public virtual ICollection<PatientNutritionistAssociation> PatientNutritionistAssociations { get; set; } = new List<PatientNutritionistAssociation>();
 

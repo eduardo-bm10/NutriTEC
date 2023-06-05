@@ -27,7 +27,9 @@ public partial class Product
 
     public virtual ICollection<AdminProductAssociation> AdminProductAssociations { get; set; } = new List<AdminProductAssociation>();
 
-    public virtual ICollection<MealtimeProduct> MealtimeProducts { get; set; } = new List<MealtimeProduct>();
+    public virtual ICollection<Consumption> Consumptions { get; set; } = new List<Consumption>();
+
+    public virtual ICollection<PlanMealtimeAssociation> PlanMealtimeAssociations { get; set; } = new List<PlanMealtimeAssociation>();
 
     public virtual ICollection<RecipeProductAssociation> RecipeProductAssociations { get; set; } = new List<RecipeProductAssociation>();
 

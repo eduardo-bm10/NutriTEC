@@ -58,18 +58,13 @@ namespace Postgre_API.Controllers
                 Nutritionistid = nutritionistId,
                 Description = description
             };
-            var Mealtime_Product = new MealtimeProduct
-            {
-                Mealtimeid = mealtimeId,
-                ProductBarcode = productBarcode
-            };
+          
             var PlanMealtimeAssociation = new PlanMealtimeAssociation
             {
                 Planid = plan.Id,
                 Mealtimeid = mealtimeId
             };
             _dbContext.Plans.Add(plan);
-            _dbContext.MealtimeProducts.Add(Mealtime_Product);
             _dbContext.PlanMealtimeAssociations.Add(PlanMealtimeAssociation);
             await _dbContext.SaveChangesAsync();
 

@@ -11,7 +11,11 @@ public partial class Consumption
 
     public int Mealtime { get; set; }
 
+    public int Productbarcode { get; set; }
+
     public virtual MealTime MealtimeNavigation { get; set; } = null!;
 
     public virtual Patient Patient { get; set; } = null!;
+
+    public virtual Product ProductbarcodeNavigation { get; set; } = null!;
 }
