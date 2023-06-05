@@ -16,7 +16,7 @@ import { NavVarComponent } from './nav-var/nav-var.component';
 
 const appRoutes:Routes=[
   {path:'', component: LoginComponent},
-  {path:'cliente', component:ClienteComponent},
+  {path:'paciente', component:ClienteComponent},
   {path:'admin', component:AdminComponent},
   {path:'nutri', component:NutriComponent},
   {path:'login-admin', component:LoginADMINComponent},

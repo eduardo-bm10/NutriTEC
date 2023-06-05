@@ -106,4 +106,8 @@ export class LoginComponent implements OnInit{
         alert(`Error al realizar la solicitud ---- ${error.message}:`);
       });
   }
+
+  logout(){
+    this.api.logout();
+  }
 }
