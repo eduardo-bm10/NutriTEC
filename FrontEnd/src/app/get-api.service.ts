@@ -301,7 +301,9 @@ export class GetApiService {
     status: boolean,
     vitamins: string[]
     ){
-    const url = `${this.baseUrl}/api/Products?barcode=${barcode}&description=${description}&iron=${iron}&sodium=${sodium}&energy=${energy}&fat=${fat}&calcium=${calcium}&carbohydrates=${carbohydrates}&protein=${protein}&status=${status}&vitamins=${vitamins}`;
+    const encodedArray = vitamins.map(value => encodeURIComponent(value));
+    const queryString = encodedArray.join("&");
+    const url = `${this.baseUrl}/api/Products?barcode=${barcode}&description=${description}&iron=${iron}&sodium=${sodium}&energy=${energy}&fat=${fat}&calcium=${calcium}&carbohydrates=${carbohydrates}&protein=${protein}&status=${status}&vitamins=`+queryString;
     return this.http.post(url, null, {});
   }
 
