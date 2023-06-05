@@ -2,6 +2,7 @@ package com.example.nutrittec
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -13,6 +14,8 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
 import okhttp3.Response
+import okhttp3.ResponseBody.Companion.toResponseBody
+import org.json.JSONObject
 import java.io.IOException
 import java.security.MessageDigest
 
@@ -60,12 +63,23 @@ class MainActivity : AppCompatActivity() {
 
                 override fun onResponse(call: Call, response: Response) {
                     if (response.isSuccessful) {
-                        // Registro exitoso
-                        runOnUiThread {
-                            Toast.makeText(this@MainActivity, "Login exitoso", Toast.LENGTH_SHORT).show()
-                            val menu = Intent(applicationContext, MenuActivity::class.java)
-                            startActivity(menu)
-                            finish()
+                        // Login exitoso
+                        runOnUiThread{
+                            val responseData = response.message.toString()
+                            Log.d("test",responseData)
+
+
+                            val userType = responseData
+
+                            if(!userType.equals("OK")){
+                                Toast.makeText(this@MainActivity, "Login fallido", Toast.LENGTH_SHORT).show()
+                            }else {
+                                Toast.makeText(this@MainActivity, "Login exitoso", Toast.LENGTH_SHORT).show()
+                                val menu = Intent(applicationContext, MenuActivity::class.java)
+                                menu.putExtra("CedulaPatient","118670690")
+                                startActivity(menu)
+                                finish()
+                            }
                         }
                     } else {
                         // Error en la respuesta

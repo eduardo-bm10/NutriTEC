@@ -59,8 +59,8 @@ export class LoginComponent implements OnInit{
       valor.email, valor.password
     ).subscribe(data => {
       const llegada = JSON.parse(JSON.stringify(data));
-      if(llegada[1] == 'patient'){
-        localStorage.setItem('usuario', JSON.stringify(llegada[0]));
+      if(llegada['type'] == 'patient'){
+        localStorage.setItem('usuario', JSON.stringify(llegada['user']));
         this.api.ruta('/paciente');
       }
       else{

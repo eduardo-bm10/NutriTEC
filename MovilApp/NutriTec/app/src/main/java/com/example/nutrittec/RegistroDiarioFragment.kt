@@ -1,6 +1,8 @@
 package com.example.nutrittec
 
 import android.content.Intent
+import android.content.Intent.getIntent
+import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -23,6 +25,8 @@ import okhttp3.RequestBody
 import okhttp3.Response
 import org.json.JSONArray
 import java.io.IOException
+import java.util.Date
+import java.util.Locale
 
 
 class RegistroDiarioFragment : Fragment() {
@@ -44,6 +48,10 @@ class RegistroDiarioFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        var extras = getActivity()?.getIntent()?.getExtras()
+
+        val cedula = extras?.getString("CedulaPatient")
+
         mealTimeSpinner = view.findViewById<Spinner>(R.id.mealTimeSpinner)
         productName = view.findViewById(R.id.productNameEditText)
         productBarcode = view.findViewById(R.id.barcodeEditText)
@@ -53,7 +61,9 @@ class RegistroDiarioFragment : Fragment() {
         registerConsumptionButton = view.findViewById(R.id.registerConsumptionButton)
 
         callApiMealTimes()
-
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val currentDate = Date()
+        val date = dateFormat.format(currentDate)
         productNameButton.setOnClickListener{
             val description = productName.text.toString()
             var url = "https://postgresqlapi.azurewebsites.net/api/Products/description/$description"
@@ -78,8 +88,13 @@ class RegistroDiarioFragment : Fragment() {
             }
 
             if(productFoundTextView.text.toString().equals("Producto/Receta encontrada")){
-                val mealTimeId = mealTimeSpinner.selectedItem
-                //var url = "https://postgresqlapi.azurewebsites.net/api/Consumptions?patientId=$patientId&date=$date&mealtimeId=$mealtimeId&productBarcode=$barcode"
+                val mealTimeSelected = mealTimeSpinner.selectedItem
+                var mealTimeId =0
+                if(mealTimeSelected=="Breakfast"){
+                    mealTimeId =1
+                }
+                var url = "https://postgresqlapi.azurewebsites.net/api/Consumptions?patientId=$cedula&date=$date&mealtimeId=$mealTimeId&productBarcode=$barcode"
+                callApiConsumption(url)
             }
         }
 
@@ -173,8 +188,35 @@ class RegistroDiarioFragment : Fragment() {
         })
     }
 
-    //private fun callApiConsumption(){
+    private fun callApiConsumption(url: String){
+        val client = OkHttpClient()
 
-    //}
+        val request = Request.Builder()
+            .url(url)
+            .get()
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                // Error en la solicitud
+                requireActivity().runOnUiThread {
+                    productFoundTextView.text = "Error al registrar usuario."
+                }
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                if (response.isSuccessful) {
+                    requireActivity().runOnUiThread {
+                        productFoundTextView.text = "Consumo diario registrado"
+                    }
+                } else {
+                    // Error en la respuesta
+                    requireActivity().runOnUiThread {
+                        productFoundTextView.text = "No se puede registrar dicho consumo"
+                    }
+                }
+            }
+        })
+    }
 }
 
