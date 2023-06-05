@@ -68,15 +68,17 @@ namespace Postgre_API.Controllers
         }
 
         [HttpPut("{adminId}/{productBarcode}")]
-        public async Task<IActionResult> UpdateAdminProductAssociation(string adminId, int productBarcode)
+        public async Task<IActionResult> UpdateAdminProductAssociation(string adminId, int productBarcode, bool status)
         {
             var adminProductAssociation = await _dbContext.AdminProductAssociations.FindAsync(adminId, productBarcode);
-
+            var product0 = await _dbContext.Products.FindAsync(productBarcode);
+            
             if (adminProductAssociation == null)
             {
+                
                 return NotFound();
             }
-
+            product0.Status = status;
 
             await _dbContext.SaveChangesAsync();
 
