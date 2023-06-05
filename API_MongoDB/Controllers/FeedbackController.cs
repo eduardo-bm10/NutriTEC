@@ -4,13 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API_MongoDB.Controllers {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/Feedback")]
     public class FeedbackController : ControllerBase {
         private static int _id = 0;
         public NutritecService service = new NutritecService();
 
         [HttpPost]
-        [Route("createFeedback")]
+        [Route("createFeedback/{senderSsn}")]
         public dynamic CreateFeedback(string senderSsn, string receptorSsn, string message) {
             Feedback f = new Feedback();
             f.SenderSsn = senderSsn;
@@ -35,7 +35,7 @@ namespace API_MongoDB.Controllers {
         }
 
         [HttpGet]
-        [Route("getBySsn")]
+        [Route("getBySsn/{ssn}")]
         public dynamic GetBySsn(string ssn) {
             var result = service.GetBySsn(ssn);
             if (!result.Any()) {
@@ -48,7 +48,7 @@ namespace API_MongoDB.Controllers {
         }
 
         [HttpGet]
-        [Route("getByDate")]
+        [Route("getByDate/{date}")]
         public dynamic GetByDate(string date) {
             var result = service.GetByDate(date);
             if (!result.Any()) {
@@ -60,7 +60,7 @@ namespace API_MongoDB.Controllers {
         }
 
         [HttpDelete]
-        [Route("removeById")]
+        [Route("removeById/{id}")]
         public dynamic RemoveById(string id) {
             if (service.GetById(id) != null) {
                 service.Remove(id);
