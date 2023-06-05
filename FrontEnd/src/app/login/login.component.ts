@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import { GetApiService } from '../get-api.service';
 
 @Component({
   selector: 'app-login',
@@ -6,6 +7,7 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit{
+  constructor(private api:GetApiService){}
   mostrar = false
 
   ngOnInit() {
@@ -44,7 +46,6 @@ export class LoginComponent implements OnInit{
     if(type === 0){
       login.style.display = 'none'
       signin.style.display = 'block'
-      console.log("a")
     }
     else{
       signin.style.display = 'none'
@@ -54,10 +55,30 @@ export class LoginComponent implements OnInit{
   }
   login(form:any){
     const valor = form.value;
+    this.api.login(
+      valor.email, valor.password
+    ).subscribe(data => {
+      const llegada = JSON.parse(JSON.stringify(data));
+      if(llegada[1] == 'patient'){
+        localStorage.setItem('usuario', JSON.stringify(llegada[0]));
+        this.api.ruta('/paciente');
+      }
+      else{
+        alert('Error!');
+      }
+    })
   }
 
   register(form:any){
     const valor = form.value;
+    this.api.createPatient(
+      valor.cedula, valor.nombre, valor.apellido1, valor.apellido2, valor.email,
+      valor.password, Number(valor.peso), Number(valor.imc), valor.direccion, valor.fechaDeNacimiento,
+      valor.pais, Number(valor.calorias), Number(valor.cintura), Number(valor.cuello), Number(valor.caderas),
+        Number(valor.musculo), Number(valor.grasa)
+    ).subscribe((data) => {
+      const llegada = JSON.parse(JSON.stringify(data));
+    })
   }
 
   createOption(texto:string){
