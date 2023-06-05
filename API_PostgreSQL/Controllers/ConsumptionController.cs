@@ -26,7 +26,7 @@ namespace Postgre_API.Controllers
             return await _dbContext.Consumptions.ToListAsync();
         }
 
-        [HttpGet("{patientId}/{date}")]
+        [HttpGet("{patientId}/{date}/{mealtimeId}")]
         public async Task<ActionResult<Consumption>> GetConsumption(string patientId, DateTime date, int mealtimeId)
         {
             var consumption = await _dbContext.Consumptions.FindAsync(patientId, date);
@@ -80,27 +80,28 @@ namespace Postgre_API.Controllers
             return Ok(json);
         }
 
-        [HttpPut("{patientId}/{date}")]
-        public async Task<IActionResult> UpdateConsumption(string patientId, DateTime date, Consumption updatedConsumption)
+        [HttpPut("{patientId}/{date}/{mealtimeId}")]
+        public async Task<IActionResult> UpdateConsumption(string patientId, DateTime date, int productBarcode, int mealtimeId)
         {
-            var consumption = await _dbContext.Consumptions.FindAsync(patientId, date);
+            var consumption = await _dbContext.Consumptions.FindAsync(patientId, new DateOnly(date.Year, date.Month, date.Day), mealtimeId);
 
             if (consumption == null)
             {
                 return NotFound();
             }
 
-            consumption.Mealtime = updatedConsumption.Mealtime;
+            consumption.Mealtime = mealtimeId;
+            consumption.Productbarcode = productBarcode;
 
             await _dbContext.SaveChangesAsync();
 
             return NoContent();
         }
 
-        [HttpDelete("{patientId}/{date}")]
-        public async Task<IActionResult> DeleteConsumption(string patientId, DateTime date)
+        [HttpDelete("{patientId}/{date}/{mealtimeId}")]
+        public async Task<IActionResult> DeleteConsumption(string patientId, DateTime date,int mealtimeId)
         {
-            var consumption = await _dbContext.Consumptions.FindAsync(patientId, date);
+            var consumption = await _dbContext.Consumptions.FindAsync(patientId, new DateOnly(date.Year, date.Month, date.Day), mealtimeId);
 
             if (consumption == null)
             {

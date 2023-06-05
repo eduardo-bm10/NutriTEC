@@ -77,7 +77,7 @@ CREATE TABLE CONSUMPTION (
    Date DATE NOT NULL,
    MealTime INT NOT NULL,
    ProductBarcode INT NOT NULL,
-	PRIMARY KEY (PatientID, Date,MealTime)
+	PRIMARY KEY (PatientID, Date, MealTime)
 );
 
 CREATE TABLE MEASUREMENT (

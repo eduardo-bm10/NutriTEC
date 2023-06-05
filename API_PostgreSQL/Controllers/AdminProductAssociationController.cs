@@ -39,7 +39,7 @@ namespace Postgre_API.Controllers
         }
 
         [HttpPost("{adminId}/{productBarcode}")]
-        public async Task<ActionResult<AdminProductAssociation>> CreateAdminProductAssociation(string adminId, int productBarcode, bool status)
+        public async Task<ActionResult<AdminProductAssociation>> CreateAdminProductAssociation(string adminId, int productBarcode,  bool status)
         {
 
              var product0 = await _dbContext.Products.FindAsync(productBarcode);
@@ -72,12 +72,13 @@ namespace Postgre_API.Controllers
         {
             var adminProductAssociation = await _dbContext.AdminProductAssociations.FindAsync(adminId, productBarcode);
             var product0 = await _dbContext.Products.FindAsync(productBarcode);
-            
+
             if (adminProductAssociation == null)
             {
                 
                 return NotFound();
             }
+            
             product0.Status = status;
 
             await _dbContext.SaveChangesAsync();
