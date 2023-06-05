@@ -78,6 +78,7 @@ export class LoginComponent implements OnInit{
         Number(valor.musculo), Number(valor.grasa)
     ).subscribe((data) => {
       const llegada = JSON.parse(JSON.stringify(data));
+      console.log(llegada); 
     })
   }
 
