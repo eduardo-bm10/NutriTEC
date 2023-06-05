@@ -13,7 +13,14 @@ export class LoginNUTRIComponent implements OnInit{
   ngOnInit() {
     const signin = document.getElementById("signin") as HTMLInputElement
     signin.style.display = 'none'
+    this.getIdTipoCobro();
+  }
 
+  getIdTipoCobro(){
+    this.api.getPaymentTypes().subscribe(data =>{
+      const llegada = JSON.parse(JSON.stringify(data));
+      console.log(llegada);
+    })
   }
 
   mostrarContra(){
@@ -46,7 +53,6 @@ export class LoginNUTRIComponent implements OnInit{
     if(type === 0){
       login.style.display = 'none'
       signin.style.display = 'block'
-      console.log("a")
     }
     else{
       signin.style.display = 'none'
@@ -71,15 +77,32 @@ export class LoginNUTRIComponent implements OnInit{
     })
   }
 
-  register(form:any){
-    const valor = form.value;
+
+  convertirRutaAFile(rutaImagen: string): File {
+    return new File([rutaImagen], "nombreArchivo.jpg", { type: "image/jpeg" });
+  }
+
+  llamadaApiRegistrar(valor:any, foto:string){
     this.api.createNutritionist(
       valor.cedula, valor.codigoNutri, valor.nombre, valor.apellido1, valor.apellido2,
-      valor.email, valor.password, valor.peso, valor.imc, valor.tarjeta, valor.direccion, 
-      valor.tipoCobro, valor.foto
+      valor.email, valor.password, valor.peso, valor.imc, valor.tarjeta, valor.direccion,
+      valor.tipoCobro, foto
     ).subscribe(data => {
       const llegada = JSON.parse(JSON.stringify(data));
       console.log(llegada);
     })
+  }
+
+
+  register(form:any){
+    const valor = form.value;
+
+    const file = this.convertirRutaAFile(valor.foto);
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const result = reader.result as string;
+      this.llamadaApiRegistrar(valor, result.split(',')[1]);
+    };
+    reader.readAsDataURL(file);
   }
 }

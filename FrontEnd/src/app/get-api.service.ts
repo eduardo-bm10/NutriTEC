@@ -244,7 +244,7 @@ export class GetApiService {
   // PaymentType--------------------------------------------
 
   getPaymentTypes() {
-    const url = `${this.baseUrl}/PaymentTypes`;
+    const url = `${this.baseUrl}/api/PaymentType`;
     return this.http.get(url);
   }
 
@@ -430,5 +430,5 @@ export class GetApiService {
     const body = { description, barcodePortion };
     return this.http.post(url, body);
   }
-  
+
 }

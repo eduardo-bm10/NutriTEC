@@ -62,7 +62,7 @@
 
 
 
-            <form #form="ngForm" (ngSubmit)="register(form)">
+            <form #form2="ngForm" (ngSubmit)="register(form2)">
               <div class="form-floating mb-3">
                 <input type="number" class="form-control" id="cedula" step="1" placeholder="Cédula" name="cedula" ngModel>
                 <label for="floatingInput">Cédula</label>
@@ -104,7 +104,7 @@
                 <label for="floatingInput">Dirección</label>
               </div>
               <div class="form-floating mb-3">
-                <input type="file" class="form-control" id="foto" placeholder="Dirección" name="foto" accept="image/*" ngModel>
+                <input type="file" class="form-control" id="foto" name="foto" accept="image/*" ngModel>
                 <label for="floatingInput">Foto</label>
               </div>
               <div class="form-floating mb-3">
