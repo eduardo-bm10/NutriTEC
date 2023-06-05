@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace Postgre_API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/Product")]
     [ApiController]
     public class ProductsController : ControllerBase
     {
@@ -47,7 +47,7 @@ namespace Postgre_API.Controllers
         }
 
         // GET: api/Products/Tomato
-        [HttpGet("description/{description}")]
+        [HttpGet("{description}")]
         public async Task<ActionResult<Product>> GetProductByDescription(string description)
         {
             var product = await _dbContext.Products.FirstOrDefaultAsync(p => p.Description == description);
@@ -68,7 +68,7 @@ namespace Postgre_API.Controllers
 
 
         // POST: api/Products
-        [HttpPost]
+        [HttpPost("{barcode}")]
         public async Task<ActionResult<Product>> CreateProduct(int barcode, string description, double iron, double sodium, double energy, double fat, double calcium, double carbohydrate, double protein, List<string> vitamins)
         {
             var product0 = await _dbContext.Products.FindAsync(barcode);

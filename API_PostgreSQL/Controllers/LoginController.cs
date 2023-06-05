@@ -36,7 +36,7 @@ namespace Postgre_API.Controllers
         }
 
         [HttpPost]
-        [Route("login")]
+        [Route("login/{email}/{password}")]
         public dynamic LoginUser(string email, string password){
             var thePassword = encryptPassword_MD5(password);
             dynamic user = _dbContext.Patients.FirstOrDefault(p => p.Email == email);

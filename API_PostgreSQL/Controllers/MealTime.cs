@@ -8,7 +8,7 @@ using Postgre_API.Models;
 
 namespace Postgre_API.Controllers
 {
-    [Route("api/MealTimes")]
+    [Route("api/Mealtime")]
     [ApiController]
     public class MealTimesController : ControllerBase
     {

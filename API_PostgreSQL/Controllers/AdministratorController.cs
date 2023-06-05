@@ -55,7 +55,7 @@ namespace Postgre_API.Controllers
             return administrator;
         }
 
-        [HttpPost("{id}")]
+        [HttpPost("{id}/{firstname}/{lastname1}/{lastname2}/{email}/{password}")]
         public async Task<ActionResult<Administrator>> CreateAdministrator(string id, string firstname, string lastname1, string lastname2, string email, string password)
         {
             string thePassword = encryptPassword_MD5(password);
@@ -76,7 +76,7 @@ namespace Postgre_API.Controllers
         }
 
 
-        [HttpPut("{id}")]
+        [HttpPut("{id}/{firstname}/{lastname1}/{lastname2}/{email}/{password}")]
         public async Task<IActionResult> UpdateAdministrator(string id, string firstname, string lastname1, string lastname2, string email, string password)
         {
             var administrator = await _dbContext.Administrators.FindAsync(id);

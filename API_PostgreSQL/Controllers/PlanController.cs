@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace Postgre_API.Controllers
 {
-    [Route("api/Plans")]
+    [Route("api/Plan")]
     [ApiController]
     public class PlansController : ControllerBase
     {
@@ -41,7 +41,7 @@ namespace Postgre_API.Controllers
         }
 
         // POST: api/Plans
-        [HttpPost]
+        [HttpPost("{description}")]
         public async Task<ActionResult<Plan>> CreatePlan(string description, string nutritionistId, int mealtimeId, int productBarcode)
         {
             var mealtime_exists = await _dbContext.MealTimes.FindAsync(mealtimeId);

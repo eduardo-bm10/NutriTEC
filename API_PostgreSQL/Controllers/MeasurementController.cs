@@ -39,7 +39,7 @@ namespace Postgre_API.Controllers
             return measurement;
         }
 
-        [HttpPost]
+        [HttpPost("{patientId}")]
         public async Task<ActionResult<Measurement>> CreateMeasurement(string patiendId,double waist, double neck, double hips, double musclePercentage, double fatPercentage)
         {
             DateOnly dateOnly = new DateOnly(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);

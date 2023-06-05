@@ -204,7 +204,7 @@ export class GetApiService {
   // Measurements--------------------------------------------
 
   getMeasurements() {
-    return this.http.get(`${this.baseUrl}/Measurements`);
+    return this.http.get(`${this.baseUrl}/api/Measurements`);
   }
 
   createMeasurement(
@@ -215,12 +215,12 @@ export class GetApiService {
     musclePercentage: number,
     fatPercentage: number
   ) {
-    const url = `${this.baseUrl}/Measurements?patientId=${patientId}&waist=${waist}&neck=${neck}&hips=${hips}&musclePercentage=${musclePercentage}&fatPercentage=${fatPercentage}`;
+    const url = `${this.baseUrl}/api/Measurements/${patientId}?waist=${waist}&neck=${neck}&hips=${hips}&musclePercentage=${musclePercentage}&fatPercentage=${fatPercentage}`;
     return this.http.post(url, {});
   }
 
   getMeasurementById(id: number) {
-    const url = `${this.baseUrl}/Measurements/${id}`;
+    const url = `${this.baseUrl}/api/Measurements/${id}`;
     return this.http.get(url);
   }
 
@@ -232,12 +232,12 @@ export class GetApiService {
     musclePercentage: number,
     fatPercentage: number
   ) {
-    const url = `${this.baseUrl}/Measurements/${id}?waist=${waist}&neck=${neck}&hips=${hips}&musclePercentage=${musclePercentage}&fatPercentage=${fatPercentage}`;
+    const url = `${this.baseUrl}/api/Measurements/${id}?waist=${waist}&neck=${neck}&hips=${hips}&musclePercentage=${musclePercentage}&fatPercentage=${fatPercentage}`;
     return this.http.put(url, {});
   }
 
   deleteMeasurement(id: number) {
-    const url = `${this.baseUrl}/Measurements/${id}`;
+    const url = `${this.baseUrl}/api/Measurements/${id}`;
     return this.http.delete(url);
   }
 
@@ -249,41 +249,41 @@ export class GetApiService {
   }
 
   getPaymentTypeById(id: number) {
-    const url = `${this.baseUrl}/PaymentTypes/${id}`;
+    const url = `${this.baseUrl}/api/PaymentType/${id}`;
     return this.http.get(url);
   }
 
   createPaymentType(description: string) {
-    const url = `${this.baseUrl}/PaymentTypes?description=${description}`;
+    const url = `${this.baseUrl}/api/PaymentType/${description}`;
     return this.http.post(url, {});
   }
 
   updatePaymentType(id: number, description: string) {
-    const url = `${this.baseUrl}/PaymentTypes/${id}?description=${description}`;
+    const url = `${this.baseUrl}/api/PaymentType/${id}?description=${description}`;
     return this.http.put(url, {});
   }
 
   deletePaymentType(id: number) {
-    const url = `${this.baseUrl}/PaymentTypes/${id}`;
+    const url = `${this.baseUrl}/api/PaymentType/${id}`;
     return this.http.delete(url);
   }
 
   // Product--------------------------------------------
   // Obtener lista de productos
   getProducts() {
-    const url = `${this.baseUrl}/api/Products`;
+    const url = `${this.baseUrl}/api/Product`;
     return this.http.get(url);
   }
 
   // Obtener un producto por su barcode
   getProductById(barcode: number) {
-    const url = `${this.baseUrl}/api/Products/${barcode}`;
+    const url = `${this.baseUrl}/api/Product/${barcode}`;
     return this.http.get(url);
   }
 
   // Obtener un producto por su descripcion
-  getPorductByDescription(description: string) {
-    const url = `${this.baseUrl}/api/Products?description=${description}`;
+  getProductByDescription(description: string) {
+    const url = `${this.baseUrl}/api/Product/${description}`;
     return this.http.get(url);
   }
 
@@ -301,9 +301,13 @@ export class GetApiService {
     status: boolean,
     vitamins: string[]
     ){
+<<<<<<< Updated upstream
     const encodedArray = vitamins.map(value => encodeURIComponent(value));
     const queryString = encodedArray.join("&");
     const url = `${this.baseUrl}/api/Products?barcode=${barcode}&description=${description}&iron=${iron}&sodium=${sodium}&energy=${energy}&fat=${fat}&calcium=${calcium}&carbohydrates=${carbohydrates}&protein=${protein}&status=${status}&vitamins=`+queryString;
+=======
+    const url = `${this.baseUrl}/api/Product/${barcode}?description=${description}&iron=${iron}&sodium=${sodium}&energy=${energy}&fat=${fat}&calcium=${calcium}&carbohydrates=${carbohydrates}&protein=${protein}&status=${status}&vitamins=${vitamins}`;
+>>>>>>> Stashed changes
     return this.http.post(url, null, {});
   }
 
@@ -333,12 +337,12 @@ export class GetApiService {
   // Plan--------------------------------------------
 
   getPlans() {
-    const url = `${this.baseUrl}/api/Plans`;
+    const url = `${this.baseUrl}/api/Plan`;
     return this.http.get(url);
   }
 
   getPlanById(id: number) {
-    const url = `${this.baseUrl}/api/Plans/${id}`;
+    const url = `${this.baseUrl}/api/Plan/${id}`;
     return this.http.get(url);
   }
 
@@ -348,7 +352,7 @@ export class GetApiService {
     mealtimeId: number,
     productBarcode: number
   ) {
-    const url = `${this.baseUrl}/api/Plans?description=${description}&nutritionistId=${nutritionistId}&mealtimeId=${mealtimeId}&productBarcode=${productBarcode}`;
+    const url = `${this.baseUrl}/api/Plan/${description}?nutritionistId=${nutritionistId}&mealtimeId=${mealtimeId}&productBarcode=${productBarcode}`;
     return this.http.post(url, {});
   }
 
@@ -357,12 +361,12 @@ export class GetApiService {
     nutritionistId: string,
     description: string,
   ) {
-    const url = `${this.baseUrl}/api/Plans/${id}?nutritionistId=${nutritionistId}&description=${description}`;
+    const url = `${this.baseUrl}/api/Plan/${id}?nutritionistId=${nutritionistId}&description=${description}`;
     return this.http.put(url, {});
   }
 
   deletePlan(id: number) {
-    const url = `${this.baseUrl}/api/Plans/${id}`;
+    const url = `${this.baseUrl}/api/Plan/${id}`;
     return this.http.delete(url);
   }
 
@@ -402,13 +406,29 @@ export class GetApiService {
   // Mealtime--------------------------------------------
 
   getMealtimes() {
-    const url = `${this.baseUrl}/Mealtime`;
+    const url = `${this.baseUrl}/api/Mealtime`;
     return this.http.get(url);
   }
 
   getMealtimeById(id: number) {
-    const url = `${this.baseUrl}/Mealtime/${id}`;
+    const url = `${this.baseUrl}/api/Mealtime/${id}`;
     return this.http.get(url);
+  }
+
+  createMealtime(
+    id: number,
+    name: string,
+  ) {
+    const url = `${this.baseUrl}/api/Mealtime/${id}?name=${name}`;
+    return this.http.post(url, {});
+  }
+
+  updateMealtime(
+    id: number,
+    name: string,
+  ) {
+    const url = `${this.baseUrl}/api/Mealtime/${id}?name=${name}`;
+    return this.http.put(url, {});
   }
 
   createAdminProductAssociation(adminId: string, productBarcode: number, status: boolean) {

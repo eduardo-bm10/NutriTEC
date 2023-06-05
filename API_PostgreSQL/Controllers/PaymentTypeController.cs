@@ -37,7 +37,7 @@ namespace Postgre_API.Controllers
             return paymentType;
         }
 
-        [HttpPost]
+        [HttpPost("{descripcion}")]
         public async Task<ActionResult<PaymentType>> CreatePaymentType(int id, string descripcion)
         {
             var exists_payment = await _dbContext.PaymentTypes.FindAsync(id);

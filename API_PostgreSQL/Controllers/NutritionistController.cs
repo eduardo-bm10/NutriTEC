@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Postgre_API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/Nutritionists")]
     [ApiController]
     public class NutritionistsController : ControllerBase
     {
