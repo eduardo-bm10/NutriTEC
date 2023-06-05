@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import { GetApiService } from '../get-api.service';
 
 @Component({
   selector: 'app-login-nutri',
@@ -6,6 +7,7 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./login-nutri.component.css']
 })
 export class LoginNUTRIComponent implements OnInit{
+  constructor(private api:GetApiService){}
   mostrar = false
 
   ngOnInit() {
@@ -54,9 +56,30 @@ export class LoginNUTRIComponent implements OnInit{
   }
   login(form:any){
     const valor = form.value;
+    this.api.login(
+      valor.email, valor.password
+    ).subscribe(data => {
+      const llegada = JSON.parse(JSON.stringify(data));
+      console.log(llegada);
+      if(llegada[1] == ''){
+        localStorage.setItem('usuario', JSON.stringify(llegada[0]));
+        this.api.ruta('/paciente');
+      }
+      else{
+        alert('Error!');
+      }
+    })
   }
 
   register(form:any){
     const valor = form.value;
+    this.api.createNutritionist(
+      valor.cedula, valor.codigoNutri, valor.nombre, valor.apellido1, valor.apellido2,
+      valor.email, valor.password, valor.peso, valor.imc, valor.tarjeta, valor.direccion, 
+      valor.tipoCobro, valor.foto
+    ).subscribe(data => {
+      const llegada = JSON.parse(JSON.stringify(data));
+      console.log(llegada);
+    })
   }
 }

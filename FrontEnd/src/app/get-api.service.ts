@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,16 @@ export class GetApiService {
 
   private baseUrl = 'https://postgresqlapi.azurewebsites.net';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router:Router) {}
+
+  ruta(ruta:string){
+    this.router.navigate([ruta]);
+  }
+
+  logout(){
+    localStorage.removeItem('usuario');
+    this.router.navigate(['/']);
+  }
 
   // Iniciar sesión--------------------------------------------
   login(email: string, password: string) {
