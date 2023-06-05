@@ -106,7 +106,7 @@ public partial class NutritecDbContext : DbContext
 
         modelBuilder.Entity<Consumption>(entity =>
         {
-            entity.HasKey(e => new { e.Patientid, e.Date }).HasName("consumption_pkey");
+            entity.HasKey(e => new { e.Patientid, e.Date, e.Mealtime }).HasName("consumption_pkey");
 
             entity.ToTable("consumption");
 
