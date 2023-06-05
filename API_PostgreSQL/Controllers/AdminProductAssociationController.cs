@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Postgre_API.Models;
+using Newtonsoft.Json;
 
 namespace Postgre_API.Controllers
 {
@@ -31,7 +32,7 @@ namespace Postgre_API.Controllers
 
             if (adminProductAssociation == null)
             {
-                return NotFound();
+                return NotFound("Asociación no encontrada");
             }
 
             return adminProductAssociation;
@@ -57,7 +58,13 @@ namespace Postgre_API.Controllers
             _dbContext.AdminProductAssociations.Add(_adminProductAssociation);
             await _dbContext.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetAdminProductAssociation), new { adminId = _adminProductAssociation.Adminid, productBarcode = _adminProductAssociation.Productbarcode }, _adminProductAssociation);
+            var options = new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            };
+
+            string json = JsonConvert.SerializeObject(_adminProductAssociation, options);
+           return Ok(json);
         }
 
         [HttpPut("{adminId}/{productBarcode}")]

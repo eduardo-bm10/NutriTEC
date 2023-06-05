@@ -4,6 +4,7 @@ using Postgre_API.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Postgre_API.Controllers
 {
@@ -41,29 +42,43 @@ namespace Postgre_API.Controllers
 
         // POST: api/Recipes
         [HttpPost]
-        public async Task<ActionResult<Recipe>> CreateRecipe(string description, int productBarcode, int Productportion)
+        public async Task<ActionResult<Recipe>> CreateRecipe(string description, Dictionary<int, int> BarcodePortion)
         {
-            var productBarcode_exists = await _context.Products.FindAsync(productBarcode);
-            if (productBarcode_exists == null)
+            var recipeList = new List<Recipe>();
+            foreach (KeyValuePair<int, int> kvp in BarcodePortion)
             {
-                return NotFound("Product not found");
+                int productBarcode = kvp.Key;
+                int Product_portion = kvp.Value;
+                 var productBarcode_exists = await _context.Products.FindAsync(productBarcode);
+                if (productBarcode_exists == null)
+                {
+                    return NotFound("Product not found");
+                }
+                var recipe = new Recipe
+                {
+                    Description = description
+                };
+                _context.Recipes.Add(recipe);
+                await _context.SaveChangesAsync();
+                var recipeId = await _context.Recipes.FirstOrDefaultAsync(r => r.Description == description);
+                var recipeProductAssociation = new RecipeProductAssociation
+                {
+                    Recipeid = recipe.Id,
+                    Productbarcode = productBarcode,
+                    Productportion = Product_portion
+                };
+                _context.RecipeProductAssociations.Add(recipeProductAssociation);
+                await _context.SaveChangesAsync();
+                recipeList.Add(recipe);
             }
-            var recipe = new Recipe
+            var options = new JsonSerializerSettings
             {
-                Description = description
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
             };
-            _context.Recipes.Add(recipe);
-            await _context.SaveChangesAsync();
-            var recipeId = await _context.Recipes.FirstOrDefaultAsync(r => r.Description == description);
-            var recipeProductAssociation = new RecipeProductAssociation
-            {
-                Recipeid = recipe.Id,
-                Productbarcode = productBarcode,
-                Productportion = Productportion,
-            };
-            _context.RecipeProductAssociations.Add(recipeProductAssociation);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction("GetRecipe", new { id = recipe.Id }, recipe);
+
+            string json = JsonConvert.SerializeObject(recipeList, options);
+
+            return Ok(json);
         }
 
         // PUT: api/Recipes/5

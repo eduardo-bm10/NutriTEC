@@ -298,9 +298,10 @@ export class GetApiService {
     calcium: number,
     carbohydrates: number,
     protein: number,
-    status: boolean
+    status: boolean,
+    vitamins: string[]
     ){
-    const url = `${this.baseUrl}/api/Products?barcode=${barcode}&description=${description}&iron=${iron}&sodium=${sodium}&energy=${energy}&fat=${fat}&calcium=${calcium}&carbohydrates=${carbohydrates}&protein=${protein}&status=${status}`;
+    const url = `${this.baseUrl}/api/Products?barcode=${barcode}&description=${description}&iron=${iron}&sodium=${sodium}&energy=${energy}&fat=${fat}&calcium=${calcium}&carbohydrates=${carbohydrates}&protein=${protein}&status=${status}&vitamins=${vitamins}`;
     return this.http.post(url, null, {});
   }
 
@@ -342,8 +343,10 @@ export class GetApiService {
   createPlan(
     nutritionistId: string,
     description: string,
+    mealtimeId: number,
+    productBarcode: number
   ) {
-    const url = `${this.baseUrl}/Plans?nutritionistId=${nutritionistId}&description=${description}`;
+    const url = `${this.baseUrl}/Plans?description=${description}&nutritionistId=${nutritionistId}&mealtimeId=${mealtimeId}&productBarcode=${productBarcode}`;
     return this.http.post(url, {});
   }
 
@@ -406,15 +409,26 @@ export class GetApiService {
     return this.http.get(url);
   }
 
+  createAdminProductAssociation(adminId: string, productBarcode: number, status: boolean) {
+    const url = `${this.baseUrl}/api/AdminProductAssociations/${adminId}/${productBarcode}?status=${status}`;
 
+    return this.http.post(url, null, {});
+  }
 
+  createPatientNutrionistAssociation(nutritionistId: string, patientId: string){
+    const url = `${this.baseUrl}/api/PatientNutritionistAssociation?nutritionistId=${nutritionistId}&patientId=${patientId}`;
+    return this.http.post(url, null, {});
+  }
 
+  createPlanPatientAssociation(nutritionistId:string,planId: number, patientId: string, startdate: string, enddate: string){
+    const url = `${this.baseUrl}/api/PlanPatientAssociations?nutritionistId=${nutritionistId}&planId=${planId}&patientId=${patientId}&startdate=${startdate}&enddate=${enddate}`;
+    return this.http.post(url, null, {});
+  }
 
-
-
-
-
-
-
-
+  createRecipe(description: string, barcodePortion: { [key: number]: number }) {
+    const url = `${this.baseUrl}/api/Recipes`;
+    const body = { description, barcodePortion };
+    return this.http.post(url, body);
+  }
+  
 }

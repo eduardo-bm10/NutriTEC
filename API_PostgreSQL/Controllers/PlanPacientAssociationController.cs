@@ -4,6 +4,7 @@ using Postgre_API.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Postgre_API.Controllers
 {
@@ -47,6 +48,7 @@ namespace Postgre_API.Controllers
             var patientId_exists = await _context.Patients.FindAsync(patientId);
             var nutritionist_exists = await _context.Nutritionists.FindAsync(nutritionistId);
             var PatientNutritionistAssociation_exists = await _context.PatientNutritionistAssociations.FindAsync(nutritionistId, patientId);
+            var planPatientAssociation_exists = await _context.PlanPatientAssociations.FindAsync(patientId, planId);
             if(plan_exists == null){
                 return NotFound("Plan not found!");
             }else if(patientId_exists == null){
@@ -55,6 +57,8 @@ namespace Postgre_API.Controllers
                 return NotFound("Nutritionist not found!");
             }else if(PatientNutritionistAssociation_exists == null){
                 return NotFound("Patient not associated with Nutritionist!");
+            }else if(planPatientAssociation_exists != null){
+                return NotFound("Plan already associated with Patient!");
             }
 
             var planPatientAssociation = new PlanPatientAssociation
@@ -67,7 +71,13 @@ namespace Postgre_API.Controllers
             _context.PlanPatientAssociations.Add(planPatientAssociation);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetPlanPatientAssociation", new { patientid = planPatientAssociation.Patientid, planid = planPatientAssociation.Planid }, planPatientAssociation);
+            var options = new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            };
+
+            string json = JsonConvert.SerializeObject(planPatientAssociation, options);
+           return Ok(json);
         }
 
         // PUT: api/PlanPatientAssociations/5

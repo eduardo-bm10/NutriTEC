@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Postgre_API.Models;
+using Newtonsoft.Json;
 
 namespace Postgre_API.Controllers
 {
@@ -36,7 +37,13 @@ namespace Postgre_API.Controllers
             product.Barcode = barcode;
 
 
-            return NoContent();
+            var options = new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            };
+
+            string json = JsonConvert.SerializeObject(product, options);
+           return Ok(json);
         }
 
         // GET: api/Products/Tomato
@@ -50,13 +57,19 @@ namespace Postgre_API.Controllers
                 return NotFound();
             }
 
-            return Ok(product);
+            var options = new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            };
+
+            string json = JsonConvert.SerializeObject(product, options);
+           return Ok(json);
         }
 
 
         // POST: api/Products
         [HttpPost]
-        public async Task<ActionResult<Product>> CreateProduct(int barcode, string description, double iron, double sodium, double energy, double fat, double calcium, double carbohydrate, double protein)
+        public async Task<ActionResult<Product>> CreateProduct(int barcode, string description, double iron, double sodium, double energy, double fat, double calcium, double carbohydrate, double protein, List<string> vitamins)
         {
             var product0 = await _dbContext.Products.FindAsync(barcode);
 
@@ -77,10 +90,24 @@ namespace Postgre_API.Controllers
                 Status = false
                 };
 
+            foreach (string vitaminaActual in vitamins)
+            {
+                var vitamina = new Vitamin{
+                    ProductBarcode = barcode,
+                    Vitamin1 = vitaminaActual
+                };
+                _dbContext.Vitamins.Add(vitamina);
+            }
            _dbContext.Products.Add(product); 
            await _dbContext.SaveChangesAsync();
 
-           return CreatedAtAction(nameof(GetProduct), new { barcode = product.Barcode }, product);
+            var options = new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            };
+
+            string json = JsonConvert.SerializeObject(product, options);
+           return Ok(json);
         }
 
         // PUT: api/Products/5
@@ -107,7 +134,13 @@ namespace Postgre_API.Controllers
 
             await _dbContext.SaveChangesAsync();
 
-            return NoContent();
+            var options = new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            };
+
+            string json = JsonConvert.SerializeObject(product, options);
+           return Ok(json);
         }
 
         // DELETE: api/Products/5

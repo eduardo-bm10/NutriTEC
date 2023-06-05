@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Postgre_API.Models;
+using Newtonsoft.Json;
 
 namespace Postgre_API.Controllers
 {
@@ -58,18 +59,25 @@ namespace Postgre_API.Controllers
             }
 
 
-            // Falta agrear los productos que se consumen
             var consumption = new Consumption
             {
                 Patientid = patientId,
                 Date = new DateOnly(date.Year, date.Month, date.Day),
                 Mealtime = mealtimeId,
+                Productbarcode = productBarcode
             };
 
             _dbContext.Consumptions.Add(consumption);
             await _dbContext.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetConsumption), new { patientId = consumption.Patientid, date = consumption.Date }, consumption);
+            var options = new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            };
+
+            string json = JsonConvert.SerializeObject(consumption, options);
+
+            return Ok(json);
         }
 
         [HttpPut("{patientId}/{date}")]

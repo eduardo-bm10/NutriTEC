@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Postgre_API.Models;
+using Newtonsoft.Json;
 
 namespace Postgre_API.Controllers
 {
@@ -58,17 +59,25 @@ namespace Postgre_API.Controllers
                 Nutritionistid = nutritionistId,
                 Description = description
             };
-          
+            _dbContext.Plans.Add(plan);
+            await _dbContext.SaveChangesAsync();
+            var thePlan = await _dbContext.Plans.FirstOrDefaultAsync(p => p.Description == description);
             var PlanMealtimeAssociation = new PlanMealtimeAssociation
             {
-                Planid = plan.Id,
+                Planid = thePlan.Id,
                 Mealtimeid = mealtimeId
             };
-            _dbContext.Plans.Add(plan);
             _dbContext.PlanMealtimeAssociations.Add(PlanMealtimeAssociation);
+            
             await _dbContext.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetPlan), new { id = plan.Id }, plan);
+           var options = new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            };
+
+            string json = JsonConvert.SerializeObject(plan, options);
+           return Ok(json);
         }
 
         // PUT: api/Plans/5

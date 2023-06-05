@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Postgre_API.Models;
+using Newtonsoft.Json;
 
 namespace Postgre_API.Controllers
 {
@@ -64,7 +65,14 @@ namespace Postgre_API.Controllers
             _dbContext.Measurements.Add(measurement);
             await _dbContext.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetMeasurement), new { id = measurement.Patientid }, measurement);
+           var options = new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            };
+
+            string json = JsonConvert.SerializeObject(measurement, options);
+
+            return Ok(json);
         }
 
         [HttpPut("{id}")]

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Postgre_API.Models;
+using Newtonsoft.Json;
 
 namespace Postgre_API.Controllers
 {
@@ -60,7 +61,13 @@ namespace Postgre_API.Controllers
             _dbContext.PatientNutritionistAssociations.Add(association);
             await _dbContext.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetPatientNutritionistAssociation), new { nutritionistId = association.Nutritionistid, patientId = association.Patientid }, association);
+            var options = new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            };
+
+            string json = JsonConvert.SerializeObject(association, options);
+           return Ok(json);
         }
 
         [HttpDelete("{nutritionistId}/{patientId}")]
