@@ -25,7 +25,8 @@ export class NutriComponent implements OnInit {
   provincias = ["San José", "Alajuela", "Cartago", "Limón", "Guanacaste", "Puntarenas", "Heredia"]
 
   opcionesGlobales = {
-    "productos" : {}
+    "pacientes" : {},
+    "planes" : {}
   }
 
   ngOnInit() {
@@ -35,7 +36,8 @@ export class NutriComponent implements OnInit {
     }
     //this.cargarProvincias(["gestSucSpaPROVINCIA", "gestEmplPPROVINCIA", "gestEmplPPROVINCIA2"]);
     this.cargarCheckBoxesComidas();
-    this.cargarProductos();
+    this.cargarPacientes();
+    this.cargarPlanes();
     const calorias = document.getElementById('gestionPlanesCaloriasExistente') as HTMLInputElement;
     calorias.value = String(this.totalCalorias);
   }
@@ -54,24 +56,75 @@ export class NutriComponent implements OnInit {
     }
   }
 
-  cargarProductos(){
-    alert("test")
-    // this.api.getProducts().subscribe((data) => {
-    //   const llegada = JSON.parse(JSON.stringify(data));
-    //   this.opcionesGlobales.productos = llegada;
-    //   const tmp = document.getElementById("aprobacionProductosSelect") as HTMLInputElement;
+  cargarPacientes(){
+    this.api.getPatients().subscribe((data) => {
+      const llegada = JSON.parse(JSON.stringify(data));
+      console.log(llegada);
+      this.opcionesGlobales.pacientes = llegada;
+      const tmpTotal = document.getElementById("busquedaAsociacionClientesComoPacientesSELECT") as HTMLInputElement;
+      const tmpTotal2 = document.getElementById("asignacionPlanPaciente") as HTMLInputElement;
+      const tmpTotal3 = document.getElementById("seguimientoPacienteSELECT") as HTMLInputElement;
 
-    //   for(const op in llegada){
-    //     const aux = llegada[op];
-    //     const opcion = document.createElement('option');
-    //     opcion.value = aux.description;
-    //     opcion.textContent = aux.description;
-    //     tmp.appendChild(opcion);
-    //   }
-      
-    //   this.cambiarInfo('productos', 'aprobacionProductosSelect', 'TEST', 'TEST');
 
-    // })
+      for(const op in llegada){
+        const aux = llegada[op];
+        const opcionTmp = document.createElement('option');
+        opcionTmp.value = aux.id;
+        opcionTmp.textContent = aux.id;
+        tmpTotal.appendChild(opcionTmp);
+      }
+
+      for(const op in llegada){
+        const aux = llegada[op];
+        const opcionTmp = document.createElement('option');
+        opcionTmp.value = aux.id;
+        opcionTmp.textContent = aux.id;
+        tmpTotal2.appendChild(opcionTmp);
+      }
+
+      for(const op in llegada){
+        const aux = llegada[op];
+        const opcionTmp = document.createElement('option');
+        opcionTmp.value = aux.id;
+        opcionTmp.textContent = aux.id;
+        tmpTotal3.appendChild(opcionTmp);
+      }
+  
+      this.cambiarInfo('productos', 'asignacionPlanPaciente', 'TEST', 'TEST');  
+      this.cambiarInfo('productos', 'busquedaAsociacionClientesComoPacientesSELECT', 'TEST', 'TEST');  
+      this.cambiarInfo('productos', 'seguimientoPacienteSELECT', 'TEST', 'TEST');  
+
+    })
+  }
+
+  cargarPlanes(){
+    this.api.getPlans().subscribe((data) => {
+      const llegada = JSON.parse(JSON.stringify(data));
+      console.log(llegada);
+      this.opcionesGlobales.pacientes = llegada;
+      const tmpTotal = document.getElementById("gestionPlanesSELECT") as HTMLInputElement;
+      const tmpTotal2 = document.getElementById("asignacionPlanPlan") as HTMLInputElement;
+
+
+      for(const op in llegada){
+        const aux = llegada[op];
+        const opcionTmp = document.createElement('option');
+        opcionTmp.value = aux.id;
+        opcionTmp.textContent = aux.id;
+        tmpTotal.appendChild(opcionTmp);
+      }
+
+      for(const op in llegada){
+        const aux = llegada[op];
+        const opcionTmp = document.createElement('option');
+        opcionTmp.value = aux.id;
+        opcionTmp.textContent = aux.id;
+        tmpTotal2.appendChild(opcionTmp);
+      }
+  
+      this.cambiarInfo('productos', 'gestionPlanesSELECT', 'TEST', 'TEST');  
+      this.cambiarInfo('productos', 'asignacionPlanPlan', 'TEST', 'TEST');  
+    })
   }
 
   //Función utilizada para cargar cada una de las 7 provincias en los componentes select que las necesitan
@@ -239,10 +292,32 @@ export class NutriComponent implements OnInit {
     const calcio = document.getElementById("gestionProductosCalcio") as HTMLInputElement
     const carbohidratos = document.getElementById("gestionProductosCarbohidratos") as HTMLInputElement
     const proteina = document.getElementById("gestionProductosProteina") as HTMLInputElement
+    const vitaminasNOLISTO = document.getElementById("gestionProductosVitaminas") as HTMLSelectElement
     const estado = false
+
+    const vitaminas: string[] = [];
+
   
-    this.api.createProduct(Number(barras.value), descripcion.value, Number(hierro.value), Number(sodio.value), Number(energia.value), Number(grasa.value), Number(calcio.value), Number(carbohidratos.value), Number(proteina.value), estado).subscribe((data) => {
+    for (let i = 0; i < vitaminasNOLISTO.options.length; i++) {
+      const option = vitaminasNOLISTO.options[i];
+      if (option.selected) {
+        vitaminas.push(option.value);
+      }
+    }
+    console.log(vitaminas)
+
+    this.api.createProduct(Number(barras.value), descripcion.value, Number(hierro.value), Number(sodio.value), Number(energia.value), Number(grasa.value), Number(calcio.value), Number(carbohidratos.value), Number(proteina.value), estado, vitaminas).subscribe((data) => {
       alert("swagger")
     })
+  }
+
+  asociarPacienteNutri(){
+    const paciente = document.getElementById("busquedaAsociacionClientesComoPacientesSELECT") as HTMLInputElement
+    //const nutri = 
+    //esta linea de aca arriba tiene que ser el id del nutri que se logro
+
+    // this.api.createPatientNutrionistAssociation(Number(nutri.value), paciente.value).subscribe((data) => {
+    //   console.log(data)
+    // }
   }
 }

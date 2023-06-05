@@ -285,8 +285,21 @@
               </div>
 
               <div class="col-sm-6 mb-3 mb-sm-0">
-                <label for="gestionProductosVitaminas">Vitaminas</label>
-                <input type="number" class="form-control form-control-user" id="gestionProductosVitaminas">
+                <label for="gestionProductosVitaminas">Vitaminas (Para seleccionar varias presione Ctrl y de click)</label>
+                <br>
+                <select id="gestionProductosVitaminas" multiple>
+                  <option value="A">A</option>
+                  <option value="B1">B1</option>
+                  <option value="B2">B2</option>
+                  <option value="B3">B3</option>
+                  <option value="B6">B6</option>
+                  <option value="B9">B9</option>
+                  <option value="B12">B12</option>
+                  <option value="C">C</option>
+                  <option value="D">D</option>
+                  <option value="E">E</option>
+                  <option value="K">K</option>
+                </select>
               </div>
 
               <div class="col-sm-6 mb-3 mb-sm-0">
@@ -319,13 +332,13 @@
 
             <div class="form-group row">
               <div class="col-sm">
-                <label for="busquedaAsociacionClientesComoPacientesSELECT">Paciente</label>
+                <label for="busquedaAsociacionClientesComoPacientesSELECT">Paciente (cedula)</label>
                 <select class="form-control form-control-user" id="busquedaAsociacionClientesComoPacientesSELECT"></select>
               </div>
 
             </div>
 
-            <a class="btn btn-outline-success btn-user btn-block">
+            <a class="btn btn-outline-success btn-user btn-block" (click)="asociarPacienteNutri()">
               Asociar
             </a>
 

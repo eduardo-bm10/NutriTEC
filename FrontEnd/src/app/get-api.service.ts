@@ -331,12 +331,12 @@ export class GetApiService {
   // Plan--------------------------------------------
 
   getPlans() {
-    const url = `${this.baseUrl}/Plans`;
+    const url = `${this.baseUrl}/api/Plans`;
     return this.http.get(url);
   }
 
   getPlanById(id: number) {
-    const url = `${this.baseUrl}/Plans/${id}`;
+    const url = `${this.baseUrl}/api/Plans/${id}`;
     return this.http.get(url);
   }
 
@@ -346,7 +346,7 @@ export class GetApiService {
     mealtimeId: number,
     productBarcode: number
   ) {
-    const url = `${this.baseUrl}/Plans?description=${description}&nutritionistId=${nutritionistId}&mealtimeId=${mealtimeId}&productBarcode=${productBarcode}`;
+    const url = `${this.baseUrl}/api/Plans?description=${description}&nutritionistId=${nutritionistId}&mealtimeId=${mealtimeId}&productBarcode=${productBarcode}`;
     return this.http.post(url, {});
   }
 
@@ -355,12 +355,12 @@ export class GetApiService {
     nutritionistId: string,
     description: string,
   ) {
-    const url = `${this.baseUrl}/Plans/${id}?nutritionistId=${nutritionistId}&description=${description}`;
+    const url = `${this.baseUrl}/api/Plans/${id}?nutritionistId=${nutritionistId}&description=${description}`;
     return this.http.put(url, {});
   }
 
   deletePlan(id: number) {
-    const url = `${this.baseUrl}/Plans/${id}`;
+    const url = `${this.baseUrl}/api/Plans/${id}`;
     return this.http.delete(url);
   }
 

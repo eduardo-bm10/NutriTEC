@@ -49,25 +49,33 @@ export class AdminComponent implements OnInit{
   cargarProductos(){
     this.api.getProducts().subscribe((data) => {
       const llegada = JSON.parse(JSON.stringify(data));
+      console.log(llegada);
       this.opcionesGlobales.productos = llegada;
       const tmp = document.getElementById("aprobacionProductosSelect") as HTMLInputElement;
+      const tmpTotal = document.getElementById("aprobacionProductosTotalSelect") as HTMLInputElement;
       const textarea = document.getElementById("aprobacionProductosDatos") as HTMLTextAreaElement;
 
       for(const op in llegada){
         const aux = llegada[op];
-        const opcion = document.createElement('option');
-        opcion.value = aux.barcode;
-        opcion.textContent = aux.barcode;
+        const opcionTmp = document.createElement('option');
+        opcionTmp.value = aux.barcode;
+        opcionTmp.textContent = aux.barcode;
         if (aux.status == false){
-          tmp.appendChild(opcion);
+          tmp.appendChild(opcionTmp);
         }
+
+        const opcionTmpTotal = document.createElement('option');
+        opcionTmpTotal.value = aux.barcode;
+        opcionTmpTotal.textContent = aux.barcode
+        tmpTotal.appendChild(opcionTmpTotal);
 
         const info = llegada[op];
         textarea.append(`Codigo: ${llegada[op].barcode}. Nombre: ${llegada[op].description}, Hierro: ${llegada[op].iron}, Sodio: ${llegada[op].sodium}, Energia: ${llegada[op].energy} , Grasa: ${llegada[op].fat}, Calcio: ${llegada[op].calcium}, Carbohidratos: ${llegada[op].carbohydrate}, Proteina: ${llegada[op].protein}\n`)
       }
 
     
-      this.cambiarInfo('productos', 'aprobacionProductosSelect', 'TEST', 'TEST');      
+      this.cambiarInfo('productos', 'aprobacionProductosSelect', 'TEST', 'TEST');  
+      this.cambiarInfo('productos', 'aprobacionProductosTotalSelect', 'TEST', 'TEST');      
     })
   }
 
@@ -332,10 +340,7 @@ agregarNuevoInventario(){
     //STANDBY
   }
 
-  //Función encargada de tomar los componentes mostrados en la pagina y enviarlos al api para llevar a cabo la función necesaria con los datos proporcionados (elimina un producto ya existente)
-  eliminarProducto(){ //FUNCA, CUIDADO CON IDS
-    const numeroBarras = document.getElementById('gestProductPCODIGO') as HTMLInputElement;
-  }
+
 
   //Función encargada de tomar los componentes mostrados en la pagina y enviarlos al api para llevar a cabo la función necesaria con los datos proporcionados (agrega un nuevo producto a la db)
   agregarProducto(){
@@ -397,10 +402,20 @@ agregarNuevoInventario(){
     this.api.getProductById(Number(barras.value)).subscribe((data) => {
       const llegada = JSON.parse(JSON.stringify(data));
 
-      this.api.updateProduct(llegada[0], llegada[1], llegada[2], llegada[3], llegada[4], llegada[5], llegada[6], llegada[7], llegada[8], true);
+      
+      this.api.updateProduct(llegada.Barcode, llegada.Description, llegada.Iron, llegada.Sodium, llegada.Energy, llegada.Fat, llegada.Calcium, llegada.Carbohydrate, llegada.Protein, true).subscribe((data) => {
+        console.log(data)
+      });
     });
+  }
 
-   
+
+  eliminarProducto(){
+    const barras = document.getElementById('aprobacionProductosTotalSelect') as HTMLInputElement;
+    alert(barras.value)
+    this.api.deleteProduct(Number(barras.value)).subscribe((data) => {
+      console.log(data)
+    });;
   }
 
 }//bracket que cierras
