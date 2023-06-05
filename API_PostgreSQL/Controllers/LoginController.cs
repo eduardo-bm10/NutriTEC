@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace Postgre_API.Controllers
 {
@@ -53,11 +54,13 @@ namespace Postgre_API.Controllers
                 }
             }
 
-            List<dynamic> returnList = new List<dynamic>();
-            returnList.Add(user);
-            returnList.Add(type); 
+            var returnObject = new
+            {
+                User = user,
+                Type = type
+            };
 
-            return returnList;
+            return new JsonResult(returnObject);
         }
 }
 }
