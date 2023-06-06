@@ -106,7 +106,7 @@ namespace Postgre_API.Controllers
                 _context.Nutritionists.Add(nutritionist);
                 await _context.SaveChangesAsync();
 
-                return nutritionist;
+                return Ok(nutritionist);
             }
             catch (Exception e)
             {
@@ -164,7 +164,7 @@ namespace Postgre_API.Controllers
                     }
                 }
 
-                return Ok(new { message = "Nutritionist not found" });
+                return Ok(new { message = "Nutritionist updated" });
             }
             catch (Exception e)
             {
