@@ -16,6 +16,13 @@ export class LoginComponent implements OnInit{
     this.getPaises();
   }
 
+  cargarAlimentos(){
+    this.api.getProducts().subscribe(data => {
+      const llegada = JSON.parse(JSON.stringify(data));
+      console.log(llegada)
+    })
+  }
+
   mostrarContra(){
     const input = document.getElementById('floatingPassword') as HTMLInputElement
     if(this.mostrar){
@@ -60,8 +67,8 @@ export class LoginComponent implements OnInit{
     ).subscribe(data => {
       const llegada = JSON.parse(JSON.stringify(data));
       console.log(llegada);
-      if(llegada['type'] == 'patient'){
-        localStorage.setItem('usuario', JSON.stringify(llegada['user']));
+      if(llegada['tipo'] == 'patient'){
+        localStorage.setItem('usuario', JSON.stringify(llegada['usuario']));
         this.api.ruta('/paciente');
       }
       else{

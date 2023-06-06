@@ -12,6 +12,13 @@ export class GetApiService {
 
   constructor(private http: HttpClient, private router:Router) {}
 
+  createOption(texto:string, id:string){
+    const option = document.createElement("option");
+    option.text = texto;
+    option.value = id;
+    return option;
+  }
+
   ruta(ruta:string){
     this.router.navigate([ruta]);
   }
@@ -41,7 +48,14 @@ export class GetApiService {
   }
 
   // Crear un nuevo administrador (Registro)
-  createAdministrator(id: string, firstname: string, lastname1: string, lastname2: string, email: string, password: string) {
+  createAdministrator(
+    id: string,
+    firstname: string,
+    lastname1: string,
+    lastname2: string,
+    email: string,
+    password: string
+  ) {
     const url = `${this.baseUrl}/api/Administrator/${id}?firstname=${firstname}&lastname1=${lastname1}&lastname2=${lastname2}&email=${email}&password=${password}`;
     return this.http.post(url, null);
   }
@@ -81,7 +95,7 @@ export class GetApiService {
     paymentid: number,
     photo: string
   ) {
-    const url = `${this.baseUrl}/api/Nutritionists?id=${id}&nutritionistcode=${nutritionistcode}&firstname=${firstname}&lastname1=${lastname1}&lastname2=${lastname2}&email=${email}&password=${password}&weight=${weight}&bmi=${bmi}&creditCard=${creditCard}&address=${address}&paymentid=${paymentid}&photo=${photo}`;
+    const url = `${this.baseUrl}/api/Nutritionists?id=${id}&nutritionistcode=${nutritionistcode}&firstname=${firstname}&lastname1=${lastname1}&lastname2=${lastname2}&email=${email}&password=${password}&weight=${weight}&bmi=${bmi}&cardNumber=${creditCard}&address=${address}&paymentid=${paymentid}&photo=${photo}`;
 
     return this.http.post(url, null, {
       headers: { 'Content-Type': 'application/json' }
