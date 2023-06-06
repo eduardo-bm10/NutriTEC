@@ -76,7 +76,7 @@ namespace Postgre_API.Controllers
         }
 
         [HttpPut("{patientId}")]
-        public async Task<IActionResult> UpdateMeasurement(int patientId, DataTime date, double waist, double neck, double hips, double musclePercentage, double fatPercentage)
+        public async Task<IActionResult> UpdateMeasurement(int patientId, DateTime date, double waist, double neck, double hips, double musclePercentage, double fatPercentage)
         {
             var measurement = await _dbContext.Measurements.FindAsync(patientId, new DateOnly(date.Year, date.Month, date.Day));
 
