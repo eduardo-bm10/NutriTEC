@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 namespace Postgre_API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/Login")]
     public class LoginController : ControllerBase
     {
         private readonly NutritecDbContext _dbContext;
@@ -36,7 +36,7 @@ namespace Postgre_API.Controllers
         }
 
         [HttpPost]
-        [Route("login/{email}/{password}")]
+        [Route("{email}/{password}")]
         public dynamic LoginUser(string email, string password){
             var thePassword = encryptPassword_MD5(password);
             dynamic user = _dbContext.Patients.FirstOrDefault(p => p.Email == email);

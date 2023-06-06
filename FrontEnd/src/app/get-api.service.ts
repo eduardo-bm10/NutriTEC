@@ -23,7 +23,7 @@ export class GetApiService {
 
   // Iniciar sesión--------------------------------------------
   login(email: string, password: string) {
-    const url = `${this.baseUrl}/api/Login/login?email=${email}&password=${password}`;
+    const url = `${this.baseUrl}/api/Login/${email}/${password}`;
     return this.http.post(url, null);
   }
   // Administrador--------------------------------------------
