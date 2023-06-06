@@ -59,6 +59,7 @@ export class LoginComponent implements OnInit{
       valor.email, valor.password
     ).subscribe(data => {
       const llegada = JSON.parse(JSON.stringify(data));
+      console.log(llegada);
       if(llegada['type'] == 'patient'){
         localStorage.setItem('usuario', JSON.stringify(llegada['user']));
         this.api.ruta('/paciente');
@@ -78,7 +79,13 @@ export class LoginComponent implements OnInit{
         Number(valor.musculo), Number(valor.grasa)
     ).subscribe((data) => {
       const llegada = JSON.parse(JSON.stringify(data));
-      console.log(llegada); 
+      if("Email" in llegada){
+        alert('Usuario creado correctamente!');
+        this.api.ruta('/');
+      }
+      else{
+        alert('Error al crear el usuario!');
+      }
     })
   }
 

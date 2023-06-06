@@ -10040,11 +10040,16 @@
     ]
   },
   "packageFolders": {
+<<<<<<< Updated upstream
     "C:\\Users\\Usuario\\.nuget\\packages\\": {}
+=======
+    "/Users/sebastianqr.2208/.nuget/packages/": {}
+>>>>>>> Stashed changes
   },
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< Updated upstream
       "projectUniqueName": "C:\\Users\\Usuario\\Documents\\GitHub\\NutriTEC\\API_PostgreSQL\\Postgre_API.csproj",
       "projectName": "Postgre_API",
       "projectPath": "C:\\Users\\Usuario\\Documents\\GitHub\\NutriTEC\\API_PostgreSQL\\Postgre_API.csproj",
@@ -10053,12 +10058,26 @@
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Usuario\\AppData\\Roaming\\NuGet\\NuGet.Config"
+=======
+      "projectUniqueName": "/Users/sebastianqr.2208/Documents/GIT/NutriTEC/API_PostgreSQL/Postgre_API.csproj",
+      "projectName": "Postgre_API",
+      "projectPath": "/Users/sebastianqr.2208/Documents/GIT/NutriTEC/API_PostgreSQL/Postgre_API.csproj",
+      "packagesPath": "/Users/sebastianqr.2208/.nuget/packages/",
+      "outputPath": "/Users/sebastianqr.2208/Documents/GIT/NutriTEC/API_PostgreSQL/obj/",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "/Users/sebastianqr.2208/.nuget/NuGet/NuGet.Config"
+>>>>>>> Stashed changes
       ],
       "originalTargetFrameworks": [
         "net7.0"
       ],
       "sources": {
+<<<<<<< Updated upstream
         "C:\\Program Files\\dotnet\\sdk\\7.0.302\\Sdks\\Microsoft.NET.Sdk.Web\\library-packs": {},
+=======
+        "/usr/local/share/dotnet/sdk/7.0.302/Sdks/Microsoft.NET.Sdk.Web/library-packs": {},
+>>>>>>> Stashed changes
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -10119,7 +10138,11 @@
             "privateAssets": "all"
           }
         },
+<<<<<<< Updated upstream
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
+=======
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.302/RuntimeIdentifierGraph.json"
+>>>>>>> Stashed changes
       }
     }
   }

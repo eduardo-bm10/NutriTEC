@@ -305,6 +305,7 @@ export class GetApiService {
     const encodedArray = vitamins.map(value => encodeURIComponent(value));
     const queryString = encodedArray.join("&");
     const url = `${this.baseUrl}/api/Product/${barcode}?description=${description}&iron=${iron}&sodium=${sodium}&energy=${energy}&fat=${fat}&calcium=${calcium}&carbohydrates=${carbohydrates}&protein=${protein}&status=${status}&vitamins=`+queryString;
+    return this.http.put(url, null, {});
   }
 
   // Actualizar un producto

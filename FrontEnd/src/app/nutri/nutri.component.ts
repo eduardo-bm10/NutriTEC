@@ -9,6 +9,8 @@ import { GetApiService } from '../get-api.service';
 
 export class NutriComponent implements OnInit {
   constructor(private api:GetApiService){}
+
+  infoNutri = {};
   nombre = 'Nutricionista Lic. María Fernanda Sánchez';
   totalCalorias = 0;
   dropdown = 0;
@@ -40,6 +42,11 @@ export class NutriComponent implements OnInit {
     this.cargarPlanes();
     const calorias = document.getElementById('gestionPlanesCaloriasExistente') as HTMLInputElement;
     calorias.value = String(this.totalCalorias);
+    const data = localStorage.getItem('usuario');
+    // @ts-ignore
+    const info = JSON.parse(data);
+    this.infoNutri = info;
+    this.nombre = `Nutricionista Lic. ${info['firstname']} ${info['lastname1']}`
   }
 
   cambiarInfo(llegada:string, seleccionador:string, id:string, des:string){
@@ -89,10 +96,10 @@ export class NutriComponent implements OnInit {
         opcionTmp.textContent = aux.id;
         tmpTotal3.appendChild(opcionTmp);
       }
-  
-      this.cambiarInfo('productos', 'asignacionPlanPaciente', 'TEST', 'TEST');  
-      this.cambiarInfo('productos', 'busquedaAsociacionClientesComoPacientesSELECT', 'TEST', 'TEST');  
-      this.cambiarInfo('productos', 'seguimientoPacienteSELECT', 'TEST', 'TEST');  
+
+      this.cambiarInfo('productos', 'asignacionPlanPaciente', 'TEST', 'TEST');
+      this.cambiarInfo('productos', 'busquedaAsociacionClientesComoPacientesSELECT', 'TEST', 'TEST');
+      this.cambiarInfo('productos', 'seguimientoPacienteSELECT', 'TEST', 'TEST');
 
     })
   }
@@ -121,9 +128,9 @@ export class NutriComponent implements OnInit {
         opcionTmp.textContent = aux.id;
         tmpTotal2.appendChild(opcionTmp);
       }
-  
-      this.cambiarInfo('productos', 'gestionPlanesSELECT', 'TEST', 'TEST');  
-      this.cambiarInfo('productos', 'asignacionPlanPlan', 'TEST', 'TEST');  
+
+      this.cambiarInfo('productos', 'gestionPlanesSELECT', 'TEST', 'TEST');
+      this.cambiarInfo('productos', 'asignacionPlanPlan', 'TEST', 'TEST');
     })
   }
 
@@ -297,7 +304,7 @@ export class NutriComponent implements OnInit {
 
     const vitaminas: string[] = [];
 
-  
+
     for (let i = 0; i < vitaminasNOLISTO.options.length; i++) {
       const option = vitaminasNOLISTO.options[i];
       if (option.selected) {
@@ -306,6 +313,7 @@ export class NutriComponent implements OnInit {
     }
     console.log(vitaminas)
 
+    
     this.api.createProduct(Number(barras.value), descripcion.value, Number(hierro.value), Number(sodio.value), Number(energia.value), Number(grasa.value), Number(calcio.value), Number(carbohidratos.value), Number(proteina.value), estado, vitaminas).subscribe((data) => {
       alert("swagger")
     })
@@ -313,7 +321,8 @@ export class NutriComponent implements OnInit {
 
   asociarPacienteNutri(){
     const paciente = document.getElementById("busquedaAsociacionClientesComoPacientesSELECT") as HTMLInputElement
-    //const nutri = 
+    // @ts-ignore
+    const nutri =  this.infoNutri['nutritionistcode'];
     //esta linea de aca arriba tiene que ser el id del nutri que se logro
 
     // this.api.createPatientNutrionistAssociation(Number(nutri.value), paciente.value).subscribe((data) => {

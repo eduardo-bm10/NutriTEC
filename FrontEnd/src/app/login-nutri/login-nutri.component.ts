@@ -19,7 +19,20 @@ export class LoginNUTRIComponent implements OnInit{
   getIdTipoCobro(){
     this.api.getPaymentTypes().subscribe(data =>{
       const llegada = JSON.parse(JSON.stringify(data));
-      console.log(llegada);
+      const select = document.getElementById('tipoCobro') as HTMLSelectElement;
+      for (const key in llegada) {
+        if (llegada.hasOwnProperty(key)) {
+          const todo = llegada[key];
+          const id = todo['id'];
+          const nombre = todo['description'];
+
+          const opcionTmp = document.createElement('option');
+          opcionTmp.value = id;
+          opcionTmp.textContent = nombre;
+          select.appendChild(opcionTmp);
+        }
+      }
+      console.log(select.value);
     })
   }
 
@@ -101,7 +114,8 @@ export class LoginNUTRIComponent implements OnInit{
     const reader = new FileReader();
     reader.onloadend = () => {
       const result = reader.result as string;
-      this.llamadaApiRegistrar(valor, result.split(',')[1]);
+      console.log(valor.tipoCobro)
+      //this.llamadaApiRegistrar(valor, result.split(',')[1]);
     };
     reader.readAsDataURL(file);
   }
