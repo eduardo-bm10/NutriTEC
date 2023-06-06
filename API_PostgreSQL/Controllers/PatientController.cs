@@ -46,14 +46,19 @@ namespace Postgre_API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Patient>> GetPatient(string id)
         {
-            var patient = await _dbContext.Patients.FindAsync(id);
+            try{
+                var patient = await _dbContext.Patients.FindAsync(id);
 
-            if (patient == null)
-            {
-                return NotFound(new { message = "Patient not found" });
+                if (patient == null)
+                {
+                    return NotFound(new { message = "Patient not found" });
+                }
+
+                return patient;
+
+            }catch(Exception e){
+                return BadRequest(new { message = e.Message });
             }
-
-            return patient;
         }
 
         [HttpPost]
