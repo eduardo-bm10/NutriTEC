@@ -39,7 +39,7 @@ namespace Postgre_API.Controllers
 
             if (planMealtimeAssociation == null)
             {
-                return NotFound();
+                return NotFound(new { message = "PlanMealtimeAssociation not found" });
             }
 
             return planMealtimeAssociation;
@@ -52,7 +52,7 @@ namespace Postgre_API.Controllers
             _context.PlanMealtimeAssociations.Add(planMealtimeAssociation);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetPlanMealtimeAssociation", new { planid = planMealtimeAssociation.Planid, mealtimeid = planMealtimeAssociation.Mealtimeid }, planMealtimeAssociation);
+            return Ok(new { message = "ok" });
         }
 
         // PUT: api/PlanMealtimeAssociations/5
@@ -62,7 +62,7 @@ namespace Postgre_API.Controllers
             try{
             if (planid != planMealtimeAssociation.Planid || mealtimeid != planMealtimeAssociation.Mealtimeid)
             {
-                return BadRequest();
+                return BadRequest(new { message = "PlanMealtimeAssociation not found" });
             }
 
             _context.Entry(planMealtimeAssociation).State = EntityState.Modified;
@@ -75,7 +75,7 @@ namespace Postgre_API.Controllers
             {
                 if (!PlanMealtimeAssociationExists(planid, mealtimeid))
                 {
-                    return NotFound();
+                    return NotFound(new { message = "PlanMealtimeAssociation not found" });
                 }
                 else
                 {
@@ -99,7 +99,7 @@ namespace Postgre_API.Controllers
             var planMealtimeAssociation = await _context.PlanMealtimeAssociations.FindAsync(planid, mealtimeid);
             if (planMealtimeAssociation == null)
             {
-                return NotFound();
+                return NotFound(new { message = "PlanMealtimeAssociation not found" });
             }
 
             _context.PlanMealtimeAssociations.Remove(planMealtimeAssociation);

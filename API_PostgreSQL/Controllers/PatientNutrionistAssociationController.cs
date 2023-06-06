@@ -91,6 +91,7 @@ namespace Postgre_API.Controllers
             string json = JsonConvert.SerializeObject(association, options);
 
             return Ok(json);
+            
         }catch (Exception e)
             {
                 return BadRequest(new {message = e.Message});

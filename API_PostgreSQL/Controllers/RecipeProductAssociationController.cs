@@ -33,7 +33,7 @@ namespace Postgre_API.Controllers
 
             if (recipeProductAssociation == null)
             {
-                return NotFound();
+                return NotFound(new { message = "RecipeProductAssociation not found" });
             }
 
             return recipeProductAssociation;
@@ -46,7 +46,7 @@ namespace Postgre_API.Controllers
             _context.RecipeProductAssociations.Add(recipeProductAssociation);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetRecipeProductAssociation", new { recipeid = recipeProductAssociation.Recipeid, productbarcode = recipeProductAssociation.Productbarcode }, recipeProductAssociation);
+            return Ok(new { message = "ok" });
         }
 
         // PUT: api/RecipeProductAssociations/5
@@ -56,7 +56,7 @@ namespace Postgre_API.Controllers
             try{
             if (recipeid != recipeProductAssociation.Recipeid || productbarcode != recipeProductAssociation.Productbarcode)
             {
-                return BadRequest();
+                return BadRequest(new { message = "RecipeProductAssociation not found" });
             }
 
             _context.Entry(recipeProductAssociation).State = EntityState.Modified;
@@ -69,7 +69,7 @@ namespace Postgre_API.Controllers
             {
                 if (!RecipeProductAssociationExists(recipeid, productbarcode))
                 {
-                    return NotFound();
+                    return NotFound(new { message = "RecipeProductAssociation not found" });
                 }
                 else
                 {

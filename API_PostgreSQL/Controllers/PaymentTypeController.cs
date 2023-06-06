@@ -115,6 +115,7 @@ namespace Postgre_API.Controllers
             await _dbContext.SaveChangesAsync();
 
             return Ok(new {message = "ok"});
+            
         }catch (Exception e)
             {
                 return BadRequest(new {message = e.Message});

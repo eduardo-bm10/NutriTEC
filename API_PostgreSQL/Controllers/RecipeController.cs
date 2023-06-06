@@ -40,7 +40,7 @@ namespace Postgre_API.Controllers
 
             if (recipe == null)
             {
-                return NotFound();
+                return NotFound(new {message = "Recipe not found"});
             }
 
             return recipe;
@@ -68,7 +68,7 @@ namespace Postgre_API.Controllers
                  var productBarcode_exists = await _context.Products.FindAsync(productBarcode);
                 if (productBarcode_exists == null)
                 {
-                    return NotFound("Product not found");
+                    return NotFound(new {message = "Product not found"});
                 }
                 var recipe = new Recipe
                 {
@@ -95,6 +95,7 @@ namespace Postgre_API.Controllers
             string json = JsonConvert.SerializeObject(recipeList, options);
 
             return Ok(json);
+
         }catch (Exception e)
             {
                 return BadRequest(new {message = e.Message});
@@ -109,14 +110,14 @@ namespace Postgre_API.Controllers
 
             if (recipe == null)
             {
-                return NotFound();
+                return NotFound(new {message = "Recipe not found"});
             }
 
             var productBarcodeExists = await _context.Products.FindAsync(productBarcode);
 
             if (productBarcodeExists == null)
             {
-                return NotFound("Product not found");
+                return NotFound(new {message = "Product not found"});
             }
 
             recipe.Description = description;
@@ -148,7 +149,7 @@ namespace Postgre_API.Controllers
             {
                 if (!RecipeExists(id))
                 {
-                    return NotFound();
+                    return NotFound(new {message = "Recipe not found"});
                 }
                 else
                 {
@@ -156,7 +157,8 @@ namespace Postgre_API.Controllers
                 }
             }
 
-            return Ok(recipeProductAssociation);
+            return Ok(new { message = "ok" });
+
         }catch (Exception e)
             {
                 return BadRequest(new {message = e.Message});
@@ -171,7 +173,7 @@ namespace Postgre_API.Controllers
 
             if (recipe == null)
             {
-                return NotFound();
+                return NotFound(new {message = "Recipe not found"});
             }
 
             var recipeProductAssociation = await _context.RecipeProductAssociations.FirstOrDefaultAsync(rpa => rpa.Recipeid == id);
@@ -185,6 +187,7 @@ namespace Postgre_API.Controllers
             await _context.SaveChangesAsync();
 
             return Ok(new { message = "ok" });
+            
         }catch (Exception e)
             {
                 return BadRequest(new {message = e.Message});

@@ -87,6 +87,7 @@ namespace Postgre_API.Controllers
 
             string json = JsonConvert.SerializeObject(plan, options);
            return Ok(json);
+
         }catch (Exception e)
             {
                 return BadRequest(new {message = e.Message});
@@ -99,7 +100,7 @@ namespace Postgre_API.Controllers
             try{
             if (id != plan.Id)
             {
-                return BadRequest(new { message = "Id's do not match" });
+                return NotFound(new { message = "not found" });
             }
 
             _dbContext.Entry(plan).State = EntityState.Modified;

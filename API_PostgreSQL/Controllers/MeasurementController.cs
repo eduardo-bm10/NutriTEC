@@ -154,7 +154,7 @@ namespace Postgre_API.Controllers
                 _dbContext.Measurements.Remove(measurement);
                 await _dbContext.SaveChangesAsync();
 
-                return NoContent();
+                return Ok(new { message = "ok" });
             }
             catch (Exception e)
             {

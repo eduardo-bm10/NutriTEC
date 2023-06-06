@@ -91,7 +91,7 @@ namespace Postgre_API.Controllers
 
             if (product0 != null)
             {
-                return Content("Product already exists!");
+                return BadRequest(new {message ="Product already exists!"});
             }
             var product = new Product{
                 Barcode = barcode,
@@ -105,7 +105,9 @@ namespace Postgre_API.Controllers
                 Protein = protein,
                 Status = false
                 };
+                
             var vitaminas_todas = vitamins.Split(",");
+
             foreach (var vitaminaActual in vitaminas_todas)
             {
                 var vitamina = new Vitamin{

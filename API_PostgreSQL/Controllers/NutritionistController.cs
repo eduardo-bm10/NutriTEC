@@ -80,7 +80,7 @@ namespace Postgre_API.Controllers
 
                 if (nutritionistExists != null)
                 {
-                    return Content("The nutritionist already exists!");
+                    return BadRequest(new {message = "The nutritionist already exists!"});
                 }
 
                 string encryptedPassword = EncryptPasswordMD5(password);
@@ -123,7 +123,7 @@ namespace Postgre_API.Controllers
 
                 if (nutritionistExists == null)
                 {
-                    return Content("The nutritionist does not exist!");
+                    return BadRequest(new {message = "The nutritionist does not exist!"});
                 }
 
                 string encryptedPassword = EncryptPasswordMD5(password);

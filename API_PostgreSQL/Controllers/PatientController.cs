@@ -75,7 +75,7 @@ namespace Postgre_API.Controllers
 
             if (patientExists != null)
             {
-                return Content("Patient already exists!");
+                return BadRequest("Patient already exists!");
             }
 
             string encryptedPassword = EncryptPasswordMD5(password);

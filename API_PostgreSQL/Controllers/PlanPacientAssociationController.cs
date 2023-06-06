@@ -60,13 +60,13 @@ namespace Postgre_API.Controllers
             var PatientNutritionistAssociation_exists = await _context.PatientNutritionistAssociations.FindAsync(nutritionistId, patientId);
             var planPatientAssociation_exists = await _context.PlanPatientAssociations.FindAsync(patientId, planId);
             if(plan_exists == null){
-                return NotFound("Plan not found!");
+                return NotFound(new {message = "Plan not found!"});
             }else if(patientId_exists == null){
-                return NotFound("Patient not found!");
+                return NotFound(new {message = "Patient not found!"});
             }else if(nutritionist_exists == null){
-                return NotFound("Nutritionist not found!");
+                return NotFound(new {message = "Nutritionist not found!"});
             }else if(PatientNutritionistAssociation_exists == null){
-                return NotFound("Patient not associated with Nutritionist!");
+                return NotFound(new {message = "PlanPatientAssociation not found!"});
             }else if(planPatientAssociation_exists != null){
                 return NotFound("Plan already associated with Patient!");
             }
@@ -100,7 +100,7 @@ namespace Postgre_API.Controllers
             try{
             if (patientid != planPatientAssociation.Patientid || planid != planPatientAssociation.Planid)
             {
-                return BadRequest();
+                return BadRequest(new {message = "PlanPatientAssociation not found"});
             }
 
             _context.Entry(planPatientAssociation).State = EntityState.Modified;
@@ -113,7 +113,7 @@ namespace Postgre_API.Controllers
             {
                 if (!PlanPatientAssociationExists(patientid, planid))
                 {
-                    return NotFound();
+                    return NotFound(new {message = "PlanPatientAssociation not found"});
                 }
                 else
                 {
@@ -136,7 +136,7 @@ namespace Postgre_API.Controllers
             var planPatientAssociation = await _context.PlanPatientAssociations.FindAsync(patientid, planid);
             if (planPatientAssociation == null)
             {
-                return NotFound();
+                return NotFound(new {message = "PlanPatientAssociation not found"});
             }
 
             _context.PlanPatientAssociations.Remove(planPatientAssociation);
