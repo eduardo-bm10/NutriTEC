@@ -20,18 +20,24 @@ namespace Postgre_API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
+            try{
             return await _dbContext.Products.ToListAsync();
+            }catch (Exception e)
+            {
+                return BadRequest(new {message = e.Message});
+            }}
         }
 
         // GET: api/Products/5
         [HttpGet("{barcode}")]
         public async Task<ActionResult<Product>> GetProduct(int barcode)
         {
+            try{            
             var product = await _dbContext.Products.FindAsync(barcode);
 
             if (product == null)
             {
-                return NotFound();
+                return NotFound(new {message = "Product not found"});
             }
 
             product.Barcode = barcode;
@@ -44,17 +50,23 @@ namespace Postgre_API.Controllers
 
             string json = JsonConvert.SerializeObject(product, options);
            return Ok(json);
+           return Ok(json);
+        }catch (Exception e)
+            {
+                return BadRequest(new {message = e.Message});
+            }
         }
 
         // GET: api/Products/Tomato
         [HttpGet("{description}")]
         public async Task<ActionResult<Product>> GetProductByDescription(string description)
         {
+            try{
             var product = await _dbContext.Products.FirstOrDefaultAsync(p => p.Description == description);
 
             if (product == null)
             {
-                return NotFound();
+                return NotFound(new {message = "Product not found"});
             }
 
             var options = new JsonSerializerSettings
@@ -64,13 +76,17 @@ namespace Postgre_API.Controllers
 
             string json = JsonConvert.SerializeObject(product, options);
            return Ok(json);
-        }
+        }catch (Exception e)
+            {
+                return BadRequest(new {message = e.Message});
+            }}
 
 
         // POST: api/Products
         [HttpPost("{barcode}")]
         public async Task<ActionResult<Product>> CreateProduct(int barcode, string description, double iron, double sodium, double energy, double fat, double calcium, double carbohydrate, double protein, string vitamins)
         {
+            try{
             var product0 = await _dbContext.Products.FindAsync(barcode);
 
             if (product0 != null)
@@ -109,17 +125,21 @@ namespace Postgre_API.Controllers
 
             string json = JsonConvert.SerializeObject(product, options);
            return Ok(json);
-        }
+        }catch (Exception e)
+            {
+                return BadRequest(new {message = e.Message});
+            }}
 
         // PUT: api/Products/5
         [HttpPut("{barcode}")]
         public async Task<IActionResult> UpdateProduct(int barcode, string description, double iron, double sodium, double energy, double fat, double calcium, double carbohydrate, double protein, bool status)
         {
+            try{
             var product = await _dbContext.Products.FindAsync(barcode);
 
             if (product == null)
             {
-                return NotFound();
+                return NotFound(new {message = "Product not found"});
             }
 
             product.Barcode = barcode;
@@ -142,23 +162,30 @@ namespace Postgre_API.Controllers
 
             string json = JsonConvert.SerializeObject(product, options);
            return Ok(json);
-        }
+        }catch (Exception e)
+            {
+                return BadRequest(new {message = e.Message});
+            }}
 
         // DELETE: api/Products/5
         [HttpDelete("{barcode}")]
         public async Task<IActionResult> DeleteProduct(int barcode)
         {
+            try{
             var product = await _dbContext.Products.FindAsync(barcode);
             if (product == null)
             {
-                return NotFound();
+                return NotFound(new {message = "Product not found"});
             }
 
             _dbContext.Products.Remove(product);
             await _dbContext.SaveChangesAsync();
 
-            return NoContent();
-        }
+            return Ok(new { message = "ok" });
+        }catch (Exception e)
+            {
+                return BadRequest(new {message = e.Message});
+            }}
 
         private bool ProductExists(int barcode)
         {

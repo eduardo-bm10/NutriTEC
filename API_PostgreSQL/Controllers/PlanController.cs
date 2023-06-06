@@ -23,27 +23,36 @@ namespace Postgre_API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Plan>>> GetPlans()
         {
+            try{
             return await _dbContext.Plans.ToListAsync();
-        }
+            }catch (Exception e)
+            {
+                return BadRequest(new {message = e.Message});
+            }}
 
         // GET: api/Plans/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Plan>> GetPlan(int id)
         {
-            var plan = await _dbContext.Plans.FindAsync(id);
+            try{
+                var plan = await _dbContext.Plans.FindAsync(id);
 
-            if (plan == null)
+                if (plan == null){
+                    return NotFound(new {message = "Plan not found"});
+                }
+
+                return plan;
+            }catch (Exception e)
             {
-                return NotFound();
+                return BadRequest(new {message = e.Message});
             }
-
-            return plan;
         }
 
         // POST: api/Plans
         [HttpPost("{description}")]
         public async Task<ActionResult<Plan>> CreatePlan(string description, string nutritionistId, int mealtimeId, int productBarcode)
         {
+            try{
             var mealtime_exists = await _dbContext.MealTimes.FindAsync(mealtimeId);
             var nutritionistId_exists = await _dbContext.Nutritionists.FindAsync(nutritionistId);
             var productBarcode_exists = await _dbContext.Products.FindAsync(productBarcode);
@@ -78,53 +87,54 @@ namespace Postgre_API.Controllers
 
             string json = JsonConvert.SerializeObject(plan, options);
            return Ok(json);
-        }
+        }catch (Exception e)
+            {
+                return BadRequest(new {message = e.Message});
+            }}
 
         // PUT: api/Plans/5
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdatePlan(int id, Plan plan)
         {
+            try{
             if (id != plan.Id)
             {
-                return BadRequest();
+                return BadRequest(new { message = "Id's do not match" });
             }
 
             _dbContext.Entry(plan).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
 
-            try
-            {
-                await _dbContext.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PlanExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
 
-            return NoContent();
+            return Ok(new { message = "ok" });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { message = e.Message });
+            }
         }
 
         // DELETE: api/Plans/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePlan(int id)
         {
+            try{
             var plan = await _dbContext.Plans.FindAsync(id);
 
             if (plan == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Plan not found" });
             }
 
             _dbContext.Plans.Remove(plan);
             await _dbContext.SaveChangesAsync();
 
-            return NoContent();
+            return Ok(new { message = "ok" });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { message = e.Message });
+            }
         }
 
         private bool PlanExists(int id)

@@ -23,7 +23,12 @@ namespace Postgre_API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PlanPatientAssociation>>> GetPlanPatientAssociations()
         {
+            try{
             return await _context.PlanPatientAssociations.ToListAsync();
+            }catch (Exception e)
+            {
+                return BadRequest(new {message = e.Message});
+            }}
         }
 
         // GET: api/PlanPatientAssociations/5
@@ -34,16 +39,20 @@ namespace Postgre_API.Controllers
 
             if (planPatientAssociation == null)
             {
-                return NotFound();
+                return NotFound(new {message = "PlanPatientAssociation not found"});
             }
 
             return planPatientAssociation;
-        }
+        }catch (Exception e)
+            {
+                return BadRequest(new {message = e.Message});
+            }}
 
         // POST: api/PlanPatientAssociations
         [HttpPost]
         public async Task<ActionResult<PlanPatientAssociation>> CreatePlanPatientAssociation(string nutritionistId,int planId, string patientId, DateTime startdate, DateTime enddate)
         {
+            try{            
             var plan_exists = await _context.Plans.FindAsync(planId);
             var patientId_exists = await _context.Patients.FindAsync(patientId);
             var nutritionist_exists = await _context.Nutritionists.FindAsync(nutritionistId);
@@ -78,12 +87,16 @@ namespace Postgre_API.Controllers
 
             string json = JsonConvert.SerializeObject(planPatientAssociation, options);
            return Ok(json);
-        }
+        }catch (Exception e)
+            {
+                return BadRequest(new {message = e.Message});
+            }}
 
         // PUT: api/PlanPatientAssociations/5
         [HttpPut("{patientid}/{planid}")]
         public async Task<IActionResult> UpdatePlanPatientAssociation(string patientid, int planid, PlanPatientAssociation planPatientAssociation)
         {
+            try{
             if (patientid != planPatientAssociation.Patientid || planid != planPatientAssociation.Planid)
             {
                 return BadRequest();
@@ -107,13 +120,18 @@ namespace Postgre_API.Controllers
                 }
             }
 
-            return NoContent();
-        }
+            return Ok(new { message = "ok" });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { message = e.Message });
+            }
 
         // DELETE: api/PlanPatientAssociations/5
         [HttpDelete("{patientid}/{planid}")]
         public async Task<IActionResult> DeletePlanPatientAssociation(string patientid, int planid)
         {
+            try{
             var planPatientAssociation = await _context.PlanPatientAssociations.FindAsync(patientid, planid);
             if (planPatientAssociation == null)
             {
@@ -123,8 +141,13 @@ namespace Postgre_API.Controllers
             _context.PlanPatientAssociations.Remove(planPatientAssociation);
             await _context.SaveChangesAsync();
 
-            return NoContent();
-        }
+            return Ok(new { message = "ok" });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { message = e.Message });
+            }
+        
 
         private bool PlanPatientAssociationExists(string patientid, int planid)
         {

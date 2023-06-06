@@ -23,13 +23,19 @@ namespace Postgre_API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Recipe>>> GetRecipes()
         {
+            try{
             return await _context.Recipes.ToListAsync();
+            }catch (Exception e)
+            {
+                return BadRequest(new {message = e.Message});
+            }}
         }
 
         // GET: api/Recipes/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Recipe>> GetRecipe(int id)
         {
+            try{
             var recipe = await _context.Recipes.FindAsync(id);
 
             if (recipe == null)
@@ -38,12 +44,16 @@ namespace Postgre_API.Controllers
             }
 
             return recipe;
-        }
+        }catch (Exception e)
+            {
+                return BadRequest(new {message = e.Message});
+            }}
 
         // POST: api/Recipes
         [HttpPost]
         public async Task<ActionResult<Recipe>> CreateRecipe(string description, string  BarcodeProducts, string PortionProducts)
         {
+            try{
             var recipeList = new List<Recipe>();
             var valoresProducts = BarcodeProducts.Split(',');
             var valoresPortions = PortionProducts.Split(',');
@@ -85,12 +95,16 @@ namespace Postgre_API.Controllers
             string json = JsonConvert.SerializeObject(recipeList, options);
 
             return Ok(json);
-        }
+        }catch (Exception e)
+            {
+                return BadRequest(new {message = e.Message});
+            }}
 
         // PUT: api/Recipes/5
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateRecipe(int id, string description, int productBarcode, int productPortion)
         {
+            try{
             var recipe = await _context.Recipes.FindAsync(id);
 
             if (recipe == null)
@@ -143,12 +157,16 @@ namespace Postgre_API.Controllers
             }
 
             return Ok(recipeProductAssociation);
-        }
+        }catch (Exception e)
+            {
+                return BadRequest(new {message = e.Message});
+            }}
 
         // DELETE: api/Recipes/{id}
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRecipe(int id)
         {
+            try{
             var recipe = await _context.Recipes.FindAsync(id);
 
             if (recipe == null)
@@ -166,8 +184,11 @@ namespace Postgre_API.Controllers
             _context.Recipes.Remove(recipe);
             await _context.SaveChangesAsync();
 
-            return NoContent();
-        }
+            return Ok(new { message = "ok" });
+        }catch (Exception e)
+            {
+                return BadRequest(new {message = e.Message});
+            }}
         private bool RecipeExists(int id)
         {
             return _context.Recipes.Any(e => e.Id == id);

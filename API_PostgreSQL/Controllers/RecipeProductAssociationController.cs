@@ -53,6 +53,7 @@ namespace Postgre_API.Controllers
         [HttpPut("{recipeid}/{productbarcode}")]
         public async Task<IActionResult> UpdateRecipeProductAssociation(int recipeid, int productbarcode, RecipeProductAssociation recipeProductAssociation)
         {
+            try{
             if (recipeid != recipeProductAssociation.Recipeid || productbarcode != recipeProductAssociation.Productbarcode)
             {
                 return BadRequest();
@@ -76,24 +77,33 @@ namespace Postgre_API.Controllers
                 }
             }
 
-            return NoContent();
-        }
+            return Ok(new { message = "ok" });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { message = e.Message });
+            }}
 
         // DELETE: api/RecipeProductAssociations/5
         [HttpDelete("{recipeid}/{productbarcode}")]
         public async Task<IActionResult> DeleteRecipeProductAssociation(int recipeid, int productbarcode)
         {
+            try{
             var recipeProductAssociation = await _context.RecipeProductAssociations.FindAsync(recipeid, productbarcode);
             if (recipeProductAssociation == null)
             {
-                return NotFound();
+                return NotFound(new {message = "RecipeProductAssociation not found"});
             }
 
             _context.RecipeProductAssociations.Remove(recipeProductAssociation);
             await _context.SaveChangesAsync();
 
-            return NoContent();
-        }
+            return Ok(new { message = "ok" });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { message = e.Message });
+            }}
 
         private bool RecipeProductAssociationExists(int recipeid, int productbarcode)
         {

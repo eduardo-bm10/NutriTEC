@@ -22,7 +22,13 @@ namespace Postgre_API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PlanMealtimeAssociation>>> GetPlanMealtimeAssociations()
         {
+            try{
             return await _context.PlanMealtimeAssociations.ToListAsync();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { message = e.Message });
+            }
         }
 
         // GET: api/PlanMealtimeAssociations/5
@@ -53,6 +59,7 @@ namespace Postgre_API.Controllers
         [HttpPut("{planid}/{mealtimeid}")]
         public async Task<IActionResult> UpdatePlanMealtimeAssociation(int planid, int mealtimeid, PlanMealtimeAssociation planMealtimeAssociation)
         {
+            try{
             if (planid != planMealtimeAssociation.Planid || mealtimeid != planMealtimeAssociation.Mealtimeid)
             {
                 return BadRequest();
@@ -76,13 +83,19 @@ namespace Postgre_API.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok(new { message = "ok" });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { message = e.Message });
+            }
         }
 
         // DELETE: api/PlanMealtimeAssociations/5
         [HttpDelete("{planid}/{mealtimeid}")]
         public async Task<IActionResult> DeletePlanMealtimeAssociation(int planid, int mealtimeid)
         {
+            try{
             var planMealtimeAssociation = await _context.PlanMealtimeAssociations.FindAsync(planid, mealtimeid);
             if (planMealtimeAssociation == null)
             {
@@ -92,7 +105,12 @@ namespace Postgre_API.Controllers
             _context.PlanMealtimeAssociations.Remove(planMealtimeAssociation);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok(new { message = "ok" });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { message = e.Message });
+            }
         }
 
         private bool PlanMealtimeAssociationExists(int planid, int mealtimeid)
