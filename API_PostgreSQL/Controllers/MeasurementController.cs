@@ -29,7 +29,7 @@ namespace Postgre_API.Controllers
         [HttpGet("{patientId}")]
         public async Task<ActionResult<Measurement>> GetMeasurement(int patientId)
         {
-            var measurement = await _dbContext.Measurements.FindAsync(id);
+            var measurement = await _dbContext.Measurements.FindAsync(patiendId);
 
             if (measurement == null)
             {
