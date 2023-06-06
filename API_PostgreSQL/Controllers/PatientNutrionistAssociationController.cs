@@ -63,7 +63,7 @@ namespace Postgre_API.Controllers
 
             if (associationExists != null)
             {
-                return Content(new { message"Association already exists!"});
+                return BadRequest(new { message = "Association already exists!"});
             }
             else if (patient == null)
             {

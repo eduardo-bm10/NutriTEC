@@ -26,7 +26,7 @@ namespace Postgre_API.Controllers
             {
                 return BadRequest(new {message = e.Message});
             }}
-        }
+        
 
         // GET: api/Products/5
         [HttpGet("{barcode}")]
