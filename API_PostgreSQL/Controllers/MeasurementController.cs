@@ -26,8 +26,8 @@ namespace Postgre_API.Controllers
             return await _dbContext.Measurements.ToListAsync();
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Measurement>> GetMeasurement(int id)
+        [HttpGet("{patientId}")]
+        public async Task<ActionResult<Measurement>> GetMeasurement(int patientId)
         {
             var measurement = await _dbContext.Measurements.FindAsync(id);
 
@@ -75,10 +75,10 @@ namespace Postgre_API.Controllers
             return Ok(json);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateMeasurement(int id, double waist, double neck, double hips, double musclePercentage, double fatPercentage)
+        [HttpPut("{patientId}")]
+        public async Task<IActionResult> UpdateMeasurement(int patientId, DataTime date, double waist, double neck, double hips, double musclePercentage, double fatPercentage)
         {
-            var measurement = await _dbContext.Measurements.FindAsync(id);
+            var measurement = await _dbContext.Measurements.FindAsync(patientId, new DateOnly(date.Year, date.Month, date.Day));
 
             if (measurement == null)
             {
@@ -92,6 +92,7 @@ namespace Postgre_API.Controllers
                 Musclepercentage = musclePercentage,
                 Fatpercentage = fatPercentage
             };
+
             measurement.Waist = updatedMeasurement.Waist;
             measurement.Neck = updatedMeasurement.Neck;
             measurement.Hips = updatedMeasurement.Hips;
@@ -103,7 +104,7 @@ namespace Postgre_API.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{patientId}/{}")]
         public async Task<IActionResult> DeleteMeasurement(int id)
         {
             var measurement = await _dbContext.Measurements.FindAsync(id);

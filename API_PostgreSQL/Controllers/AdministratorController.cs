@@ -36,6 +36,8 @@ namespace Postgre_API.Controllers
             return encryptedPassword;
         }
 
+        private dynamic convertJson
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Administrator>>> GetAdministrators()
         {
@@ -45,14 +47,20 @@ namespace Postgre_API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Administrator>> GetAdministrator(string id)
         {
-            var administrator = await _dbContext.Administrators.FindAsync(id);
+            try{
+                var administrator = await _dbContext.Administrators.FindAsync(id);
 
-            if (administrator == null)
-            {
-                return NotFound();
+                if (administrator == null)
+                {
+                    return NotFound();
+                }
+
+
+
+                return administrator;
+            }catch(Exception e){
+                return Content(e.Message);
             }
-
-            return administrator;
         }
 
         [HttpPost("{id}/{firstname}/{lastname1}/{lastname2}/{email}/{password}")]
