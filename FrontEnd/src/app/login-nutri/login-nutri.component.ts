@@ -76,13 +76,18 @@ export class LoginNUTRIComponent implements OnInit{
   login(form:any){
     const valor = form.value;
     this.api.login(
-      valor.email, valor.password
+      valor.cedula, valor.password
     ).subscribe(data => {
       const llegada = JSON.parse(JSON.stringify(data));
       console.log(llegada);
       if(llegada[1] == ''){
         localStorage.setItem('usuario', JSON.stringify(llegada[0]));
         this.api.ruta('/paciente');
+      }
+      else if (llegada.tipo == 'nutritionist') {
+        localStorage.setItem('usuario', JSON.stringify(llegada.usuario));
+        console.log(llegada.usuario);
+        this.api.ruta('/nutri');
       }
       else{
         alert('Error!');

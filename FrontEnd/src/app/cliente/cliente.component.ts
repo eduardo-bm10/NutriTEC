@@ -313,4 +313,37 @@ export class ClienteComponent implements OnInit {
       alert("Receta creada!");
     })
   }
+
+  crearNuevoProducto(){
+    console.log('a')
+    const barras = document.getElementById("gestionProductosBarras") as HTMLInputElement
+    const descripcion = document.getElementById("gestionProductosDescripcion") as HTMLInputElement
+    const hierro = document.getElementById("gestionProductosHierro") as HTMLInputElement
+    const sodio = document.getElementById("gestionProductosSodio") as HTMLInputElement
+    const energia = document.getElementById("gestionProductosEnergia") as HTMLInputElement
+    const grasa = document.getElementById("gestionProductosGrasa") as HTMLInputElement
+    const calcio = document.getElementById("gestionProductosCalcio") as HTMLInputElement
+    const carbohidratos = document.getElementById("gestionProductosCarbohidratos") as HTMLInputElement
+    const proteina = document.getElementById("gestionProductosProteina") as HTMLInputElement
+    const vitaminasNOLISTO = document.getElementById("gestionProductosVitaminas") as HTMLSelectElement
+    const estado = false
+
+    const vitaminas: string[] = [];
+    
+
+    for (let i = 0; i < vitaminasNOLISTO.options.length; i++) {
+      const option = vitaminasNOLISTO.options[i];
+      if (option.selected) {
+        vitaminas.push(option.value);
+      }
+    }
+    console.log(vitaminas)
+    
+    const vitaminasString: string = vitaminas.toString();
+
+    
+    this.api.createProduct(Number(barras.value), descripcion.value, Number(hierro.value), Number(sodio.value), Number(energia.value), Number(grasa.value), Number(calcio.value), Number(carbohidratos.value), Number(proteina.value), estado, vitaminasString).subscribe((data) => {
+      alert("swagger")
+    })
+  }
 }

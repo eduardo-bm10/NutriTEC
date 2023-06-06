@@ -331,7 +331,7 @@ export class GetApiService {
     vitamins: string
   ){
     const url = `${this.baseUrl}/api/Product/${barcode}?description=${description}&iron=${iron}&sodium=${sodium}&energy=${energy}&fat=${fat}&calcium=${calcium}&carbohydrates=${carbohydrates}&protein=${protein}&status=${status}&vitamins=${vitamins}`;
-    return this.http.put(url, null, {});
+    return this.http.post(url, null, {});
   }
 
   // Actualizar un producto
@@ -458,6 +458,11 @@ export class GetApiService {
     const url = `${this.baseUrl}/api/AdminProductAssociations/${adminId}/${productBarcode}?status=${status}`;
 
     return this.http.post(url, null, {});
+  }
+
+  getPatientNutriotionistAssociation(){
+    const url = `${this.baseUrl}/api/PatientNutritionistAssociation`;
+    return this.http.get(url)
   }
 
   createPatientNutrionistAssociation(nutritionistId: string, patientId: string){

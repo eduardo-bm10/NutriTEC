@@ -65,7 +65,8 @@ export class NutriComponent implements OnInit {
 
   cargarPacientes(){
     this.api.getPatients().subscribe((data) => {
-      const llegada = JSON.parse(JSON.stringify(data));
+      var llegada = JSON.parse(JSON.stringify(data));
+      //llegada = llegada.filter(item => otroJson.ids.includes(item.id));
       console.log(llegada);
       this.opcionesGlobales.pacientes = llegada;
       const tmpTotal = document.getElementById("busquedaAsociacionClientesComoPacientesSELECT") as HTMLInputElement;
@@ -131,6 +132,32 @@ export class NutriComponent implements OnInit {
 
       this.cambiarInfo('productos', 'gestionPlanesSELECT', 'TEST', 'TEST');
       this.cambiarInfo('productos', 'asignacionPlanPlan', 'TEST', 'TEST');
+    })
+  }
+
+  asignarPlanPaciente() {
+    //const 
+    const planCliente = document.getElementById("asignacionPlanPaciente") as HTMLInputElement;
+    const planPlan = document.getElementById("asignacionPlanPlan") as HTMLInputElement;
+    const planTiempo = document.getElementById("asignacionPlanTiempo") as HTMLInputElement;
+
+    const cliente = planCliente.value;
+    const plan = parseInt(planPlan.value);
+    const tiempo = planTiempo.value;
+
+    const fechaActualString = new Date().toISOString().substring(0, 10);
+
+    const fechaFinalizacion = new Date();
+    fechaFinalizacion.setDate(fechaFinalizacion.getDate() + parseInt(tiempo));
+    const fechaFinalizacionString = fechaFinalizacion.toISOString().substring(0, 10);
+
+    const nutricionista = localStorage.getItem("usuario")
+    if (nutricionista !== null) {
+      var nutricionistaId = JSON.parse(nutricionista).id
+    }
+
+    this.api.createPlanPatientAssociation(nutricionistaId,plan,cliente,fechaActualString,fechaFinalizacionString).subscribe((data) => {
+      console.log(data)
     })
   }
 
@@ -303,7 +330,7 @@ export class NutriComponent implements OnInit {
     const estado = false
 
     const vitaminas: string[] = [];
-
+    
 
     for (let i = 0; i < vitaminasNOLISTO.options.length; i++) {
       const option = vitaminasNOLISTO.options[i];
@@ -312,21 +339,30 @@ export class NutriComponent implements OnInit {
       }
     }
     console.log(vitaminas)
+    
+    const vitaminasString: string = vitaminas.toString();
 
-    /* 
-    this.api.createProduct(Number(barras.value), descripcion.value, Number(hierro.value), Number(sodio.value), Number(energia.value), Number(grasa.value), Number(calcio.value), Number(carbohidratos.value), Number(proteina.value), estado, vitaminas).subscribe((data) => {
+    
+    this.api.createProduct(Number(barras.value), descripcion.value, Number(hierro.value), Number(sodio.value), Number(energia.value), Number(grasa.value), Number(calcio.value), Number(carbohidratos.value), Number(proteina.value), estado, vitaminasString).subscribe((data) => {
       alert("swagger")
-    })*/
+    })
   }
 
   asociarPacienteNutri(){
     const paciente = document.getElementById("busquedaAsociacionClientesComoPacientesSELECT") as HTMLInputElement
     // @ts-ignore
-    const nutri =  this.infoNutri['nutritionistcode'];
+    const nutri =  localStorage.getItem('usuario');
+    if (nutri !== null) {
+      var nutricionistaId = JSON.parse(nutri).id
+    }
     //esta linea de aca arriba tiene que ser el id del nutri que se logro
 
-    // this.api.createPatientNutrionistAssociation(Number(nutri.value), paciente.value).subscribe((data) => {
-    //   console.log(data)
-    // }
+    this.api.createPatientNutrionistAssociation(nutricionistaId, paciente.value).subscribe((data) => {
+      console.log(data)
+    })
+  }
+
+  logOut(){
+    this.api.logout();
   }
 }
