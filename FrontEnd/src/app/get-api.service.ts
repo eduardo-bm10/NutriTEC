@@ -90,7 +90,7 @@ export class GetApiService {
     password: string,
     weight: number,
     bmi: number,
-    creditCard: number,
+    creditCard: string,
     address: string,
     paymentid: number,
     photo: string

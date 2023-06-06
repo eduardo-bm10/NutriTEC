@@ -104,7 +104,7 @@ namespace Postgre_API.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{patientId}/{}")]
+        [HttpDelete("{patientId}")]
         public async Task<IActionResult> DeleteMeasurement(int id)
         {
             var measurement = await _dbContext.Measurements.FindAsync(id);
