@@ -42,7 +42,7 @@ namespace Postgre_API.Controllers
 
         // POST: api/Recipes
         [HttpPost]
-        public async Task<ActionResult<Recipe>> CreateRecipe(string description, string barcode_products, string portion_products)
+        public async Task<ActionResult<Recipe>> CreateRecipe(string description, string  BarcodeProducts, string PortionProducts)
         {
             var recipeList = new List<Recipe>();
             var valoresProducts = BarcodeProducts.Split(',');
