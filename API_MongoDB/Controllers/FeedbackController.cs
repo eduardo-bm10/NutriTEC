@@ -8,17 +8,30 @@ namespace API_MongoDB.Controllers {
     public class FeedbackController : ControllerBase {
         public NutritecService service = new NutritecService();
 
+        private readonly NutritecDbContext postgreHandlers = new NutritecDbContext();
+
         [HttpPost]
         [Route("createFeedback/{senderSsn}/{receptorSsn}/{message}")]
         public dynamic CreateFeedback(string senderSsn, string receptorSsn, string message) {
-            Feedback f = new Feedback();
-            f.SenderSsn = senderSsn;
-            f.ReceptorSsn = receptorSsn;
-            f.Date = DateTime.Now.ToString();
-            f.Message = message;
-
-            service.Create(f);
-            return new { message = "Successfully created on " + f.Date + " by " + senderSsn};
+            if (verifyNutritionist(senderSsn)) {
+                if (verifyPatient(receptorSsn)) {
+                    return result("nutritionist");
+                }
+                else {
+                    return new { message = receptorSsn + " is not a patient."};
+                }
+            }
+            else if (verifyPatient(senderSsn)) {
+                if (verifyNutritionist(receptorSsn)) {
+                    return result("patient");
+                }
+                else {
+                    return new { message = receptorSsn + " is not a nutritionist."};
+                }
+            }
+            else {
+                return new { message = senderSsn + " is not a nutritionist nor patient."};
+            }
         }
 
         [HttpGet]
@@ -74,5 +87,34 @@ namespace API_MongoDB.Controllers {
             }
         }
 
+        // ---------------------- Create feedback handlers --------------------------------
+        private JsonResult result(string type) {
+            Feedback f = new Feedback();
+            f.SenderSsn = senderSsn;
+            f.ReceptorSsn = receptorSsn;
+            f.Date = DateTime.Now.ToString();
+            f.Message = message;
+
+            service.Create(f);
+            return new { message = "Successfully created on " + f.Date + " by " + type + " " + senderSsn};
+        }
+
+        private bool verifyNutritionist(int ssn) {
+            if (this.postgreHandlers.Nutritionist.FindAsync(ssn)) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        private bool verifyPatient(int ssn) {
+            if (this.postgreHandlers.Patient.FindAsync(ssn)) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
     }
 }
