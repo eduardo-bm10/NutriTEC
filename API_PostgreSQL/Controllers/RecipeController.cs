@@ -42,13 +42,19 @@ namespace Postgre_API.Controllers
 
         // POST: api/Recipes
         [HttpPost]
-        public async Task<ActionResult<Recipe>> CreateRecipe(string description, Dictionary<int, int> BarcodePortion)
+        public async Task<ActionResult<Recipe>> CreateRecipe(string description, string  BarcodeProducts, string PortionProducts)
         {
             var recipeList = new List<Recipe>();
-            foreach (KeyValuePair<int, int> kvp in BarcodePortion)
+            var valoresProducts = BarcodeProducts.Split(',');
+            var valoresPortions = PortionProducts.Split(',');
+
+            int length = Math.Min(valoresProducts.Length, valoresPortions.Length);
+
+            for (int i = 0; i < length; i++)
             {
-                int productBarcode = kvp.Key;
-                int Product_portion = kvp.Value;
+                int productBarcode = int.Parse(valoresProducts[i]);
+                int Product_portion =  int.Parse(valoresPortions[i]);
+   
                  var productBarcode_exists = await _context.Products.FindAsync(productBarcode);
                 if (productBarcode_exists == null)
                 {

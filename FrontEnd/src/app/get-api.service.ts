@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { NgForm } from '@angular/forms';
+
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +13,18 @@ export class GetApiService {
   private mongoUrl = 'https://mongo-api.azurewebsites.net';
 
   constructor(private http: HttpClient, private router:Router) {}
+
+  resetFormulario(form:any){
+    form.resetForm();
+  }
+
+  getFecha(){
+    const fechaActual = new Date();
+    const year = fechaActual.getFullYear();
+    const mes = fechaActual.getMonth() + 1;
+    const dia = fechaActual.getDate();
+    return (`${year}-${mes}-${dia}`);
+  }
 
   createOption(texto:string, id:string){
     const option = document.createElement("option");
@@ -314,11 +328,9 @@ export class GetApiService {
     carbohydrates: number,
     protein: number,
     status: boolean,
-    vitamins: string[]
+    vitamins: string
   ){
-    const encodedArray = vitamins.map(value => encodeURIComponent(value));
-    const queryString = encodedArray.join("&");
-    const url = `${this.baseUrl}/api/Product/${barcode}?description=${description}&iron=${iron}&sodium=${sodium}&energy=${energy}&fat=${fat}&calcium=${calcium}&carbohydrates=${carbohydrates}&protein=${protein}&status=${status}&vitamins=`+queryString;
+    const url = `${this.baseUrl}/api/Product/${barcode}?description=${description}&iron=${iron}&sodium=${sodium}&energy=${energy}&fat=${fat}&calcium=${calcium}&carbohydrates=${carbohydrates}&protein=${protein}&status=${status}&vitamins=${vitamins}`;
     return this.http.put(url, null, {});
   }
 
@@ -458,10 +470,9 @@ export class GetApiService {
     return this.http.post(url, null, {});
   }
 
-  createRecipe(description: string, barcodePortion: { [key: number]: number }) {
-    const url = `${this.baseUrl}/api/Recipes`;
-    const body = { description, barcodePortion };
-    return this.http.post(url, body);
+  createRecipe(description: string, barcodeProducts: string, portionProducts:string) {
+    const url = `${this.baseUrl}/api/Recipes?description=${description}&barcodeProducts=${barcodeProducts}&portionProducts=${portionProducts}`;
+    return this.http.post(url, null,{});
   }
 
   //------------------ Mongo API Methods ----------------------------------------------------------

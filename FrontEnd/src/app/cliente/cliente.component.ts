@@ -219,4 +219,22 @@ export class ClienteComponent implements OnInit{
   logout(){
     this.api.logout();
   }
+
+  registroDeMedidas(){
+    // @ts-ignore
+    const cedula = this.infoAll['id'];
+    const cintura = document.getElementById('registroMedidasCintura') as HTMLInputElement;
+    const cuello = document.getElementById('registroMedidasCuello') as HTMLInputElement;
+    const cadera = document.getElementById('registroMedidasCadera') as HTMLInputElement;
+    const musculo = document.getElementById('registroMedidasMusculo') as HTMLInputElement;
+    const grasa = document.getElementById('registroMedidasGrasa') as HTMLInputElement;
+    
+    console.log()
+
+    this.api.createMeasurement(cedula, Number(cintura.value), Number(cuello.value), Number(cadera.value), Number(musculo.value), Number(grasa.value))
+    .subscribe(data => {
+      const llegada = JSON.parse(JSON.stringify(data));
+      console.log(llegada);
+    })
+  }
 }
