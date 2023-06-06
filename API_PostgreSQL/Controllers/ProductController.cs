@@ -69,7 +69,7 @@ namespace Postgre_API.Controllers
 
         // POST: api/Products
         [HttpPost("{barcode}")]
-        public async Task<ActionResult<Product>> CreateProduct(int barcode, string description, double iron, double sodium, double energy, double fat, double calcium, double carbohydrate, double protein, List<string> vitamins)
+        public async Task<ActionResult<Product>> CreateProduct(int barcode, string description, double iron, double sodium, double energy, double fat, double calcium, double carbohydrate, double protein, string vitamins)
         {
             var product0 = await _dbContext.Products.FindAsync(barcode);
 
@@ -89,13 +89,14 @@ namespace Postgre_API.Controllers
                 Protein = protein,
                 Status = false
                 };
-
-            foreach (string vitaminaActual in vitamins)
+            var vitaminas_todas = vitamins.Split(",");
+            foreach (var vitaminaActual in vitaminas_todas)
             {
                 var vitamina = new Vitamin{
                     ProductBarcode = barcode,
                     Vitamin1 = vitaminaActual
                 };
+            
                 _dbContext.Vitamins.Add(vitamina);
             }
            _dbContext.Products.Add(product); 
