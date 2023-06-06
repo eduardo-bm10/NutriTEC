@@ -102,6 +102,7 @@ export class LoginNUTRIComponent implements OnInit{
       valor.tipoCobro, foto
     ).subscribe(data => {
       const llegada = JSON.parse(JSON.stringify(data));
+      console.log(foto)
       console.log(llegada);
     })
   }
@@ -115,7 +116,7 @@ export class LoginNUTRIComponent implements OnInit{
     reader.onloadend = () => {
       const result = reader.result as string;
       console.log(valor.tipoCobro)
-      //this.llamadaApiRegistrar(valor, result.split(',')[1]);
+      this.llamadaApiRegistrar(valor, result.split(',')[1]);
     };
     reader.readAsDataURL(file);
   }
