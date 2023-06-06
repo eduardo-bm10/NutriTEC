@@ -36,7 +36,7 @@ namespace Postgre_API.Controllers
             return encryptedPassword;
         }
 
-        private dynamic convertJson
+        //private dynamic convertJson
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Administrator>>> GetAdministrators()
