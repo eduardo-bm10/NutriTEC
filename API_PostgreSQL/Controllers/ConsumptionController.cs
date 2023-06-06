@@ -1,6 +1,6 @@
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,95 +23,130 @@ namespace Postgre_API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Consumption>>> GetConsumptions()
         {
-            return await _dbContext.Consumptions.ToListAsync();
+            try
+            {
+                return await _dbContext.Consumptions.ToListAsync();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { message = e.Message });
+            }
         }
 
         [HttpGet("{patientId}/{date}/{mealtimeId}")]
         public async Task<ActionResult<Consumption>> GetConsumption(string patientId, DateTime date, int mealtimeId)
         {
-            var consumption = await _dbContext.Consumptions.FindAsync(patientId, date);
-
-            if (consumption == null)
+            try
             {
-                return NotFound();
-            }
+                var consumption = await _dbContext.Consumptions.FindAsync(patientId, date);
 
-            return consumption;
+                if (consumption == null)
+                {
+                    return NotFound(new { message = "Consumption not found" });
+                }
+
+                return consumption;
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { message = e.Message });
+            }
         }
 
         [HttpPost]
         public async Task<ActionResult<Consumption>> CreateConsumption(string patientId, DateTime date, int mealtimeId, int productBarcode)
         {
-            var patientId_exists = await _dbContext.Patients.FindAsync(patientId);
-            var mealtimeId_exists = await _dbContext.MealTimes.FindAsync(mealtimeId);
-            var productBarcode_exists = await _dbContext.Products.FindAsync(productBarcode);
-            if (patientId_exists == null)
+            try
             {
-                return NotFound("Patient not found");
+                var patientId_exists = await _dbContext.Patients.FindAsync(patientId);
+                var mealtimeId_exists = await _dbContext.MealTimes.FindAsync(mealtimeId);
+                var productBarcode_exists = await _dbContext.Products.FindAsync(productBarcode);
+
+                if (patientId_exists == null)
+                {
+                    return NotFound(new { message = "Patient not found" });
+                }
+                else if (mealtimeId_exists == null)
+                {
+                    return NotFound(new { message = "Mealtime not found" });
+                }
+                else if (productBarcode_exists == null)
+                {
+                    return NotFound(new { message = "Product not found" });
+                }
+
+                var consumption = new Consumption
+                {
+                    Patientid = patientId,
+                    Date = new DateOnly(date.Year, date.Month, date.Day),
+                    Mealtime = mealtimeId,
+                    Productbarcode = productBarcode
+                };
+
+                _dbContext.Consumptions.Add(consumption);
+                await _dbContext.SaveChangesAsync();
+
+                var options = new JsonSerializerSettings
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                };
+
+                string json = JsonConvert.SerializeObject(consumption, options);
+
+                return Ok(new { message = "ok", data = json });
             }
-            else if (mealtimeId_exists == null)
+            catch (Exception e)
             {
-                return NotFound("Mealtime not found");
+                return BadRequest(new { message = e.Message });
             }
-            else if (productBarcode_exists == null)
-            {
-                return NotFound("Product not found");
-            }
-
-
-            var consumption = new Consumption
-            {
-                Patientid = patientId,
-                Date = new DateOnly(date.Year, date.Month, date.Day),
-                Mealtime = mealtimeId,
-                Productbarcode = productBarcode
-            };
-
-            _dbContext.Consumptions.Add(consumption);
-            await _dbContext.SaveChangesAsync();
-
-            var options = new JsonSerializerSettings
-            {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-            };
-
-            string json = JsonConvert.SerializeObject(consumption, options);
-
-            return Ok(json);
         }
 
         [HttpPut("{patientId}/{date}/{mealtimeId}")]
         public async Task<IActionResult> UpdateConsumption(string patientId, DateTime date, int productBarcode, int mealtimeId)
         {
-            var consumption = await _dbContext.Consumptions.FindAsync(patientId, new DateOnly(date.Year, date.Month, date.Day), mealtimeId);
-
-            if (consumption == null)
+            try
             {
-                return NotFound();
+                var consumption = await _dbContext.Consumptions.FindAsync(patientId, new DateOnly(date.Year, date.Month, date.Day), mealtimeId);
+
+                if (consumption == null)
+                {
+                    return NotFound(new { message = "Consumption not found" });
+                }
+
+                consumption.Mealtime = mealtimeId;
+                consumption.Productbarcode = productBarcode;
+
+                await _dbContext.SaveChangesAsync();
+
+                return Ok(new { message = "ok" });
             }
-
-            consumption.Mealtime = mealtimeId;
-            consumption.Productbarcode = productBarcode;
-
-            await _dbContext.SaveChangesAsync();
-
-            return NoContent();
+            catch (Exception e)
+            {
+                return BadRequest(new { message = e.Message });
+            }
         }
 
         [HttpDelete("{patientId}/{date}/{mealtimeId}")]
-        public async Task<IActionResult> DeleteConsumption(string patientId, DateTime date,int mealtimeId)
+        public async Task<IActionResult> DeleteConsumption(string patientId, DateTime date, int mealtimeId)
         {
-            var consumption = await _dbContext.Consumptions.FindAsync(patientId, new DateOnly(date.Year, date.Month, date.Day), mealtimeId);
-
-            if (consumption == null)
+            try
             {
-                return NotFound();
+                var consumption = await _dbContext.Consumptions.FindAsync(patientId, new DateOnly(date.Year, date.Month, date.Day), mealtimeId);
+
+                if (consumption == null)
+                {
+                    return NotFound(new { message = "Consumption not found" });
+                }
+
+                _dbContext.Consumptions.Remove(consumption);
+                await _dbContext.SaveChangesAsync();
+
+                return Ok(new { message = "ok" });
             }
-
-            _dbContext.Consumptions.Remove(consumption);
-            await _dbContext.SaveChangesAsync();
-
-            return NoContent();
+            catch (Exception e)
+            {
+                return BadRequest(new { message = e.Message });
+            }
         }
     }
 }

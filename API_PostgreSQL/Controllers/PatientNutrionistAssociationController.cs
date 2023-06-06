@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using Postgre_API.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Postgre_API.Models;
-using Newtonsoft.Json;
 
 namespace Postgre_API.Controllers
 {
@@ -32,32 +32,38 @@ namespace Postgre_API.Controllers
 
             if (association == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Association not found" });
             }
 
             return association;
         }
 
         [HttpPost]
-        public async Task<ActionResult<PatientNutritionistAssociation>> CreatePatientNutritionistAssociation(string nutritionistId, string patientId)
+        public async Task<IActionResult> CreatePatientNutritionistAssociation(string nutritionistId, string patientId)
         {
-            var association0 = await _dbContext.PatientNutritionistAssociations.FindAsync(nutritionistId, patientId);
+            var associationExists = await _dbContext.PatientNutritionistAssociations.FindAsync(nutritionistId, patientId);
             var patient = await _dbContext.Patients.FindAsync(patientId);
             var nutritionist = await _dbContext.Nutritionists.FindAsync(nutritionistId);
-            if (association0 != null)
+
+            if (associationExists != null)
             {
                 return Content("Association already exists!");
-            }else if(patient == null){
-                return Content("Patient does not exist!");
-            }else if(nutritionist == null){
-                return Content("Nutritionist does not exist!");
             }
+            else if (patient == null)
+            {
+                return NotFound(new { message = "Patient not found" });
+            }
+            else if (nutritionist == null)
+            {
+                return NotFound(new { message = "Nutritionist not found" });
+            }
+
             var association = new PatientNutritionistAssociation
             {
                 Nutritionistid = nutritionistId,
                 Patientid = patientId
             };
-            
+
             _dbContext.PatientNutritionistAssociations.Add(association);
             await _dbContext.SaveChangesAsync();
 
@@ -67,7 +73,8 @@ namespace Postgre_API.Controllers
             };
 
             string json = JsonConvert.SerializeObject(association, options);
-           return Ok(json);
+
+            return Ok(json);
         }
 
         [HttpDelete("{nutritionistId}/{patientId}")]
@@ -77,13 +84,13 @@ namespace Postgre_API.Controllers
 
             if (association == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Association not found" });
             }
 
             _dbContext.PatientNutritionistAssociations.Remove(association);
             await _dbContext.SaveChangesAsync();
 
-            return NoContent();
+            return Ok(new { message = "ok" });
         }
     }
 }

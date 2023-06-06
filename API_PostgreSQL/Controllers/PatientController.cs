@@ -1,12 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using Postgre_API.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Postgre_API.Models;
 using System.Security.Cryptography;
 using System.Text;
-using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace Postgre_API.Controllers
 {
@@ -21,19 +22,19 @@ namespace Postgre_API.Controllers
             _dbContext = dbContext;
         }
 
-        private dynamic encryptPassword_MD5(string password){
-            string encryptedPassword = "";
-            using (MD5 md5 = MD5.Create()) {
+        private string EncryptPasswordMD5(string password)
+        {
+            using (MD5 md5 = MD5.Create())
+            {
                 byte[] inputBytes = Encoding.UTF8.GetBytes(password);
                 byte[] hashBytes = md5.ComputeHash(inputBytes);
                 StringBuilder sb = new StringBuilder();
-                foreach (byte b in hashBytes) {
+                foreach (byte b in hashBytes)
+                {
                     sb.Append(b.ToString("x2"));
                 }
-                encryptedPassword = sb.ToString();
-                Console.WriteLine(sb.ToString()); // borrar luego
-            }            
-            return encryptedPassword;
+                return sb.ToString();
+            }
         }
 
         [HttpGet]
@@ -49,23 +50,24 @@ namespace Postgre_API.Controllers
 
             if (patient == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Patient not found" });
             }
 
             return patient;
         }
 
-    
         [HttpPost]
-        public async Task<ActionResult<Patient>> CreatePatient(string id,string firstname,string lastname1,string lastname2,string email,string password,int weight,double bmi,string address,DateTime birthdate,string country,double maxconsumption, double waist, double neck, double hips, double musclePercentage, double fatPercentage)
+        public async Task<IActionResult> CreatePatient(string id, string firstname, string lastname1, string lastname2, string email, string password, int weight, double bmi, string address, DateTime birthdate, string country, double maxconsumption, double waist, double neck, double hips, double musclePercentage, double fatPercentage)
         {
-            var patient0 = await _dbContext.Patients.FindAsync(id);
+            var patientExists = await _dbContext.Patients.FindAsync(id);
 
-            if (patient0 != null)
+            if (patientExists != null)
             {
                 return Content("Patient already exists!");
             }
-            string thePassword = encryptPassword_MD5(password);
+
+            string encryptedPassword = EncryptPasswordMD5(password);
+
             var patient = new Patient
             {
                 Id = id,
@@ -73,7 +75,7 @@ namespace Postgre_API.Controllers
                 Lastname1 = lastname1,
                 Lastname2 = lastname2,
                 Email = email,
-                Password = thePassword,
+                Password = encryptedPassword,
                 Weight = weight,
                 Bmi = bmi,
                 Address = address,
@@ -107,7 +109,6 @@ namespace Postgre_API.Controllers
             return Ok(json);
         }
 
-
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdatePatient(string id, string firstname, string lastname1, string lastname2, string email, string password, int weight, double bmi, string address, DateTime birthdate, string country, double maxconsumption)
         {
@@ -115,7 +116,7 @@ namespace Postgre_API.Controllers
 
             if (patient == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Patient not found" });
             }
 
             patient.Firstname = firstname;
@@ -132,30 +133,30 @@ namespace Postgre_API.Controllers
 
             await _dbContext.SaveChangesAsync();
 
-            return NoContent();
+            return Ok(new {message = "ok"});
         }
-
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePatient(string id)
         {
             var patient = await _dbContext.Patients.FindAsync(id);
             var measurementsForPatient = _dbContext.Measurements.Where(m => m.Patientid == id).ToList();
+
             if (patient == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Patient not found" });
             }
 
             // Delete each measurement for the patient
-            foreach (var measurement0 in measurementsForPatient)
+            foreach (var measurement in measurementsForPatient)
             {
-                _dbContext.Measurements.Remove(measurement0);
+                _dbContext.Measurements.Remove(measurement);
             }
 
             _dbContext.Patients.Remove(patient);
             await _dbContext.SaveChangesAsync();
 
-            return NoContent();
+            return Ok(new { message = "ok" });
         }
     }
 }
