@@ -63,9 +63,8 @@ namespace Postgre_API.Controllers
                     return NotFound(new { message = "Nutritionist not found" });
                 }
 
-                return nutritionist;
-            }
-            catch (Exception e)
+                return Ok(nutritionist);
+            }catch (Exception e)
             {
                 return BadRequest(new {message = e.Message});
             }

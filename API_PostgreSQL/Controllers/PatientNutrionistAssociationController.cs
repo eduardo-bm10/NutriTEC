@@ -22,32 +22,48 @@ namespace Postgre_API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PatientNutritionistAssociation>>> GetPatientNutritionistAssociations()
         {
-            return await _dbContext.PatientNutritionistAssociations.ToListAsync();
+            try
+            {
+                return await _dbContext.PatientNutritionistAssociations.ToListAsync();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new {message = e.Message});
+            }
+            
         }
 
         [HttpGet("{nutritionistId}/{patientId}")]
         public async Task<ActionResult<PatientNutritionistAssociation>> GetPatientNutritionistAssociation(string nutritionistId, string patientId)
         {
-            var association = await _dbContext.PatientNutritionistAssociations.FindAsync(nutritionistId, patientId);
-
-            if (association == null)
+            try
             {
-                return NotFound(new { message = "Association not found" });
-            }
+                var association = await _dbContext.PatientNutritionistAssociations.FindAsync(nutritionistId, patientId);
 
-            return association;
+                if (association == null)
+                {
+                    return NotFound(new { message = "Association not found" });
+                }
+
+                return Ok(association);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new {message = e.Message});
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> CreatePatientNutritionistAssociation(string nutritionistId, string patientId)
         {
+            try{
             var associationExists = await _dbContext.PatientNutritionistAssociations.FindAsync(nutritionistId, patientId);
             var patient = await _dbContext.Patients.FindAsync(patientId);
             var nutritionist = await _dbContext.Nutritionists.FindAsync(nutritionistId);
 
             if (associationExists != null)
             {
-                return Content("Association already exists!");
+                return Content(new { message"Association already exists!"});
             }
             else if (patient == null)
             {
@@ -75,11 +91,15 @@ namespace Postgre_API.Controllers
             string json = JsonConvert.SerializeObject(association, options);
 
             return Ok(json);
-        }
+        }catch (Exception e)
+            {
+                return BadRequest(new {message = e.Message});
+            }}
 
         [HttpDelete("{nutritionistId}/{patientId}")]
         public async Task<IActionResult> DeletePatientNutritionistAssociation(string nutritionistId, string patientId)
         {
+            try{
             var association = await _dbContext.PatientNutritionistAssociations.FindAsync(nutritionistId, patientId);
 
             if (association == null)
@@ -91,6 +111,9 @@ namespace Postgre_API.Controllers
             await _dbContext.SaveChangesAsync();
 
             return Ok(new { message = "ok" });
-        }
+        }catch (Exception e)
+            {
+                return BadRequest(new {message = e.Message});
+            }}
     }
 }

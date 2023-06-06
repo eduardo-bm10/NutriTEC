@@ -21,12 +21,17 @@ namespace Postgre_API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PaymentType>>> GetPaymentTypes()
         {
+            try{
             return await _dbContext.PaymentTypes.ToListAsync();
-        }
+            }catch (Exception e)
+            {
+                return BadRequest(new {message = e.Message});
+            }}
 
         [HttpGet("{id}")]
         public async Task<ActionResult<PaymentType>> GetPaymentType(int id)
         {
+            try{
             var paymentType = await _dbContext.PaymentTypes.FindAsync(id);
 
             if (paymentType == null)
@@ -35,16 +40,20 @@ namespace Postgre_API.Controllers
             }
 
             return paymentType;
-        }
+        }catch (Exception e)
+            {
+                return BadRequest(new {message = e.Message});
+            }}
 
         [HttpPost("{descripcion}")]
         public async Task<IActionResult> CreatePaymentType(int id, string descripcion)
         {
+            try{
             var exists_payment = await _dbContext.PaymentTypes.FindAsync(id);
 
             if (exists_payment != null)
             {
-                return Content("The payment type already exists!");
+                return Content(new {message = "The payment type already exists!"});
             }
 
             var myPay = new PaymentType { Id = id, Description = descripcion };
@@ -53,11 +62,15 @@ namespace Postgre_API.Controllers
             await _dbContext.SaveChangesAsync();
 
             return Ok(new {message = "ok"});
-        }
+        }catch (Exception e)
+            {
+                return BadRequest(new {message = e.Message});
+            }}
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdatePaymentType(int id, PaymentType paymentType)
         {
+            try{
             if (id != paymentType.Id)
             {
                 return BadRequest(new { message = "Invalid request" });
@@ -82,11 +95,15 @@ namespace Postgre_API.Controllers
             }
 
             return Ok(new {message = "ok"});
-        }
+        }catch (Exception e)
+            {
+                return BadRequest(new {message = e.Message});
+            }}
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePaymentType(int id)
         {
+            try{
             var paymentType = await _dbContext.PaymentTypes.FindAsync(id);
 
             if (paymentType == null)
@@ -98,7 +115,10 @@ namespace Postgre_API.Controllers
             await _dbContext.SaveChangesAsync();
 
             return Ok(new {message = "ok"});
-        }
+        }catch (Exception e)
+            {
+                return BadRequest(new {message = e.Message});
+            }}
 
         private bool PaymentTypeExists(int id)
         {

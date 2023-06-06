@@ -40,7 +40,12 @@ namespace Postgre_API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Patient>>> GetPatients()
         {
+            try{
             return await _dbContext.Patients.ToListAsync();
+            }catch (Exception e)
+            {
+                return BadRequest(new {message = e.Message});
+            }}
         }
 
         [HttpGet("{id}")]
