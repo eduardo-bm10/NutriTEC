@@ -29,12 +29,13 @@ namespace Postgre_API.Controllers
             {
                 return BadRequest(new {message = e.Message});
             }}
-        }
+        
 
         // GET: api/PlanPatientAssociations/5
         [HttpGet("{patientid}/{planid}")]
         public async Task<ActionResult<PlanPatientAssociation>> GetPlanPatientAssociation(string patientid, int planid)
         {
+            try{
             var planPatientAssociation = await _context.PlanPatientAssociations.FindAsync(patientid, planid);
 
             if (planPatientAssociation == null)
@@ -125,7 +126,7 @@ namespace Postgre_API.Controllers
             catch (Exception e)
             {
                 return BadRequest(new { message = e.Message });
-            }
+            }}
 
         // DELETE: api/PlanPatientAssociations/5
         [HttpDelete("{patientid}/{planid}")]
@@ -146,7 +147,7 @@ namespace Postgre_API.Controllers
             catch (Exception e)
             {
                 return BadRequest(new { message = e.Message });
-            }
+            }}
         
 
         private bool PlanPatientAssociationExists(string patientid, int planid)
