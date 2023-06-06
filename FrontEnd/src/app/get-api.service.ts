@@ -300,17 +300,12 @@ export class GetApiService {
     protein: number,
     status: boolean,
     vitamins: string[]
-    ){
-<<<<<<< Updated upstream
+  ){
     const encodedArray = vitamins.map(value => encodeURIComponent(value));
     const queryString = encodedArray.join("&");
-    const url = `${this.baseUrl}/api/Products?barcode=${barcode}&description=${description}&iron=${iron}&sodium=${sodium}&energy=${energy}&fat=${fat}&calcium=${calcium}&carbohydrates=${carbohydrates}&protein=${protein}&status=${status}&vitamins=`+queryString;
-=======
-    const url = `${this.baseUrl}/api/Product/${barcode}?description=${description}&iron=${iron}&sodium=${sodium}&energy=${energy}&fat=${fat}&calcium=${calcium}&carbohydrates=${carbohydrates}&protein=${protein}&status=${status}&vitamins=${vitamins}`;
->>>>>>> Stashed changes
-    return this.http.post(url, null, {});
+    const url = `${this.baseUrl}/api/Product/${barcode}?description=${description}&iron=${iron}&sodium=${sodium}&energy=${energy}&fat=${fat}&calcium=${calcium}&carbohydrates=${carbohydrates}&protein=${protein}&status=${status}&vitamins=`+queryString;
   }
-
+  
   // Actualizar un producto
   updateProduct(
     barcode: number,
