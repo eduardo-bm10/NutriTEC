@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val url = "https://postgresqlapi.azurewebsites.net/api/Login/login?email=$email&password=$thePassword"
+            val url = "https://postgresqlapi.azurewebsites.net/api/Login/$email/$thePassword"
             val client = OkHttpClient()
 
             val request = Request.Builder()

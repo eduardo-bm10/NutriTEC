@@ -53,7 +53,7 @@ namespace Postgre_API.Controllers
 
             if (exists_payment != null)
             {
-                return Content(new {message = "The payment type already exists!"});
+                return BadRequest(new {message = "The payment type already exists!"});
             }
 
             var myPay = new PaymentType { Id = id, Description = descripcion };
