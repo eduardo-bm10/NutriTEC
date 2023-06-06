@@ -46,7 +46,7 @@ namespace Postgre_API.Controllers
             {
                 return BadRequest(new {message = e.Message});
             }}
-        }
+        
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Patient>> GetPatient(string id)
