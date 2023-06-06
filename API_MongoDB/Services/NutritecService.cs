@@ -7,7 +7,7 @@ namespace API_MongoDB.Services {
         private NutritecSettings settings;
         private IMongoClient client;
         public NutritecService() {
-            settings = new NutritecSettings("mongodb://localhost:27017", "nutritec", "Feedback");
+            settings = new NutritecSettings("mongodb://api-mongov2-server:m6xH4Tb8mpzv41NyqgurjPsWirmeiR0zw8XZOpSIhUPThNZwoV8MqWzfdea9jNP5j4nZY5RbZ9XAACDbuAACeA==@api-mongov2-server.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@api-mongov2-server@", "nutritec-feedback", "Feedback");
             client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DataBaseName);
             feedbacks = database.GetCollection<Feedback>(settings.CollectionName);
