@@ -327,9 +327,22 @@
                 <select class="form-control form-control-user" id="registroConsumoTiempo"></select>
               </div>
 
+
+            </div>
+
+            <a class="btn btn-outline-info btn-user btn-block">
+              Registrar
+            </a>
+
+            <div class="form-group row">
               <div class="col-sm-6 mb-3 mb-sm-0">
                 <label for="registroConsumoCodigo">Código de producto o alimento</label>
                 <select class="form-control form-control-user" id="registroConsumoCodigo"></select>
+              </div>
+
+              <div class="col-sm-6 mb-3 mb-sm-0"> <!-- HAY QUE CARGAR AQUI LOS TIEMPOS DE COMIDA -->
+                <label for="registroConsumoTiempo2">Tiempo de comida</label>
+                <select class="form-control form-control-user" id="registroConsumoTiempo2"></select>
               </div>
             </div>
 
@@ -346,9 +359,77 @@
 
           <div id="gestionProductosPlatillos" class="container-fluid">
             <h1 style="font-size:40px;" class="h3 mb-4 text-gray-800">Gestión de productos/platillos</h1>
+            <h2 style="font-size:20px;" class="h3 mb-4 text-gray-800">Complete los datos del platillo o producto que desea agregar.</h2>
 
+            <div class="form-group row">
+              <div class="col-sm-6 mb-3 mb-sm-0">
+                <label for="gestionProductosDescripcion">Código de barras</label>
+                <input type="number" class="form-control form-control-user" id="gestionProductosBarras">
+              </div>
 
-            ESTA PANTALLA ESTÁ RARA, NO ENTIENDO LA ASIGNACIÓN QUE VIENE EN EL PDF
+              <div class="col-sm-6 mb-3 mb-sm-0">
+                <label for="gestionProductosDescripcion">Descripción</label>
+                <input type="text" class="form-control form-control-user" id="gestionProductosDescripcion">
+              </div>
+
+              <div class="col-sm-6 mb-3 mb-sm-0">
+                <label for="gestionProductosEnergia">Energía (Kcal)</label>
+                <input type="number" class="form-control form-control-user" id="gestionProductosEnergia">
+              </div>
+
+              <div class="col-sm-6 mb-3 mb-sm-0">
+                <label for="gestionProductosGrasa">Grasa (g)</label>
+                <input type="number" class="form-control form-control-user" id="gestionProductosGrasa">
+              </div>
+
+              <div class="col-sm-6 mb-3 mb-sm-0">
+                <label for="gestionProductosSodio">Sodio (mg)</label>
+                <input type="number" class="form-control form-control-user" id="gestionProductosSodio">
+              </div>
+
+              <div class="col-sm-6 mb-3 mb-sm-0">
+                <label for="gestionProductosCarbohidratos">Carbohidratos (g)</label>
+                <input type="number" class="form-control form-control-user" id="gestionProductosCarbohidratos">
+              </div>
+
+              <div class="col-sm-6 mb-3 mb-sm-0">
+                <label for="gestionProductosProteina">Proteína (g)</label>
+                <input type="number" class="form-control form-control-user" id="gestionProductosProteina">
+              </div>
+
+              <div class="col-sm-6 mb-3 mb-sm-0">
+                <label for="gestionProductosVitaminas">Vitaminas (Para seleccionar varias presione Ctrl y de click)</label>
+                <br>
+                <select id="gestionProductosVitaminas" multiple>
+                  <option value="A">A</option>
+                  <option value="B1">B1</option>
+                  <option value="B2">B2</option>
+                  <option value="B3">B3</option>
+                  <option value="B6">B6</option>
+                  <option value="B9">B9</option>
+                  <option value="B12">B12</option>
+                  <option value="C">C</option>
+                  <option value="D">D</option>
+                  <option value="E">E</option>
+                  <option value="K">K</option>
+                </select>
+              </div>
+
+              <div class="col-sm-6 mb-3 mb-sm-0">
+                <label for="gestionProductosCalcio">Calcio (mg)</label>
+                <input type="number" class="form-control form-control-user" id="gestionProductosCalcio">
+              </div>
+
+              <div class="col-sm-6 mb-3 mb-sm-0">
+                <label for="gestionProductosHierro">Hierro (mg)</label>
+                <input type="number" class="form-control form-control-user" id="gestionProductosHierro">
+              </div>
+
+            </div>
+
+            <a class="btn btn-outline-success btn-user btn-block">
+              Guardar
+            </a>
 
           </div>
 
@@ -361,7 +442,12 @@
           <div id="gestionRecetas" class="container-fluid">
             <h1 style="font-size:40px;" class="h3 mb-4 text-gray-800">Gestión de recetas</h1>
 
-            ESTA PANTALLA REQUIERE CHECKBOXES DINAMICOS, HAY QUE CARGAR TODOS LOS PRODUCTOS O ALIMENTOS QUE EXISTAN, Y SER CAPAZ DE COMBINARLOS EN UNA RECETA
+            <div class="form-group row">
+              <div class="col-sm-6" id="comidas1"></div>
+
+              <div class="col-sm-6" id="comidas2"></div>
+
+            </div>
 
           </div>
 

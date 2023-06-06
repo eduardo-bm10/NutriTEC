@@ -17,14 +17,11 @@ export class ClienteComponent implements OnInit{
 
   pantallaActual = 'principal';
 
-  // ESTO ES UNA COPIA DEL ADMIN COMPONENT, EDITARLO PARA QUE
-  //    TENGA LA ESTRUCTURA DE NUTRICIONISTA SEGÚN LA ESPECIFICACIÓN
-  // YA CAMBIÉ LOS NOMBRES DE LOS LIST ITEMS :D
 
-  // CAMBIAR NOMBRE DE PANTALLAS PARA NUTRICIONISTA
   pantallas = ["registroMedidas", "registroConsumo", "gestionProductosPlatillos", "gestionRecetas", "reporteAvance"];
 
   provincias = ["San José", "Alajuela", "Cartago", "Limón", "Guanacaste", "Puntarenas", "Heredia"]
+  totalCalorias = 0;
 
 
   ngOnInit() {
@@ -34,6 +31,9 @@ export class ClienteComponent implements OnInit{
     }
     //this.cargarProvincias(["gestSucSpaPROVINCIA", "gestEmplPPROVINCIA", "gestEmplPPROVINCIA2"]);
     this.mostrarNombre();
+    this.cargarAlimentos();
+    this.tiempoDeComida();
+    this.cargarAlimentosBoxes();
   }
   mostrarNombre(){
     const data = localStorage.getItem('usuario');
@@ -94,7 +94,6 @@ export class ClienteComponent implements OnInit{
 
     const tmp = document.getElementById(pantalla) as HTMLInputElement
     tmp.style.display = 'block'
-    console.log(tmp)
 
     this.pantallaActual = tmp.id
   }
@@ -112,8 +111,109 @@ export class ClienteComponent implements OnInit{
     }
   }
 
+
+  cargarAlimentos(){
+    this.api.getProducts().subscribe(data => {
+      const llegada = JSON.parse(JSON.stringify(data));
+      const select = document.getElementById('registroConsumoProducto') as HTMLSelectElement;
+      const select2 = document.getElementById('registroConsumoCodigo') as HTMLSelectElement;
+      for(const op in llegada){
+        const aux = llegada[op];
+        select.appendChild(this.api.createOption(aux['description'], aux['barcode']))
+        select2.appendChild(this.api.createOption(aux['barcode'], aux['barcode']))
+      }
+    })
+  }
+
+  tiempoDeComida(){
+    this.api.getMealtimes().subscribe(data => {
+      const llegada = JSON.parse(JSON.stringify(data));
+      const select = document.getElementById('registroConsumoTiempo') as HTMLSelectElement;
+      const select2 = document.getElementById('registroConsumoTiempo2') as HTMLSelectElement;
+      for(const op in llegada){
+        const aux = llegada[op];
+        select.appendChild(this.api.createOption(aux.name, aux.name));
+        select2.appendChild(this.api.createOption(aux.name, aux.name));
+      }
+    })
+  }
   toNum(dato:string):number{
     return parseInt(dato, 10);
+  }
+
+  sumarCalorias(id:string){
+    const elemento = document.getElementById(id) as HTMLInputElement;
+    if(elemento.checked){
+      // @ts-ignore
+      this.totalCalorias += parseInt(elemento.getAttribute('calorias'));
+    }
+    else{
+      // @ts-ignore
+      this.totalCalorias -= parseInt(elemento.getAttribute('calorias'));
+    }
+    const calorias = document.getElementById('gestionPlanesCaloriasExistente') as HTMLInputElement;
+    calorias.value = String(this.totalCalorias);
+  }
+
+  esImpar(numero: number): boolean {
+    return numero % 2 === 1;
+  }
+
+  checkBox(data:JSON){
+    const div = document.createElement('div');
+    const label = document.createElement('label');
+    const input = document.createElement('input');
+
+/**
+    label.innerText = nombre;
+    input.className = "form-control form-control-user";
+    input.type = 'checkbox';
+    input.setAttribute('calorias', calorias);
+    input.id = id + "-comida";
+    input.addEventListener('change', () => {
+      this.sumarCalorias(id + "-comida");
+    });**/
+
+    div.appendChild(label);
+    div.appendChild(input);
+    return div;
+  }
+
+  cargarAlimentosBoxes(){
+    let todo = {}
+
+    this.api.getProducts().subscribe(data => {
+      todo = JSON.parse(JSON.stringify(data));
+
+    })
+    console.log(todo);
+
+
+    const length = Object.keys(todo).length;
+    let mitad = 0;
+    if(this.esImpar(length)){
+      mitad = length/2+1;
+    }
+    else{
+      mitad = length/2;
+    }
+
+    let aux = 0;
+    const comidas1 = document.getElementById('comidas1') as HTMLDivElement;
+    const comidas2 = document.getElementById('comidas2') as HTMLDivElement;
+    for (const key in todo) {
+
+      // @ts-ignore
+      const data = todo[key];
+      const check = this.checkBox(data);
+      if(aux < mitad){
+        comidas1.appendChild(check);
+      }
+      else{
+        comidas2.appendChild(check);
+      }
+      aux ++;
+    }
   }
 
   logout(){

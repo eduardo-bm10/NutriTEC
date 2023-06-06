@@ -12,6 +12,13 @@ export class GetApiService {
 
   constructor(private http: HttpClient, private router:Router) {}
 
+  createOption(texto:string, id:string){
+    const option = document.createElement("option");
+    option.text = texto;
+    option.value = id;
+    return option;
+  }
+
   ruta(ruta:string){
     this.router.navigate([ruta]);
   }
@@ -42,11 +49,11 @@ export class GetApiService {
 
   // Crear un nuevo administrador (Registro)
   createAdministrator(
-    id: string, 
-    firstname: string, 
-    lastname1: string, 
-    lastname2: string, 
-    email: string, 
+    id: string,
+    firstname: string,
+    lastname1: string,
+    lastname2: string,
+    email: string,
     password: string
   ) {
     const url = `${this.baseUrl}/api/Administrator/${id}?firstname=${firstname}&lastname1=${lastname1}&lastname2=${lastname2}&email=${email}&password=${password}`;
