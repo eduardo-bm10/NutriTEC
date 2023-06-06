@@ -10040,24 +10040,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\jimen\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\jusfb\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\jimen\\OneDrive\\Escritorio\\NutriTEC\\API_PostgreSQL\\Postgre_API.csproj",
+      "projectUniqueName": "C:\\Users\\jusfb\\OneDrive\\Escritorio\\Proyectos\\NutriTEC\\API_PostgreSQL\\Postgre_API.csproj",
       "projectName": "Postgre_API",
-      "projectPath": "C:\\Users\\jimen\\OneDrive\\Escritorio\\NutriTEC\\API_PostgreSQL\\Postgre_API.csproj",
-      "packagesPath": "C:\\Users\\jimen\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\jimen\\OneDrive\\Escritorio\\NutriTEC\\API_PostgreSQL\\obj\\",
+      "projectPath": "C:\\Users\\jusfb\\OneDrive\\Escritorio\\Proyectos\\NutriTEC\\API_PostgreSQL\\Postgre_API.csproj",
+      "packagesPath": "C:\\Users\\jusfb\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\jusfb\\OneDrive\\Escritorio\\Proyectos\\NutriTEC\\API_PostgreSQL\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\jimen\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\jusfb\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -10065,7 +10060,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
+        "C:\\Program Files\\dotnet\\sdk\\7.0.302\\Sdks\\Microsoft.NET.Sdk.Web\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -10126,16 +10121,8 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "Undefined",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Problem reading the cache file C:\\Users\\jimen\\OneDrive\\Escritorio\\NutriTEC\\API_PostgreSQL\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
-    }
-  ]
+  }
 }
