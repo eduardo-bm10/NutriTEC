@@ -9,3 +9,44 @@ INSERT INTO MEAL_TIME VALUES (DEFAULT, 'Dinner');
 INSERT INTO PAYMENT_TYPE VALUES (DEFAULT, 'Weekly');
 INSERT INTO PAYMENT_TYPE VALUES (DEFAULT, 'Monthly');
 INSERT INTO PAYMENT_TYPE VALUES (DEFAULT, 'Anual');
+
+INSERT INTO product(
+	barcode, description, iron, sodium, energy, fat, calcium, carbohydrate, protein, status)
+	VALUES (1, 'Piña', 1, 1, 1, 1, 1, 1, 1, false);
+	
+INSERT INTO product(
+	barcode, description, iron, sodium, energy, fat, calcium, carbohydrate, protein, status)
+	VALUES (2, 'Mango', 1, 1, 1, 1, 1, 1, 1, false);
+
+INSERT INTO product(
+	barcode, description, iron, sodium, energy, fat, calcium, carbohydrate, protein, status)
+	VALUES (3, 'Manzana', 1, 1, 1, 1, 1, 1, 1, false);
+
+INSERT INTO product(
+	barcode, description, iron, sodium, energy, fat, calcium, carbohydrate, protein, status)
+	VALUES (4, 'Pera', 1, 1, 1, 1, 1, 1, 1, false);
+	
+INSERT INTO product(
+	barcode, description, iron, sodium, energy, fat, calcium, carbohydrate, protein, status)
+	VALUES (5, 'Papaya', 1, 1, 1, 1, 1, 1, 1, false);
+
+INSERT INTO product(
+	barcode, description, iron, sodium, energy, fat, calcium, carbohydrate, protein, status)
+	VALUES (6, 'Pan', 1, 1, 1, 1, 1, 1, 1, false);
+
+INSERT INTO product(
+	barcode, description, iron, sodium, energy, fat, calcium, carbohydrate, protein, status)
+	VALUES (7, 'Arroz', 1, 1, 1, 1, 1, 1, 1, false);
+	
+INSERT INTO product(
+	barcode, description, iron, sodium, energy, fat, calcium, carbohydrate, protein, status)
+	VALUES (8, 'Coliflor', 1, 1, 1, 1, 1, 1, 1, false);
+	
+INSERT INTO product(
+	barcode, description, iron, sodium, energy, fat, calcium, carbohydrate, protein, status)
+	VALUES (9, 'Huevo', 1, 1, 1, 1, 1, 1, 1, false);
+
+INSERT INTO product(
+	barcode, description, iron, sodium, energy, fat, calcium, carbohydrate, protein, status)
+	VALUES (10, 'Atun', 1, 1, 1, 1, 1, 1, 1, false);
+

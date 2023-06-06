@@ -182,7 +182,9 @@ public partial class NutritecDbContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("address");
             entity.Property(e => e.Bmi).HasColumnName("bmi");
-            entity.Property(e => e.CardNumber).HasColumnName("card_number");
+            entity.Property(e => e.CardNumber)
+                .HasMaxLength(20)
+                .HasColumnName("card_number");
             entity.Property(e => e.Email)
                 .HasMaxLength(50)
                 .HasColumnName("email");
@@ -202,7 +204,9 @@ public partial class NutritecDbContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("password");
             entity.Property(e => e.Paymentid).HasColumnName("paymentid");
-            entity.Property(e => e.Photo).HasColumnName("photo");
+            entity.Property(e => e.Photo)
+                .HasMaxLength(500)
+                .HasColumnName("photo");
             entity.Property(e => e.Weight).HasColumnName("weight");
 
             entity.HasOne(d => d.Payment).WithMany(p => p.Nutritionists)

@@ -23,11 +23,11 @@ public partial class Nutritionist
 
     public double Bmi { get; set; }
 
-    public int CardNumber { get; set; }
+    public string CardNumber { get; set; } = null!;
 
     public string Address { get; set; } = null!;
 
-    public byte[] Photo { get; set; } = null!;
+    public string Photo { get; set; } = null!;
 
     public int Paymentid { get; set; }
 

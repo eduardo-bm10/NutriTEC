@@ -17,9 +17,9 @@ CREATE TABLE NUTRITIONIST (
    Password VARCHAR(50) NOT NULL,
    Weight INTEGER NOT NULL,
    BMI FLOAT NOT NULL,
-	Card_number INT NOT NULL,
+	Card_number varchar(16) NOT NULL,
    Address VARCHAR(50) NOT NULL,
-   Photo BYTEA NOT NULL,
+   Photo VARCHAR(50) NOT NULL,
    PaymentID INT NOT NULL
 );
 
