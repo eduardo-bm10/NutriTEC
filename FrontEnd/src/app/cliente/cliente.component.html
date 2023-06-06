@@ -438,12 +438,28 @@
           <div id="gestionRecetas" class="container-fluid">
             <h1 style="font-size:40px;" class="h3 mb-4 text-gray-800">Gestión de recetas</h1>
 
+            <label for="gestionProductosHierro">Nombre de la Receta:</label>
+            <input type="text" class="form-control form-control-user" id="nombreReceta">
+
+            <hr>
+
             <div class="form-group row">
               <div class="col-sm-6" id="comidas1"></div>
 
               <div class="col-sm-6" id="comidas2"></div>
+            </div>
+
+            <hr>
+
+            <h2 class="h3 mb-4 text-gray-800">Ingrese la cantidad de porciones:</h2>
+            <div id="boxesSeleccionadas">
 
             </div>
+
+            <br>
+              <a class="btn btn-outline-info btn-user btn-block" (click)="gestionarRecetas()">
+                Recetas
+              </a>
 
           </div>
 

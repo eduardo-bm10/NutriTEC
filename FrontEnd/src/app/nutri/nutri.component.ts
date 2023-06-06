@@ -313,10 +313,10 @@ export class NutriComponent implements OnInit {
     }
     console.log(vitaminas)
 
-    
+    /* 
     this.api.createProduct(Number(barras.value), descripcion.value, Number(hierro.value), Number(sodio.value), Number(energia.value), Number(grasa.value), Number(calcio.value), Number(carbohidratos.value), Number(proteina.value), estado, vitaminas).subscribe((data) => {
       alert("swagger")
-    })
+    })*/
   }
 
   asociarPacienteNutri(){

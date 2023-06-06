@@ -1,19 +1,21 @@
-import {Component, Renderer2, ElementRef, OnInit} from '@angular/core';
+import { Component, Renderer2, ElementRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
-import {GetApiService} from "../get-api.service";
+import { GetApiService } from "../get-api.service";
 
 @Component({
   selector: 'app-cliente',
   templateUrl: './cliente.component.html',
   styleUrls: ['./cliente.component.css']
 })
-export class ClienteComponent implements OnInit{
-  constructor(private api:GetApiService){}
+export class ClienteComponent implements OnInit {
+  constructor(private api: GetApiService) { }
   nombre = 'Juan Vainas';
   infoAll = {};
   tipo = 'SPA';
   dropdown = 0;
+  alimentos = [];
+  porcionesAlimentos:string[] = [];
 
   pantallaActual = 'principal';
 
@@ -35,7 +37,7 @@ export class ClienteComponent implements OnInit{
     this.tiempoDeComida();
     this.cargarAlimentosBoxes();
   }
-  mostrarNombre(){
+  mostrarNombre() {
     const data = localStorage.getItem('usuario');
     // @ts-ignore
     const info = JSON.parse(data);
@@ -59,7 +61,7 @@ export class ClienteComponent implements OnInit{
   }
 
   //Función utilizada para cargar cada una de las 7 provincias en los componentes select que las necesitan
-  cargarProvincias(lista:any){
+  cargarProvincias(lista: any) {
     for (let i = 0; i < lista.length; i++) {
       const p = document.getElementById(lista[i]) as HTMLSelectElement;
       for (let i = 0; i < this.provincias.length; i++) {
@@ -71,16 +73,16 @@ export class ClienteComponent implements OnInit{
   }
 
   //Utilizado para los modificar la vista actual y mostrar solamente los componentes que son necesarios
-  mostrar(idPrincipal:string, idDrop:string){
+  mostrar(idPrincipal: string, idDrop: string) {
     const principal = document.getElementById(idPrincipal) as HTMLInputElement
     const drop = document.getElementById(idDrop) as HTMLInputElement
 
-    if(principal.getAttribute('aria-expanded') === 'true'){
+    if (principal.getAttribute('aria-expanded') === 'true') {
       principal.className = 'nav-link collapsed';
       principal.setAttribute('aria-expanded', 'false')
       drop.className = 'collapse'
     }
-    else{ //se debe desplegar el dropdown
+    else { //se debe desplegar el dropdown
       principal.className = 'nav-link';
       principal.setAttribute('aria-expanded', 'true')
       drop.className = 'collapse show'
@@ -88,7 +90,7 @@ export class ClienteComponent implements OnInit{
   }
 
   //Cicla entre cada una de las ventanas posibles y muestra la que se solicita
-  mostrarPantalla(pantalla:string){
+  mostrarPantalla(pantalla: string) {
     const act = document.getElementById(this.pantallaActual) as HTMLInputElement
     act.style.display = 'none'
 
@@ -99,25 +101,25 @@ export class ClienteComponent implements OnInit{
   }
 
   //Muestra los componentes desplegables que pertenecen a ciertas opciones de mostrar ventanas
-  mostrarDropdown(){
+  mostrarDropdown() {
     const drop = document.getElementById("dropdown") as HTMLInputElement
-    if(this.dropdown === 0){
+    if (this.dropdown === 0) {
       drop.className = "dropdown-menu dropdown-menu-right shadow animated--grow-in show"
       this.dropdown = 1
     }
-    else{
+    else {
       drop.className = "dropdown-menu dropdown-menu-right shadow animated--grow-in"
       this.dropdown = 0
     }
   }
 
 
-  cargarAlimentos(){
+  cargarAlimentos() {
     this.api.getProducts().subscribe(data => {
       const llegada = JSON.parse(JSON.stringify(data));
       const select = document.getElementById('registroConsumoProducto') as HTMLSelectElement;
       const select2 = document.getElementById('registroConsumoCodigo') as HTMLSelectElement;
-      for(const op in llegada){
+      for (const op in llegada) {
         const aux = llegada[op];
         select.appendChild(this.api.createOption(aux['description'], aux['barcode']))
         select2.appendChild(this.api.createOption(aux['barcode'], aux['barcode']))
@@ -125,29 +127,29 @@ export class ClienteComponent implements OnInit{
     })
   }
 
-  tiempoDeComida(){
+  tiempoDeComida() {
     this.api.getMealtimes().subscribe(data => {
       const llegada = JSON.parse(JSON.stringify(data));
       const select = document.getElementById('registroConsumoTiempo') as HTMLSelectElement;
       const select2 = document.getElementById('registroConsumoTiempo2') as HTMLSelectElement;
-      for(const op in llegada){
+      for (const op in llegada) {
         const aux = llegada[op];
         select.appendChild(this.api.createOption(aux.name, aux.name));
         select2.appendChild(this.api.createOption(aux.name, aux.name));
       }
     })
   }
-  toNum(dato:string):number{
+  toNum(dato: string): number {
     return parseInt(dato, 10);
   }
 
-  sumarCalorias(id:string){
+  sumarCalorias(id: string) {
     const elemento = document.getElementById(id) as HTMLInputElement;
-    if(elemento.checked){
+    if (elemento.checked) {
       // @ts-ignore
       this.totalCalorias += parseInt(elemento.getAttribute('calorias'));
     }
-    else{
+    else {
       // @ts-ignore
       this.totalCalorias -= parseInt(elemento.getAttribute('calorias'));
     }
@@ -159,68 +161,71 @@ export class ClienteComponent implements OnInit{
     return numero % 2 === 1;
   }
 
-  checkBox(data:JSON){
+  checkBox(data: JSON) {
     const div = document.createElement('div');
     const label = document.createElement('label');
     const input = document.createElement('input');
 
-/**
-    label.innerText = nombre;
-    input.className = "form-control form-control-user";
-    input.type = 'checkbox';
-    input.setAttribute('calorias', calorias);
-    input.id = id + "-comida";
-    input.addEventListener('change', () => {
-      this.sumarCalorias(id + "-comida");
-    });**/
+        //@ts-ignore
+        label.innerText = data['description'];
+        //@ts-ignore
+        input.setAttribute('nombre', data['description']);
+        input.className = "form-control form-control-user";
+        input.type = 'checkbox';
+        //@ts-ignore
+        input.id = data['barcode'] + "-comida";
+        //@ts-ignore
+        this.alimentos.push(input.id);
+        //@ts-ignore
+        input.setAttribute('barcode', data['barcode']);
+        input.addEventListener('change', () => {
+          this.crearSeleccionPorcion(input);
+        });
 
     div.appendChild(label);
     div.appendChild(input);
     return div;
   }
 
-  cargarAlimentosBoxes(){
-    let todo = {}
+  cargarAlimentosBoxes() {
 
     this.api.getProducts().subscribe(data => {
-      todo = JSON.parse(JSON.stringify(data));
+      const todo = JSON.parse(JSON.stringify(data));
+      console.log(todo);
+      const length = Object.keys(todo).length;
+      let mitad = 0;
+      if (this.esImpar(length)) {
+        mitad = length / 2 + 1;
+      }
+      else {
+        mitad = length / 2;
+      }
 
+      let aux = 0;
+      const comidas1 = document.getElementById('comidas1') as HTMLDivElement;
+      const comidas2 = document.getElementById('comidas2') as HTMLDivElement;
+      for (const key in todo) {
+
+        // @ts-ignore
+        const data = todo[key];
+        const check = this.checkBox(data);
+        if (aux < mitad) {
+          comidas1.appendChild(check);
+        }
+        else {
+          comidas2.appendChild(check);
+        }
+        aux++;
+      }
+      console.log(this.alimentos);
     })
-    console.log(todo);
-
-
-    const length = Object.keys(todo).length;
-    let mitad = 0;
-    if(this.esImpar(length)){
-      mitad = length/2+1;
-    }
-    else{
-      mitad = length/2;
-    }
-
-    let aux = 0;
-    const comidas1 = document.getElementById('comidas1') as HTMLDivElement;
-    const comidas2 = document.getElementById('comidas2') as HTMLDivElement;
-    for (const key in todo) {
-
-      // @ts-ignore
-      const data = todo[key];
-      const check = this.checkBox(data);
-      if(aux < mitad){
-        comidas1.appendChild(check);
-      }
-      else{
-        comidas2.appendChild(check);
-      }
-      aux ++;
-    }
   }
 
-  logout(){
+  logout() {
     this.api.logout();
   }
 
-  registroDeMedidas(){
+  registroDeMedidas() {
     // @ts-ignore
     const cedula = this.infoAll['id'];
     const cintura = document.getElementById('registroMedidasCintura') as HTMLInputElement;
@@ -228,13 +233,84 @@ export class ClienteComponent implements OnInit{
     const cadera = document.getElementById('registroMedidasCadera') as HTMLInputElement;
     const musculo = document.getElementById('registroMedidasMusculo') as HTMLInputElement;
     const grasa = document.getElementById('registroMedidasGrasa') as HTMLInputElement;
-    
+
     console.log()
 
     this.api.createMeasurement(cedula, Number(cintura.value), Number(cuello.value), Number(cadera.value), Number(musculo.value), Number(grasa.value))
-    .subscribe(data => {
-      const llegada = JSON.parse(JSON.stringify(data));
-      console.log(llegada);
+      .subscribe(data => {
+        const llegada = JSON.parse(JSON.stringify(data));
+        console.log(llegada);
+      })
+  }
+
+  crearSeleccionPorcion(elemento:HTMLInputElement){
+    const todo = document.getElementById('boxesSeleccionadas') as HTMLDivElement;
+    const box = document.getElementById(`${elemento.getAttribute('barcode')}-porcion`);
+
+
+    if(box){
+      box.remove();
+      let num = 0;
+      this.porcionesAlimentos.splice(this.porcionesAlimentos.indexOf(`${elemento.getAttribute('barcode')}-porcion`), 1);
+    }
+    else{
+      const div = document.createElement('div');
+      div.id = `${elemento.getAttribute('barcode')}-porcion`;
+
+      const label = document.createElement('label');
+      //@ts-ignore
+      label.innerText = ` ${elemento.getAttribute('nombre')}`;
+      console.log(elemento.getAttribute('description'));
+
+      const input = document.createElement('input');
+      input.type = 'number';
+      input.value = '1';
+      input.min = '1';
+      input.id = `${div.id}-input`
+      this.porcionesAlimentos.push(div.id);
+
+      div.appendChild(input);
+      div.appendChild(label);
+
+
+      todo.appendChild(div);
+    }
+  }
+
+  gestionarRecetas(){
+    let listaCheckeados: string[] = [];
+    let stringCodigo = '';
+    let stringPorcion = '';
+
+    this.porcionesAlimentos.forEach((codigo:string) => {
+      const porcion = document.getElementById(`${codigo}-input`) as HTMLInputElement;
+      stringCodigo += `${codigo.split('-')[0]},`;
+      stringPorcion += `${porcion.value},`;
+    })
+
+
+    stringCodigo = stringCodigo.slice(0, stringCodigo.length - 1);
+    stringPorcion = stringPorcion.slice(0, stringPorcion.length - 1);
+
+    alert(stringCodigo);
+    alert(stringPorcion);
+    this.porcionesAlimentos = [];
+    this.alimentos.forEach((codigo:string) => {
+      const a = document.getElementById(codigo) as HTMLInputElement;
+      if(a.checked){
+        a.checked = false;
+      }
+    })
+    const division = document.getElementById('boxesSeleccionadas') as HTMLInputElement;
+    while (division.firstChild) {
+      division.removeChild(division.firstChild);
+    }
+
+    const nombreReceta = document.getElementById('nombreReceta') as HTMLInputElement;
+
+    this.api.createRecipe(nombreReceta.value, stringCodigo, stringPorcion).subscribe(data => {
+      const todo = JSON.parse(JSON.stringify(data));
+      alert("Receta creada!");
     })
   }
 }
