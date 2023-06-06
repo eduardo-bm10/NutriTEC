@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { NgForm } from '@angular/forms';
+
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +13,18 @@ export class GetApiService {
   private mongoUrl = 'https://mongo-api.azurewebsites.net';
 
   constructor(private http: HttpClient, private router:Router) {}
+
+  resetFormulario(form:any){
+    form.resetForm();
+  }
+
+  getFecha(){
+    const fechaActual = new Date();
+    const year = fechaActual.getFullYear();
+    const mes = fechaActual.getMonth() + 1;
+    const dia = fechaActual.getDate();
+    return (`${year}-${mes}-${dia}`);
+  }
 
   createOption(texto:string, id:string){
     const option = document.createElement("option");

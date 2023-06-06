@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { LoginNUTRIComponent } from './login-nutri/login-nutri.component';
 import { LoginADMINComponent } from './login-admin/login-admin.component';
 import { NavVarComponent } from './nav-var/nav-var.component';
+import { ReporteComponent } from './reporte/reporte.component';
 
 const appRoutes:Routes=[
   {path:'', component: LoginComponent},
@@ -21,6 +22,7 @@ const appRoutes:Routes=[
   {path:'nutri', component:NutriComponent},
   {path:'login-admin', component:LoginADMINComponent},
   {path:'login-nutri', component:LoginNUTRIComponent},
+  {path:'prueba', component:ReporteComponent},
   {path:'**', component: NotFoundComponent},
 ]
 
@@ -34,7 +36,8 @@ const appRoutes:Routes=[
     NutriComponent,
     LoginNUTRIComponent,
     LoginADMINComponent,
-    NavVarComponent
+    NavVarComponent,
+    ReporteComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

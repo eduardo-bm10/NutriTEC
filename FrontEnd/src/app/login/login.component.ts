@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import { GetApiService } from '../get-api.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -7,13 +8,15 @@ import { GetApiService } from '../get-api.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit{
-  constructor(private api:GetApiService){}
+  constructor(private api:GetApiService, private router:Router){}
   mostrar = false
+  fechaHoy = '';
 
   ngOnInit() {
     const signin = document.getElementById("signin") as HTMLInputElement
     signin.style.display = 'none'
     this.getPaises();
+    this.fechaHoy = this.api.getFecha();
   }
 
   cargarAlimentos(){
@@ -68,6 +71,7 @@ export class LoginComponent implements OnInit{
       const llegada = JSON.parse(JSON.stringify(data));
       console.log(llegada);
       if(llegada['tipo'] == 'patient'){
+        console.log(llegada['usuario']);
         localStorage.setItem('usuario', JSON.stringify(llegada['usuario']));
         this.api.ruta('/paciente');
       }
@@ -86,9 +90,12 @@ export class LoginComponent implements OnInit{
         Number(valor.musculo), Number(valor.grasa)
     ).subscribe((data) => {
       const llegada = JSON.parse(JSON.stringify(data));
+      console.log(llegada);
       if("Email" in llegada){
         alert('Usuario creado correctamente!');
-        this.api.ruta('/');
+        this.api.resetFormulario(form);
+        localStorage.setItem('usuario', JSON.stringify(llegada));
+        this.api.ruta('/paciente');
       }
       else{
         alert('Error al crear el usuario!');
@@ -125,4 +132,6 @@ export class LoginComponent implements OnInit{
   logout(){
     this.api.logout();
   }
+
+
 }
