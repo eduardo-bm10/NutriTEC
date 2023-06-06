@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 export class GetApiService {
 
   private baseUrl = 'https://postgresqlapi.azurewebsites.net';
+  private mongoUrl = 'https://mongo-api.azurewebsites.net';
 
   constructor(private http: HttpClient, private router:Router) {}
 
@@ -305,7 +306,7 @@ export class GetApiService {
     const queryString = encodedArray.join("&");
     const url = `${this.baseUrl}/api/Product/${barcode}?description=${description}&iron=${iron}&sodium=${sodium}&energy=${energy}&fat=${fat}&calcium=${calcium}&carbohydrates=${carbohydrates}&protein=${protein}&status=${status}&vitamins=`+queryString;
   }
-  
+
   // Actualizar un producto
   updateProduct(
     barcode: number,
@@ -447,5 +448,38 @@ export class GetApiService {
     const body = { description, barcodePortion };
     return this.http.post(url, body);
   }
+
+  //------------------ Mongo API Methods ----------------------------------------------------------
+
+  createFeedback(
+    senderSsn: string,
+    receptorSsn: string,
+    message: string
+  ) {
+    const url = `${this.mongoUrl}/api/Feedback/createFeedback/${senderSsn}/${receptorSsn}/${message}`;
+    return this.http.post(url, {});
+  }
+
+  getFeedbacks() {
+    const url = `${this.mongoUrl}/api/Feedback/getAllFeedbacks`;
+    return this.http.get(url);
+  }
+
+  getFeedbackSsn(ssn: number) {
+    const url = `${this.mongoUrl}/api/Feedback/getBySsn/${ssn}`;
+    return this.http.get(url);
+  }
+
+  getFeedbackDate(date: string) {
+    const url = `${this.mongoUrl}/api/Feedback/getByDate/${date}`;
+    return this.http.get(url);
+  }
+
+  deleteFeedback(id: number) {
+    const url = `${this.mongoUrl}/api/Feedback/removeById/${id}`;
+    return this.http.delete(url);
+  }
+
+
 
 }
