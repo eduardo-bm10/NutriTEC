@@ -41,26 +41,26 @@ namespace Postgre_API.Controllers
             var thePassword = encryptPassword_MD5(password);
             dynamic user = _dbContext.Patients.FirstOrDefault(p => p.Email == email);
             string type = "patient";
-
-            if(user == null){
+            if (user == null) { 
                 user = _dbContext.Nutritionists.FirstOrDefault(n => n.Email == email);
                 type = "nutritionist";
-                if(user == null){
+                if (user == null) {
                     user = _dbContext.Administrators.FirstOrDefault(n => n.Email == email);
                     type = "administrator";
-                }
-                if(user.Password != thePassword){
-                    return Content("Wrong password");
+                    if (user == null) {
+                        return new { message = "User " + email + " is not registered"};
+                    }
                 }
             }
-
-            var returnObject = new
-            {
-                User = user,
-                Type = type
+            if (user.Password != thePassword) {
+                return new { message = "Password is incorrect"};
+            }
+            
+            var result = new {
+                Usuario = user,
+                Tipo = type
             };
-
-            return new JsonResult(returnObject);
+            return new JsonResult(result);
         }
-}
+    }
 }
