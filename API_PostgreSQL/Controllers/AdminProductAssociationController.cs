@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,84 +23,116 @@ namespace Postgre_API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AdminProductAssociation>>> GetAdminProductAssociations()
         {
-            return await _dbContext.AdminProductAssociations.ToListAsync();
+            try
+            {
+                return await _dbContext.AdminProductAssociations.ToListAsync();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { message = e.Message });
+            }
         }
 
         [HttpGet("{adminId}/{productBarcode}")]
         public async Task<ActionResult<AdminProductAssociation>> GetAdminProductAssociation(string adminId, int productBarcode)
         {
-            var adminProductAssociation = await _dbContext.AdminProductAssociations.FindAsync(adminId, productBarcode);
-
-            if (adminProductAssociation == null)
+            try
             {
-                return NotFound("Asociación no encontrada");
-            }
+                var adminProductAssociation = await _dbContext.AdminProductAssociations.FindAsync(adminId, productBarcode);
 
-            return adminProductAssociation;
+                if (adminProductAssociation == null)
+                {
+                    return NotFound(new { message = "AdminProductAssociation not found" });
+                }
+
+                return adminProductAssociation;
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { message = e.Message });
+            }
         }
 
         [HttpPost("{adminId}/{productBarcode}")]
-        public async Task<ActionResult<AdminProductAssociation>> CreateAdminProductAssociation(string adminId, int productBarcode,  bool status)
+        public async Task<ActionResult<AdminProductAssociation>> CreateAdminProductAssociation(string adminId, int productBarcode, bool status)
         {
-
-             var product0 = await _dbContext.Products.FindAsync(productBarcode);
-             var admin = await _dbContext.Administrators.FindAsync(adminId);
-
-            if (product0 == null || admin == null)
+            try
             {
-                return Content("Product or Admin does not exist!");
+                var product0 = await _dbContext.Products.FindAsync(productBarcode);
+                var admin = await _dbContext.Administrators.FindAsync(adminId);
+
+                if (product0 == null || admin == null)
+                {
+                    return BadRequest(new { message = "Product or Admin does not exist!" });
+                }
+
+                var adminProductAssociation = new AdminProductAssociation();
+                adminProductAssociation.Adminid = adminId;
+                adminProductAssociation.Productbarcode = productBarcode;
+
+                product0.Status = status;
+                _dbContext.AdminProductAssociations.Add(adminProductAssociation);
+                await _dbContext.SaveChangesAsync();
+
+                var options = new JsonSerializerSettings
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                };
+
+                string json = JsonConvert.SerializeObject(adminProductAssociation, options);
+                return Ok(new { message = "ok" });
             }
-
-            var _adminProductAssociation = new AdminProductAssociation();
-            _adminProductAssociation.Adminid = adminId;
-            _adminProductAssociation.Productbarcode = productBarcode;
-
-            product0.Status = status;
-            _dbContext.AdminProductAssociations.Add(_adminProductAssociation);
-            await _dbContext.SaveChangesAsync();
-
-            var options = new JsonSerializerSettings
+            catch (Exception e)
             {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-            };
-
-            string json = JsonConvert.SerializeObject(_adminProductAssociation, options);
-           return Ok(json);
+                return BadRequest(new { message = e.Message });
+            }
         }
 
         [HttpPut("{adminId}/{productBarcode}")]
         public async Task<IActionResult> UpdateAdminProductAssociation(string adminId, int productBarcode, bool status)
         {
-            var adminProductAssociation = await _dbContext.AdminProductAssociations.FindAsync(adminId, productBarcode);
-            var product0 = await _dbContext.Products.FindAsync(productBarcode);
-
-            if (adminProductAssociation == null)
+            try
             {
-                
-                return NotFound();
+                var adminProductAssociation = await _dbContext.AdminProductAssociations.FindAsync(adminId, productBarcode);
+                var product0 = await _dbContext.Products.FindAsync(productBarcode);
+
+                if (adminProductAssociation == null)
+                {
+                    return NotFound(new { message = "AdminProductAssociation not found" });
+                }
+
+                product0.Status = status;
+                await _dbContext.SaveChangesAsync();
+
+                return Ok(new { message = "ok" });
             }
-            
-            product0.Status = status;
-
-            await _dbContext.SaveChangesAsync();
-
-            return NoContent();
+            catch (Exception e)
+            {
+                return BadRequest(new { message = e.Message });
+            }
         }
 
         [HttpDelete("{adminId}/{productBarcode}")]
         public async Task<IActionResult> DeleteAdminProductAssociation(string adminId, int productBarcode)
         {
-            var adminProductAssociation = await _dbContext.AdminProductAssociations.FindAsync(adminId, productBarcode);
-
-            if (adminProductAssociation == null)
+            try
             {
-                return NotFound();
+                var adminProductAssociation = await _dbContext.AdminProductAssociations.FindAsync(adminId, productBarcode);
+
+                if (adminProductAssociation == null)
+                {
+                    return NotFound(new { message = "AdminProductAssociation not found" });
+                }
+
+                _dbContext.AdminProductAssociations.Remove(adminProductAssociation);
+                await _dbContext.SaveChangesAsync();
+
+                return Ok(new { message = "ok" });
             }
-
-            _dbContext.AdminProductAssociations.Remove(adminProductAssociation);
-            await _dbContext.SaveChangesAsync();
-
-            return NoContent();
+            catch (Exception e)
+            {
+                return BadRequest(new { message = e.Message });
+            }
         }
     }
 }

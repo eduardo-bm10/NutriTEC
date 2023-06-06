@@ -3,36 +3,50 @@
 -- de acuerdo con su modo de pago.
 -- Parameters: Payment
 -- Author: Eduardo Bolívar Minguet
-CREATE OR REPLACE PROCEDURE calculate_payment(p_payment INT)
+CREATE OR REPLACE FUNCTION calculate_payment(p_payment INT)
+RETURNS TABLE (
+	Email VARCHAR,
+	FullName VARCHAR,
+	TotalPayment INT,
+	Discount VARCHAR,
+	FinalPayment INT
+)
 LANGUAGE PLPGSQL AS $$
 DECLARE
-	f_row RECORD;
-	discount TEXT;
+	var_r RECORD;
 BEGIN
-	IF p_payment = 1 THEN
-		discount := 'N/A';
-	ELSIF p_payment = 2 THEN
-		discount  := '5%';
-	ELSIF p_payment = 3 THEN
-	 	discount := '10%';
-	ELSE
-		RAISE NOTICE '% IS AN INVALID PAYMENT ID', p_payment;
-	END IF;
-	SELECT 
-		Email, 
-		CONCAT(FirstName,' ',LastName1,' ',LastName2) AS FullName,
-		COUNT(PatientID) AS TotalAmount,
-		discount AS Discount,
-		CASE
-			WHEN PaymentID = 1 THEN COUNT(PatientID)
-			WHEN PaymentID = 2 THEN COUNT(PatientID)-(COUNT(PatientID)*0.05)
-			WHEN PaymentID = 3 THEN COUNT(PatientID)-(COUNT(PatientID)*0.10)
-		END AS FinalAmount
-	FROM 
-		NUTRITIONIST JOIN PATIENT_NUTRITIONIST_ASSOCIATION ON ID = NutritionistID
-	WHERE PaymentID = p_payment
-	GROUP BY Email, FirstName, LastName1, LastName2, PaymentID;
+	FOR var_r IN (SELECT 
+					NUTRITIONIST.Email AS NutriEmail, 
+					CONCAT(FirstName,' ',LastName1,' ',LastName2) AS FullName,
+					COUNT(PatientID) AS TotalAmount,
+				  	CASE
+				  		WHEN PaymentID = 1 THEN 'N/A'
+				  		WHEN PaymentID = 2 THEN '5%'
+				  		WHEN PaymentID = 3 THEN '10%'
+				  	END AS Discount,
+					CASE
+						WHEN PaymentID = 1 THEN COUNT(PatientID)
+						WHEN PaymentID = 2 THEN COUNT(PatientID)-(COUNT(PatientID)*0.05)
+						WHEN PaymentID = 3 THEN COUNT(PatientID)-(COUNT(PatientID)*0.10)
+					END AS FinalAmount
+				FROM 
+					NUTRITIONIST LEFT JOIN PATIENT_NUTRITIONIST_ASSOCIATION ON ID = NutritionistID
+				WHERE PaymentID = p_payment
+				GROUP BY NUTRITIONIST.Email, FirstName, LastName1, LastName2, PaymentID)
+	LOOP
+		Email := var_r.NutriEmail;
+		FullName := var_r.FullName;
+		TotalPayment := var_r.TotalAmount;
+		Discount := var_r.Discount;
+		FinalPayment := var_r.FinalAmount;
+		RETURN NEXT;
+	END LOOP;
 END; $$
+
+drop function calculate_payment
+select * from calculate_payment(2)
+
+SELECT * FROM NUTRITIONIST
 
 -- Store Procedure: CUSTOMERS ADVANCE REPORT.
 -- Description: Muestras las medidas registradas por un específico usuario dentro de un lapso indicado.
@@ -65,7 +79,7 @@ BEGIN
 			Neck, 
 			Hips, 
 			MusclePercentage, 
-			FatPercentage 
+			FatPercentage
 		FROM 
 			MEASUREMENT 
 		WHERE PatientID = ssn AND Date >= startDate AND Date <= finalDate;
@@ -73,6 +87,8 @@ BEGIN
 		RAISE NOTICE 'Patient with SSN % does not exist', ssn;
 	END IF;
 END; $$
+
+CALL calculate_payment(1)
 
 -- Store Procedure: CREATE RECIPE.
 -- Description: Verifica si los ingredientes existen para luego insertar a la base de datos

@@ -328,11 +328,9 @@ export class GetApiService {
     carbohydrates: number,
     protein: number,
     status: boolean,
-    vitamins: string[]
+    vitamins: string
   ){
-    const encodedArray = vitamins.map(value => encodeURIComponent(value));
-    const queryString = encodedArray.join("&");
-    const url = `${this.baseUrl}/api/Product/${barcode}?description=${description}&iron=${iron}&sodium=${sodium}&energy=${energy}&fat=${fat}&calcium=${calcium}&carbohydrates=${carbohydrates}&protein=${protein}&status=${status}&vitamins=`+queryString;
+    const url = `${this.baseUrl}/api/Product/${barcode}?description=${description}&iron=${iron}&sodium=${sodium}&energy=${energy}&fat=${fat}&calcium=${calcium}&carbohydrates=${carbohydrates}&protein=${protein}&status=${status}&vitamins=${vitamins}`;
     return this.http.put(url, null, {});
   }
 
@@ -472,10 +470,9 @@ export class GetApiService {
     return this.http.post(url, null, {});
   }
 
-  createRecipe(description: string, barcodePortion: { [key: number]: number }) {
-    const url = `${this.baseUrl}/api/Recipes`;
-    const body = { description, barcodePortion };
-    return this.http.post(url, body);
+  createRecipe(description: string, barcodeProducts: string, portionProducts:string) {
+    const url = `${this.baseUrl}/api/Recipes?description=${description}&barcodeProducts=${barcodeProducts}&portionProducts=${portionProducts}`;
+    return this.http.post(url, null,{});
   }
 
   //------------------ Mongo API Methods ----------------------------------------------------------

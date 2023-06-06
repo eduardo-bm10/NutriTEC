@@ -31,27 +31,28 @@ namespace Postgre_API.Controllers
 
             if (paymentType == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Payment type not found" });
             }
 
             return paymentType;
         }
 
         [HttpPost("{descripcion}")]
-        public async Task<ActionResult<PaymentType>> CreatePaymentType(int id, string descripcion)
+        public async Task<IActionResult> CreatePaymentType(int id, string descripcion)
         {
             var exists_payment = await _dbContext.PaymentTypes.FindAsync(id);
+
             if (exists_payment != null)
             {
                 return Content("The payment type already exists!");
             }
 
-            var myPay = new PaymentType{Id = id, Description = descripcion};
+            var myPay = new PaymentType { Id = id, Description = descripcion };
 
             _dbContext.PaymentTypes.Add(myPay);
             await _dbContext.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetPaymentType), new { id = myPay.Id }, myPay);
+            return Ok(new {message = "ok"});
         }
 
         [HttpPut("{id}")]
@@ -59,7 +60,7 @@ namespace Postgre_API.Controllers
         {
             if (id != paymentType.Id)
             {
-                return BadRequest();
+                return BadRequest(new { message = "Invalid request" });
             }
 
             _dbContext.Entry(paymentType).State = EntityState.Modified;
@@ -72,7 +73,7 @@ namespace Postgre_API.Controllers
             {
                 if (!PaymentTypeExists(id))
                 {
-                    return NotFound();
+                    return NotFound(new { message = "Payment type not found" });
                 }
                 else
                 {
@@ -80,7 +81,7 @@ namespace Postgre_API.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok(new {message = "ok"});
         }
 
         [HttpDelete("{id}")]
@@ -90,13 +91,13 @@ namespace Postgre_API.Controllers
 
             if (paymentType == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Payment type not found" });
             }
 
             _dbContext.PaymentTypes.Remove(paymentType);
             await _dbContext.SaveChangesAsync();
 
-            return NoContent();
+            return Ok(new {message = "ok"});
         }
 
         private bool PaymentTypeExists(int id)

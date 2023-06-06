@@ -8,7 +8,7 @@ namespace API_MongoDB.Controllers {
     public class FeedbackController : ControllerBase {
         public NutritecService service = new NutritecService();
 
-        private readonly NutritecDbContext postgreHandlers = new NutritecDbContext();
+        //private readonly NutritecDbContext postgreHandlers = new NutritecDbContext();
 
         [HttpPost]
         [Route("createFeedback/{senderSsn}/{receptorSsn}/{message}")]

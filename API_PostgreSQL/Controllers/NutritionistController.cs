@@ -1,11 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Postgre_API.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Postgre_API.Controllers
 {
@@ -20,20 +21,21 @@ namespace Postgre_API.Controllers
             _context = context;
         }
 
-        private dynamic encryptPassword_MD5(string password){
-            string encryptedPassword = "";
-            using (MD5 md5 = MD5.Create()) {
+        private string EncryptPasswordMD5(string password)
+        {
+            using (MD5 md5 = MD5.Create())
+            {
                 byte[] inputBytes = Encoding.UTF8.GetBytes(password);
                 byte[] hashBytes = md5.ComputeHash(inputBytes);
                 StringBuilder sb = new StringBuilder();
-                foreach (byte b in hashBytes) {
+                foreach (byte b in hashBytes)
+                {
                     sb.Append(b.ToString("x2"));
                 }
-                encryptedPassword = sb.ToString();
-                Console.WriteLine(sb.ToString()); // borrar luego
-            }            
-            return encryptedPassword;
+                return sb.ToString();
+            }
         }
+
         // GET: api/Nutritionists
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Nutritionist>>> GetNutritionists()
@@ -49,7 +51,7 @@ namespace Postgre_API.Controllers
 
             if (nutritionist == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Nutritionist not found" });
             }
 
             return nutritionist;
@@ -57,62 +59,67 @@ namespace Postgre_API.Controllers
 
         // POST: api/Nutritionists
         [HttpPost]
-        public async Task<ActionResult<Nutritionist>> CreateNutritionist(string id, string nutritionistcode, string firstname, string lastname1, string lastname2, string email, string password, int weight, double bmi,  string cardNumber, string address, string photo, int paymentid = 0)
+        public async Task<ActionResult<Nutritionist>> CreateNutritionist(string id, string nutritionistcode, string firstname, string lastname1, string lastname2, string email, string password, int weight, double bmi, string cardNumber, string address, string photo, int paymentid = 0)
         {
-            var nutritionist_exists = await _context.Nutritionists.FindAsync(id);
+            var nutritionistExists = await _context.Nutritionists.FindAsync(id);
 
-            if (nutritionist_exists != null)
+            if (nutritionistExists != null)
             {
                 return Content("The nutritionist already exists!");
             }
-            string thePassword = encryptPassword_MD5(password);
-            var nutritionist = new Nutritionist{
+
+            string encryptedPassword = EncryptPasswordMD5(password);
+
+            var nutritionist = new Nutritionist
+            {
                 Id = id,
                 Nutritionistcode = nutritionistcode,
                 Firstname = firstname,
                 Lastname1 = lastname1,
                 Lastname2 = lastname2,
                 Email = email,
-                Password = thePassword,
+                Password = encryptedPassword,
                 Weight = weight,
-                Bmi = bmi, 
+                Bmi = bmi,
                 CardNumber = cardNumber,
-                Address = address, 
-                Photo = photo, 
+                Address = address,
+                Photo = photo,
                 Paymentid = paymentid
             };
+
             _context.Nutritionists.Add(nutritionist);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetNutritionist", new { id = nutritionist.Id }, nutritionist);
         }
 
-    
-
         // PUT: api/Nutritionists/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateNutritionist(string id, string nutritionistcode, string firstname, string lastname1, string lastname2, string email, string password, int weight, double bmi, string cardNumber,string address, string photo, int paymentid = 0)
+        public async Task<IActionResult> UpdateNutritionist(string id, string nutritionistcode, string firstname, string lastname1, string lastname2, string email, string password, int weight, double bmi, string cardNumber, string address, string photo, int paymentid = 0)
         {
-            var nutritionist_exists = await _context.Nutritionists.FindAsync(id);
+            var nutritionistExists = await _context.Nutritionists.FindAsync(id);
 
-            if (nutritionist_exists == null)
+            if (nutritionistExists == null)
             {
-                return Content("The nutritionist does not exists!");
+                return Content("The nutritionist does not exist!");
             }
-            string thePassword = encryptPassword_MD5(password);
-            var nutritionist = new Nutritionist{
+
+            string encryptedPassword = EncryptPasswordMD5(password);
+
+            var nutritionist = new Nutritionist
+            {
                 Id = id,
                 Nutritionistcode = nutritionistcode,
                 Firstname = firstname,
                 Lastname1 = lastname1,
                 Lastname2 = lastname2,
                 Email = email,
-                Password = password,
+                Password = encryptedPassword,
                 Weight = weight,
-                Bmi = bmi, 
+                Bmi = bmi,
                 CardNumber = cardNumber,
-                Address = address, 
-                Photo = photo, 
+                Address = address,
+                Photo = photo,
                 Paymentid = paymentid
             };
 
@@ -126,7 +133,7 @@ namespace Postgre_API.Controllers
             {
                 if (!NutritionistExists(id))
                 {
-                    return NotFound();
+                    return NotFound(new { message = "Nutritionist not found" });
                 }
                 else
                 {
@@ -142,9 +149,10 @@ namespace Postgre_API.Controllers
         public async Task<IActionResult> DeleteNutritionist(string id)
         {
             var nutritionist = await _context.Nutritionists.FindAsync(id);
+
             if (nutritionist == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Nutritionist not found" });
             }
 
             _context.Nutritionists.Remove(nutritionist);
