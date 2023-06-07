@@ -356,7 +356,7 @@ export class GetApiService {
     return this.http.put(url, null, {});
   }
 
-  // Eliminar un producto
+  // Eliminar un producto: PENDIENTE INVOLUCRA MUCHAS TABLAS
   deleteProduct(barcode: number) {
     const url = `${this.baseUrl}/api/Products/delete/${barcode}`;
     return this.http.delete(url);

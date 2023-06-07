@@ -165,6 +165,7 @@ namespace Postgre_API.Controllers
                 return BadRequest(new {message = e.Message});
             }}
 
+        // Pendiente involucra muchas tablas
         [HttpDelete("delete/{barcode}")]
         public async Task<IActionResult> DeleteProduct(int barcode)
         {
@@ -172,6 +173,7 @@ namespace Postgre_API.Controllers
             {
                 var product = await _dbContext.Products.FindAsync(barcode);
                 var allAdminProductAssoc = await _dbContext.AdminProductAssociations
+                var 
                     .Where(a => a.Productbarcode == barcode)
                     .ToListAsync(); // Get all associations with this admin
 
