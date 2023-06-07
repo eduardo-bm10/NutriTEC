@@ -504,6 +504,39 @@ export class GetApiService {
     return this.http.put(url, null,{});
   }
 
+  // ---------------------------- Functionality Methods --------------------------------------
+
+  paymentReport(
+    paymentId: number
+  ) {
+    const url = `${this.baseUrl}/api/Functions/getPaymentReport/${paymentId}`;
+    return this.http.get(url);
+  }
+
+  customerAdvanceReport(
+    patientId: string,
+    startDate: Date,
+    finalDate: Date
+  ) {
+    const url = `${this.baseUrl}/api/Functions/getAdvanceReport/${patientId}/${startDate}/${finalDate}`;
+    return this.http.get(url);
+  }
+
+  caloriesPerPlan() {
+    const url = `${this.baseUrl}/api/Functions/getCaloriesPerPlan`;
+    return this.http.get(url);
+  }
+
+  getRecipeCalories() {
+    const url = `${this.baseUrl}/api/Functions/getRecipeCalories`;
+    return this.http.get(url);
+  }
+
+  getNotAssociatedClients() {
+    const url = `${this.baseUrl}/api/Functions/getNotAssociatedClients`;
+    return this.http.get(url);
+  }
+
   //------------------ Mongo API Methods ----------------------------------------------------------
 
   createFeedback(

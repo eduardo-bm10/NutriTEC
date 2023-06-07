@@ -160,6 +160,8 @@ CREATE VIEW CaloriesPerMealTimeOnPlan AS
 		PLAN.ID, 
 		PLAN.Description, 
 		MEAL_TIME.Name;
+
+select * from caloriespermealtimeonplan
 		
 -- View: TotalRecipeCalories
 CREATE VIEW TotalRecipeCalories AS
@@ -183,8 +185,7 @@ select * from TotalRecipeCalories
 CREATE VIEW NonAssociatedClients AS
 	SELECT
 		PATIENT.ID AS PatientSSN,
-		CONCAT (PATIENT.FirstName, ' ', PATIENT.LastName1, ' ', PATIENT.LastName2) AS PatientName,
-		AGE(PATIENT.BirthDate, NOW()) AS Age
+		CONCAT (PATIENT.FirstName, ' ', PATIENT.LastName1, ' ', PATIENT.LastName2) AS PatientName
 	FROM
 		PATIENT LEFT JOIN PATIENT_NUTRITIONIST_ASSOCIATION ON ID = PatientID
 	WHERE PatientID IS NULL;
