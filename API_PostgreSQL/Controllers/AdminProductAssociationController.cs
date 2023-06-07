@@ -88,7 +88,8 @@ namespace Postgre_API.Controllers
             }
         }
 
-        [HttpPut("{adminId}/{productBarcode}")]
+        // Este metodo no se usa porque esta tabla solo tiene PK compuesta por 2 elementos
+        [HttpPut("put/{adminId}/{productBarcode}")]
         public async Task<IActionResult> UpdateAdminProductAssociation(string adminId, int productBarcode, bool status)
         {
             try
@@ -112,7 +113,7 @@ namespace Postgre_API.Controllers
             }
         }
 
-        [HttpDelete("{adminId}/{productBarcode}")]
+        [HttpDelete("delete/{adminId}/{productBarcode}")]
         public async Task<IActionResult> DeleteAdminProductAssociation(string adminId, int productBarcode)
         {
             try
