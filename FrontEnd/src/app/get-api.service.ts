@@ -358,7 +358,7 @@ export class GetApiService {
     protein: number,
     status: boolean
   ) {
-    const url = `${this.baseUrl}/api/Products/put/${barcode}/description=${description}&iron=${iron}&sodium=${sodium}&energy=${energy}&fat=${fat}&calcium=${calcium}&carbohydrates=${carbohydrates}&protein=${protein}&status=${status}`;
+    const url = `${this.baseUrl}/api/Products/put/${barcode}/${description}/${iron}/${sodium}/${energy}/${fat}/${calcium}/${carbohydrates}/${protein}/${status}`;
     return this.http.put(url, null, {});
   }
 
