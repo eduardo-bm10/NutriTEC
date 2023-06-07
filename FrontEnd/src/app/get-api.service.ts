@@ -321,6 +321,12 @@ export class GetApiService {
     return this.http.get(url);
   }
 
+  // Obtener json de productos por su status
+  getProductByStatus(status: boolean) {
+    const url = `${this.baseUrl}/api/Product/getByStatus/${status}`;
+    return this.http.get(url);
+  }
+
   // Crear un nuevo producto
   createProduct(
     barcode: number,
@@ -361,6 +367,8 @@ export class GetApiService {
     const url = `${this.baseUrl}/api/AdminProductAssociations/put/${adminId}/${barcode}/${status}`;
     return this.http.put(url, null, {});
   }
+
+
 
   // Eliminar un producto: PENDIENTE INVOLUCRA MUCHAS TABLAS
   deleteProduct(barcode: number) {

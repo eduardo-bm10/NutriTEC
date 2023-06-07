@@ -128,6 +128,26 @@ namespace Postgre_API.Controllers
             {
                 return BadRequest(new {message = e.Message});
             }}
+        
+        [HttpGet("getByStatus/{status}")]
+        public async Task<IActionResult> GetProductByStatus(bool status)
+        {
+            try{
+            // Obtener el producto con status
+            var specificProducts = await _dbContext.Products
+                    .Where(a => a.Status == status)
+                    .ToListAsync(); // Get all associations with this admin
+            
+            if (specificProducts.Count == 0){
+                return BadRequest(new {message = "No products with this status"});
+            }
+
+            return Ok(specificProducts);
+        }catch (Exception e)
+            {
+                return BadRequest(new {message = e.Message});
+            }
+        }
 
         [HttpPut("put/{barcode}/{description}/{iron}/{sodium}/{energy}/{fat}/{calcium}/{carbohydrate}/{protein}/{status}")]
         public async Task<IActionResult> UpdateProduct(int barcode, string description, double iron, double sodium, double energy, double fat, double calcium, double carbohydrate, double protein, bool status)
@@ -164,6 +184,8 @@ namespace Postgre_API.Controllers
             {
                 return BadRequest(new {message = e.Message});
             }}
+
+        
 
         // Pendiente involucra muchas tablas
         [HttpDelete("delete/{barcode}")]
