@@ -43,24 +43,22 @@ BEGIN
 	END LOOP;
 END; $$
 
-select * from calculate_payment(1)
-
 -- Store Procedure: CUSTOMERS ADVANCE REPORT.
 -- Description: Muestras las medidas registradas por un específico usuario dentro de un lapso indicado.
 -- Parameters: SSN, StartDate, FinalDate
 -- Author: Eduardo Bolívar Minguet
 CREATE OR REPLACE FUNCTION customers_advance_report
 (
-	ssn INT, 
+	ssn VARCHAR(9), 
 	startDate DATE, 
 	finalDate DATE
 )
 RETURNS TABLE (
 	Patient INT,
 	ReDate DATE,
-	Waist INT,
-	Neck INT,
-	Hips INT,
+	Waist REAL,
+	Neck REAL,
+	Hips REAL,
 	MusclePercentage REAL,
 	FatPercentage REAL
 )
@@ -73,7 +71,7 @@ BEGIN
 					FROM 
 					MEASUREMENT)
 	LOOP
-		IF ssn = PatientID THEN
+		IF ssn = r_row.PatientID THEN
 			p_exists := TRUE;
 		END IF;
 	END LOOP;
@@ -104,7 +102,9 @@ BEGIN
 	END IF;
 END; $$
 
-select * from customers_advance_report(1112, '2023-05-05', '2023-06-06')
+drop function customers_advance_report
+
+select * from customers_advance_report('111278965', '2023-05-05', '2023-06-06')
 
 -- Store Procedure: CREATE RECIPE.
 -- Description: Verifica si los ingredientes existen para luego insertar a la base de datos
@@ -152,8 +152,7 @@ CREATE VIEW CaloriesPerMealTimeOnPlan AS
 	FROM 
 		PLAN JOIN PLAN_MEALTIME_ASSOCIATION ON PLAN.ID = PlanID JOIN
 		MEAL_TIME ON MealTimeID = MEAL_TIME.ID JOIN
-		MEALTIME_PRODUCT ON MEAL_TIME.ID = MEALTIME_PRODUCT.MealtimeID JOIN
-		PRODUCT ON Product_barcode = PRODUCT.Barcode
+		PRODUCT ON ProductBarcode = PRODUCT.Barcode
 	GROUP BY 
 		PLAN.ID, 
 		PLAN.Description, 
