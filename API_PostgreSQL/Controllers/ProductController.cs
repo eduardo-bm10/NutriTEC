@@ -149,8 +149,8 @@ namespace Postgre_API.Controllers
             }
         }
 
-        [HttpPut("put/{barcode}/{description}/{iron}/{sodium}/{energy}/{fat}/{calcium}/{carbohydrate}/{protein}/{status}")]
-        public async Task<IActionResult> UpdateProduct(int barcode, string description, double iron, double sodium, double energy, double fat, double calcium, double carbohydrate, double protein, bool status)
+        [HttpPut("put/{barcode}/{description}/{iron}/{sodium}/{energy}/{fat}/{calcium}/{carbohydrate}/{protein}/{vitamins}")]
+        public async Task<IActionResult> UpdateProduct(int barcode, string description, double iron, double sodium, double energy, double fat, double calcium, double carbohydrate, double protein, string vitamins)
         {
             try{
             var product = await _dbContext.Products.FindAsync(barcode);
@@ -169,7 +169,15 @@ namespace Postgre_API.Controllers
             product.Calcium = calcium;
             product.Carbohydrate = carbohydrate;
             product.Protein = protein;
-            product.Status = status;
+
+
+            var vitaminas_todas = vitamins.Split(",");//el parametro separado
+            var vitList = await _dbContext.Vitamins.Where(v => v.ProductBarcode == barcode).ToListAsync();//todas las vitaminas del producto
+            //actualizar descripcion de las vitaminas vitList
+            foreach (var vitaminaActual in vitList)
+            {
+                vitaminaActual.Vitamin1 = vitaminas_todas[vitList.IndexOf(vitaminaActual)];
+            }
 
             await _dbContext.SaveChangesAsync();
 

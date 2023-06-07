@@ -356,9 +356,9 @@ export class GetApiService {
     calcium: number,
     carbohydrates: number,
     protein: number,
-    status: boolean
+    vitamins:string
   ) {
-    const url = `${this.baseUrl}/api/Products/put/${barcode}/${description}/${iron}/${sodium}/${energy}/${fat}/${calcium}/${carbohydrates}/${protein}/${status}`;
+    const url = `${this.baseUrl}/api/Products/put/${barcode}/${description}/${iron}/${sodium}/${energy}/${fat}/${calcium}/${carbohydrates}/${protein}/${vitamins}`;
     return this.http.put(url, null, {});
   }
 
