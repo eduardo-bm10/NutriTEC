@@ -402,10 +402,10 @@ agregarNuevoInventario(){
     this.api.getProductById(Number(barras.value)).subscribe((data) => {
       const llegada = JSON.parse(JSON.stringify(data));
 
-      
+      /*
       this.api.updateProduct(llegada.Barcode, llegada.Description, llegada.Iron, llegada.Sodium, llegada.Energy, llegada.Fat, llegada.Calcium, llegada.Carbohydrate, llegada.Protein, true).subscribe((data) => {
         console.log(data)
-      });
+      });*/
     });
   }
 
