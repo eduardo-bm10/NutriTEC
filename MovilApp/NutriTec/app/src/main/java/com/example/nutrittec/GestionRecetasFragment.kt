@@ -47,4 +47,8 @@ class GestionRecetasFragment : Fragment() {
         // Add the new product layout to the productListLayout
         productListLayout.addView(productLayout)
     }
+
+    private fun getProducts(){
+
+    }
 }

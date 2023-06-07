@@ -2,6 +2,7 @@ package com.example.nutrittec
 
 
 import android.app.DatePickerDialog
+import android.app.PendingIntent.getActivity
 import android.content.Intent
 import android.icu.util.Calendar
 import androidx.appcompat.app.AppCompatActivity
@@ -10,12 +11,16 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
 import okhttp3.Response
+import retrofit2.http.Path
 import java.io.IOException
 
 class RegisterActivity : AppCompatActivity() {
@@ -101,40 +106,9 @@ class RegisterActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val url = "https://postgresqlapi.azurewebsites.net/api/Patients?id=$id&firstname=$firstname&lastname1=$lastname1&lastname2=$lastname2&email=$email&password=$password&weight=$weight&bmi=$bmi&address=$address&birthdate=$birthdate&country=$country&maxconsumption=$maxconsumption&waist=$waist&neck=$neck&hips=$hips&musclePercentage=$musclePercentage&fatPercentage=$fatPercentage"
+            createPatient(id,firstname, lastname1, lastname2, email, password, weight, bmi, address, birthdate, country, maxconsumption, waist, neck, hips, musclePercentage, fatPercentage)
 
-            val client = OkHttpClient()
 
-            val request = Request.Builder()
-                .url(url)
-                .post(RequestBody.create(null, ByteArray(0))) // No se requiere cuerpo en esta solicitud
-                .build()
-
-            client.newCall(request).enqueue(object : Callback {
-                override fun onFailure(call: Call, e: IOException) {
-                    // Error en la solicitud
-                    runOnUiThread {
-                        Toast.makeText(this@RegisterActivity, "Error en la solicitud", Toast.LENGTH_SHORT).show()
-                    }
-                }
-
-                override fun onResponse(call: Call, response: Response) {
-                    if (response.isSuccessful) {
-                        // Registro exitoso
-                        runOnUiThread {
-                            Toast.makeText(this@RegisterActivity, "Registro exitoso", Toast.LENGTH_SHORT).show()
-                            val home = Intent(applicationContext, MainActivity::class.java)
-                            startActivity(home)
-                            finish()
-                        }
-                    } else {
-                        // Error en la respuesta
-                        runOnUiThread {
-                            Toast.makeText(this@RegisterActivity, "Error al registrar", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
-            })
         }
     }
 
@@ -151,5 +125,30 @@ class RegisterActivity : AppCompatActivity() {
         }, year, month, day)
 
         datePickerDialog.show()
+    }
+
+    private fun createPatient(id: String, firstname: String, lastname1: String, lastname2: String,
+                              email: String, password: String, weight: String, bmi: String,
+                              address: String, birthdate: String, country: String, maxconsumption: String,
+                              waist: String, neck: String, hips: String, musclePercentage: String,
+                              fatPercentage: String){
+        val apiService = api_service.create()
+        CoroutineScope(Dispatchers.IO).launch {
+            val call = apiService.createPatient(id,firstname,lastname1,
+                                                lastname2,email,password,weight,bmi,
+                                                address,birthdate,country,maxconsumption,waist,
+                                                neck,hips,musclePercentage, fatPercentage)
+            runOnUiThread {
+                if(call.isSuccessful){
+                    Toast.makeText(this@RegisterActivity, "Registro exitoso", Toast.LENGTH_SHORT).show()
+                    val home = Intent(applicationContext, MainActivity::class.java)
+                    startActivity(home)
+                    finish()
+                }else {
+                    Toast.makeText(this@RegisterActivity, "Error al registrar", Toast.LENGTH_SHORT).show()
+                }
+
+            }
+        }
     }
 }
