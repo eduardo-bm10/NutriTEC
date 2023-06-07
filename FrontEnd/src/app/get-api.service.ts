@@ -356,6 +356,12 @@ export class GetApiService {
     return this.http.put(url, null, {});
   }
 
+  // Aprobacion de productos
+  updateProductStatus(adminId:string, barcode: number, status: boolean) {
+    const url = `${this.baseUrl}/api/AdminProductAssociations/put/${adminId}/${barcode}/${status}`;
+    return this.http.put(url, null, {});
+  }
+
   // Eliminar un producto: PENDIENTE INVOLUCRA MUCHAS TABLAS
   deleteProduct(barcode: number) {
     const url = `${this.baseUrl}/api/Products/delete/${barcode}`;

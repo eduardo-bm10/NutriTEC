@@ -53,7 +53,7 @@ namespace Postgre_API.Controllers
             }
         }
 
-        [HttpPost("{adminId}/{productBarcode}")]
+        [HttpPost("post/{adminId}/{productBarcode}")]
         public async Task<ActionResult<AdminProductAssociation>> CreateAdminProductAssociation(string adminId, int productBarcode, bool status)
         {
             try
@@ -89,7 +89,7 @@ namespace Postgre_API.Controllers
         }
 
         // Este metodo no se usa porque esta tabla solo tiene PK compuesta por 2 elementos
-        [HttpPut("put/{adminId}/{productBarcode}")]
+        [HttpPut("put/{adminId}/{productBarcode}/{status}")]
         public async Task<IActionResult> UpdateAdminProductAssociation(string adminId, int productBarcode, bool status)
         {
             try
