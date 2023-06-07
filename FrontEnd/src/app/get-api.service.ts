@@ -311,13 +311,13 @@ export class GetApiService {
 
   // Obtener un producto por su barcode
   getProductById(barcode: number) {
-    const url = `${this.baseUrl}/api/Product/${barcode}`;
+    const url = `${this.baseUrl}/api/Product/getByBarcode/${barcode}`;
     return this.http.get(url);
   }
 
   // Obtener un producto por su descripcion
   getProductByDescription(description: string) {
-    const url = `${this.baseUrl}/api/Product/${description}`;
+    const url = `${this.baseUrl}/api/Product/getByDescription/${description}`;
     return this.http.get(url);
   }
 
@@ -335,7 +335,7 @@ export class GetApiService {
     status: boolean,
     vitamins: string
   ){
-    const url = `${this.baseUrl}/api/Product/${barcode}?description=${description}&iron=${iron}&sodium=${sodium}&energy=${energy}&fat=${fat}&calcium=${calcium}&carbohydrates=${carbohydrates}&protein=${protein}&status=${status}&vitamins=${vitamins}`;
+    const url = `${this.baseUrl}/api/Product/post/${barcode}?description=${description}&iron=${iron}&sodium=${sodium}&energy=${energy}&fat=${fat}&calcium=${calcium}&carbohydrates=${carbohydrates}&protein=${protein}&status=${status}&vitamins=${vitamins}`;
     return this.http.post(url, null, {});
   }
 
@@ -352,7 +352,7 @@ export class GetApiService {
     protein: number,
     status: boolean
   ) {
-    const url = `${this.baseUrl}/api/Products/${barcode}?description=${description}&iron=${iron}&sodium=${sodium}&energy=${energy}&fat=${fat}&calcium=${calcium}&carbohydrates=${carbohydrates}&protein=${protein}&status=${status}`;
+    const url = `${this.baseUrl}/api/Products/put/${barcode}?description=${description}&iron=${iron}&sodium=${sodium}&energy=${energy}&fat=${fat}&calcium=${calcium}&carbohydrates=${carbohydrates}&protein=${protein}&status=${status}`;
     return this.http.put(url, null, {});
   }
 

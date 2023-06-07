@@ -129,7 +129,7 @@ namespace Postgre_API.Controllers
                 return BadRequest(new {message = e.Message});
             }}
 
-        [HttpPut("put/{barcode}")]
+        [HttpPut("put/{barcode}/{description}/{iron}/{sodium}/{energy}/{fat}/{calcium}/{carbohydrate}/{protein}/{status}")]
         public async Task<IActionResult> UpdateProduct(int barcode, string description, double iron, double sodium, double energy, double fat, double calcium, double carbohydrate, double protein, bool status)
         {
             try{
