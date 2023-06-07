@@ -541,6 +541,11 @@ export class GetApiService {
     return this.http.post(url, {});
   }
 
+  getVitaminsFunc(barcode: number) {
+    const url = `${this.baseUrl}/api/Functions/getVitamins/${barcode}`;
+    return this.http.get(url);
+  }
+
   caloriesPerPlan() {
     const url = `${this.baseUrl}/api/Functions/getCaloriesPerPlan`;
     return this.http.get(url);

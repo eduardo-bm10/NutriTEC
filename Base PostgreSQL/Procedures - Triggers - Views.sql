@@ -143,10 +143,38 @@ BEGIN
 	END LOOP;
 END; $$
 
-drop procedure create_recipe
-call create_recipe('Gallo Pinto', '{7,9,10}', '{100,4,9}')
+-- Function vitamin_per_product
+-- Author: Eduardo Bolívar Minguet
+CREATE OR REPLACE FUNCTION vitamins_per_product(p_barcode INT)
+RETURNS TABLE (
+	Vitamin VARCHAR(20)
+)
+LANGUAGE PLPGSQL
+AS $$
+DECLARE
+	r_row1 RECORD;
+	r_row2 RECORD;
+	exist BOOLEAN := FALSE;
+BEGIN
+	FOR r_row1 IN (SELECT Barcode FROM PRODUCT)
+	LOOP
+		IF r_row1.Barcode = p_barcode THEN
+			exist := TRUE;
+		ELSE
+			CONTINUE;
+		END IF;
+	END LOOP;
+	IF exist THEN
+		FOR r_row2 IN (SELECT VITAMINS.Vitamin AS V FROM VITAMINS WHERE Product_barcode = p_barcode)
+				LOOP
+					Vitamin := r_row2.V;
+					RETURN NEXT;
+				END LOOP;
+	ELSE
+		RAISE NOTICE 'PRODUCT % DOES NOT EXIST', p_barcode;
+	END IF;
+END; $$
 
-select * from product
 -- View: CaloriesPerMealTimeOnPlan
 CREATE VIEW CaloriesPerMealTimeOnPlan AS
 	SELECT 

@@ -1,6 +1,7 @@
 using Npgsql;
 using Microsoft.AspNetCore.Mvc;
 using Postgre_API.Functions;
+using Postgre_API.Models;
 
 namespace Postgre_API.Controllers {
     [Route("api/Functions")]
@@ -94,6 +95,32 @@ namespace Postgre_API.Controllers {
                 await cmd.ExecuteNonQueryAsync();
                 con.Close();
             }
+        }
+
+        [HttpGet("getVitamins/{barcode}")]
+        public async Task<IEnumerable<Vitamin>> getVitamins(int barcode) {
+            string conString = "Server=server-nutritec.postgres.database.azure.com;Database=nutritec-db;Port=5432;User Id=jimena;Password=Nutri_TEC;Ssl Mode=VerifyFull;";
+            NpgsqlConnection con = new NpgsqlConnection(conString);
+            con.Open();
+            string cmdQuery = $"SELECT Vitamin FROM vitamins_per_product(@code)";
+            await using (NpgsqlCommand cmd = new NpgsqlCommand(cmdQuery, con)) {
+                cmd.Parameters.AddWithValue("@code", barcode);
+                await using (NpgsqlDataReader reader = await cmd.ExecuteReaderAsync()) {
+                    var result = new List<Vitamin>();
+                    while (await reader.ReadAsync()) {
+                        string vitamin = reader["Vitamin"] as string;
+                        Vitamin v = new Vitamin {
+                            ProductBarcode = barcode,
+                            Vitamin1 = vitamin
+                        };
+                        result.Add(v);
+                    }
+                    con.Close();
+                    return result;
+                }
+            }
+            con.Close();
+            return null;
         }
 
         [HttpGet("getCaloriesPerPlan")]
