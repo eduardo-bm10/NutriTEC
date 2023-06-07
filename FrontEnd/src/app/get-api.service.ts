@@ -76,13 +76,13 @@ export class GetApiService {
 
   // Actualizar un administrador
   updateAdministrator(id: string, firstname: string, lastname1: string, lastname2: string, email: string, password: string) {
-    const url = `${this.baseUrl}/api/Administrator/${id}?firstname=${firstname}&lastname1=${lastname1}&lastname2=${lastname2}&email=${email}&password=${password}`;
+    const url = `${this.baseUrl}/api/Administrator/put/${id}?firstname=${firstname}&lastname1=${lastname1}&lastname2=${lastname2}&email=${email}&password=${password}`;
     return this.http.put(url, null);
   }
 
   // Eliminar un administrador
   deleteAdministrator(id: string) {
-    const url = `${this.baseUrl}/api/Administrator/${id}`;
+    const url = `${this.baseUrl}/api/Administrator/delete/${id}`;
     return this.http.delete(url);
   }
 

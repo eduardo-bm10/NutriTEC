@@ -37,7 +37,7 @@ namespace Postgre_API.Controllers
             return encryptedPassword;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("get/{id}")]
         public async Task<ActionResult<Administrator>> GetAdministrator(string id)
         {
             try
@@ -98,7 +98,7 @@ namespace Postgre_API.Controllers
             }
         }
 
-        [HttpPut("{id}/{firstname}/{lastname1}/{lastname2}/{email}/{password}")]
+        [HttpPut("put/{id}/{firstname}/{lastname1}/{lastname2}/{email}/{password}")]
         public async Task<IActionResult> UpdateAdministrator(string id, string firstname, string lastname1, string lastname2, string email, string password)
         {
             try
@@ -128,18 +128,33 @@ namespace Postgre_API.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteAdministrator(string id)
         {
             try
             {
                 var administrator = await _dbContext.Administrators.FindAsync(id);
+                var allAdminProductAssoc = await _dbContext.AdminProductAssociations
+                    .Where(a => a.Adminid == id)
+                    .ToListAsync(); // Get all associations with this admin
 
                 if (administrator == null)
                 {
                     return NotFound(new { message = "Administrator not found" });
                 }
+                // If there are no associations with this admin, just delete the admin
+                else if (allAdminProductAssoc != null && allAdminProductAssoc.Count == 0)
+                {
+                    _dbContext.Administrators.Remove(administrator);
+                    await _dbContext.SaveChangesAsync();
+                    return Ok(new { message = "ok" });
+                }
 
+                // Else Delete all associations with this admin and the admin
+                _dbContext.AdminProductAssociations.RemoveRange(allAdminProductAssoc);
+                await _dbContext.SaveChangesAsync();
+
+                // Remove the administrator entity
                 _dbContext.Administrators.Remove(administrator);
                 await _dbContext.SaveChangesAsync();
 
@@ -151,5 +166,6 @@ namespace Postgre_API.Controllers
                 return BadRequest(new { message = e.Message });
             }
         }
+
     }
 }
