@@ -1,188 +1,75 @@
-<!-- PLANTILLA TOMADA DE LA SIGUIENTE PÁGINA:https://docraptor.com/free-templates -->
-<div id="reporte">
-  <header>
-    <div class="headerSection">
-      <!-- As a logo we take an SVG element and add the name in an standard H1 element behind it. -->
-      <div class="logoAndName">
-        <img class="img-profile rounded-circle"
-             src="/assets/undraw_profile.svg" width="8%">
+  <div id="reporte">
+  <div class="container mt-6 mb-7">
+    <div class="row justify-content-center">
+      <div class="col-lg-12 col-xl-7">
+        <div class="card">
+          <div class="card-body p-5">
+            <h2>
+              {{nombre}}
+            </h2>
 
-        <h1>{{nombre}} - {{cedula}}</h1>
-      </div>
-      <!-- Details about the invoice are on the right top side of each page. -->
-      <div class="invoiceDetails">
-        <h2>Invoice #100</h2>
-        <p>
-          {{fecha}}
-        </p>
-      </div>
-    </div>
-    <!-- The two header rows are divided by an blue line, we use the HR element for this. -->
-    <hr />
-    <div class="headerSection">
-      <!-- The clients details come on the left side below the logo and company name. -->
-      <div>
-        <h3>Invoice to</h3>
-        <p>
-          <b>Client Name</b>
-          <br />
-          123 Alphabet Road, Suite 01
-          <br />
-          Indianapolis, IN 46260
-          <br />
-          <a href="mailto:clientname@clientwebsite.com">
-            clientname@clientwebsite.com
+            <div class="border-top border-gray-200 pt-4 mt-4">
+              <div class="row">
+                <div class="col-md-6 text-md-end">
+                  <div class="text-muted mb-2">Realizada:</div>
+                  <strong>{{fecha}}</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="border-top border-gray-200 mt-4 py-4">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="text-muted mb-2">Paciente</div>
+                  <strong>
+                    {{nombre}}
+                  </strong>
+                  {{cedula}}
+                  <br>
+                  <p class="fs-sm">
+                    {{direccion}}
+                    <br>
+                    <a class="text-purple">{{email}}</a>
+                    <br>
+                    
+                  </p>
+                </div>
+                <div class="col-md-6">
+                  <br>
+                  <strong>
+                    {{birthdate}}
+                  </strong>
+                  <br>
+                  {{pais}}
+                  <br>
+                  Consumo máximo de calorias asignado: {{max}}
+                </div>
+              </div>
+            </div>
+
+            <div id="tabla"></div>
+
+            <div class="mt-5">
+              <div class="d-flex justify-content-end">
+                <p class="text-muted me-3">Subtotal:</p>
+                <span>$390.00</span>
+              </div>
+              <div class="d-flex justify-content-end">
+                <p class="text-muted me-3">Discount:</p>
+                <span>-$40.00</span>
+              </div>
+              <div class="d-flex justify-content-end mt-3">
+                <h5 class="me-3">Total:</h5>
+                <h5 class="text-success">$399.99 USD</h5>
+              </div>
+            </div>
+          </div>
+          <a class="btn btn-dark btn-lg card-footer-btn justify-content-center text-uppercase-bold-sm hover-lift-light">
+            NutriTEC &nbsp;
+            <i class="fas fa-thin fa-utensils" style="color: #ffffff;"></i>
           </a>
-          <br />
-          317.123.8765
-        </p>
-      </div>
-      <!-- Additional details can be placed below the invoice details. -->
-      <div>
-        <h3>Fecha de Creación</h3>
-        <p>
-          <b>{{fecha}}</b>
-        </p>
-        <h3>Amount</h3>
-        <p>
-          <b>$3,500</b>
-        </p>
+        </div>
       </div>
     </div>
-  </header>
-
-  <!-- The footer contains the company's website and address. To align the address details we will use flexbox in the CSS style. -->
-
-
-  <!-- In the main section the table for the separate items is added. Also we add another table for the summary, so subtotal, tax and total amount. -->
-  <main>
-    <table>
-      <!-- A THEAD element is used to ensure the header of the table is repeated if it consumes more than one page. -->
-      <thead>
-      <tr>
-        <th>Item Description</th>
-        <th>Rate</th>
-        <th>Amount</th>
-        <th>Total</th>
-      </tr>
-      </thead>
-      <!-- The single invoice items are all within the TBODY of the table. -->
-      <tbody>
-      <tr>
-        <td>
-          <b>Item Names Goes Here</b>
-          <br />
-          Description goes here
-        </td>
-        <td>
-          $100
-        </td>
-        <td>
-          4
-        </td>
-        <td>
-          $400.00
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <b>Lorem Ipsum</b>
-          <br />
-          Description goes here
-        </td>
-        <td>
-          $250
-        </td>
-        <td>
-          2
-        </td>
-        <td>
-          $500.00
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <b>Dolor Set Amit Caslum</b>
-          <br />
-          Description goes here
-        </td>
-        <td>
-          $300
-        </td>
-        <td>
-          1
-        </td>
-        <td>
-          $300.00
-        </td>
-      </tr>
-      </tbody>
-    </table>
-    <!-- The summary table contains the subtotal, tax and total amount. -->
-    <table class="summary">
-      <tr>
-        <th>
-          Subtotal
-        </th>
-        <td>
-          $1200.00
-        </td>
-      </tr>
-      <tr>
-        <th>
-          Tax 4.7%
-        </th>
-        <td>
-          $000.00
-        </td>
-      </tr>
-      <tr class="total">
-        <th>
-          Total
-        </th>
-        <td>
-          $12,000.00
-        </td>
-      </tr>
-    </table>
-  </main>
-  <!-- Within the aside tag we will put the terms and conditions which shall be shown below the invoice table. -->
-  <aside>
-    <!-- Before the terms and conditions we will add another blue divider line with the help of the HR tag. -->
-    <hr />
-    <div>
-      <div>
-        <b>Terms &amp; Conditions</b>
-        <p>
-          Please make payment within 30 days of issue of the invoice.
-        </p>
-      </div>
-      <div>
-        <b>Payment Options</b>
-        <ul>
-          <li>Paypal</li>
-          <li>Credit Card</li>
-        </ul>
-      </div>
-    </div>
-  </aside>
-
-  <footer>
-    <a href="https://companywebsite.com">
-      companywebsite.com
-    </a>
-    <a href="mailto:company@website.com">
-      company@website.com
-    </a>
-    <span>
-      317.123.8765
-    </span>
-    <span>
-      123 Alphabet Road, Suite 01, Indianapolis, IN 46260
-    </span>
-  </footer>
+  </div>
 </div>
-
-<a class="btn btn-outline-primary btn-user btn-block" (click)="generatePDF()">
-  GenerarReporte
-</a>
