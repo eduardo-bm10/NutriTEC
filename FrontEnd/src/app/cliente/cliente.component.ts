@@ -9,7 +9,7 @@ import { GetApiService } from "../get-api.service";
   styleUrls: ['./cliente.component.css']
 })
 export class ClienteComponent implements OnInit {
-  constructor(private api: GetApiService) { }
+  constructor(private api: GetApiService,) { }
   nombre = 'Juan Vainas';
   infoAll = {};
   tipo = 'SPA';
@@ -292,8 +292,6 @@ export class ClienteComponent implements OnInit {
     stringCodigo = stringCodigo.slice(0, stringCodigo.length - 1);
     stringPorcion = stringPorcion.slice(0, stringPorcion.length - 1);
 
-    alert(stringCodigo);
-    alert(stringPorcion);
     this.porcionesAlimentos = [];
     this.alimentos.forEach((codigo:string) => {
       const a = document.getElementById(codigo) as HTMLInputElement;
@@ -309,7 +307,6 @@ export class ClienteComponent implements OnInit {
     const nombreReceta = document.getElementById('nombreReceta') as HTMLInputElement;
 
     this.api.createRecipe(nombreReceta.value, stringCodigo, stringPorcion).subscribe(data => {
-      const todo = JSON.parse(JSON.stringify(data));
       alert("Receta creada!");
     })
   }
@@ -329,7 +326,7 @@ export class ClienteComponent implements OnInit {
     const estado = false
 
     const vitaminas: string[] = [];
-    
+
 
     for (let i = 0; i < vitaminasNOLISTO.options.length; i++) {
       const option = vitaminasNOLISTO.options[i];
@@ -338,12 +335,20 @@ export class ClienteComponent implements OnInit {
       }
     }
     console.log(vitaminas)
-    
+
     const vitaminasString: string = vitaminas.toString();
 
-    
+
     this.api.createProduct(Number(barras.value), descripcion.value, Number(hierro.value), Number(sodio.value), Number(energia.value), Number(grasa.value), Number(calcio.value), Number(carbohidratos.value), Number(proteina.value), estado, vitaminasString).subscribe((data) => {
       alert("swagger")
     })
   }
+
+  reporteAvance(){
+    const fecha1 = document.getElementById('reporteAvanceInicial') as HTMLInputElement;
+    const fecha2 = document.getElementById('reporteAvanceFinal') as HTMLInputElement;
+
+    //this.api.
+  }
+
 }

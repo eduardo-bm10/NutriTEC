@@ -82,6 +82,7 @@ export class LoginComponent implements OnInit{
   }
 
   register(form:any){
+    this.api.pantallaCarga(true);
     const valor = form.value;
     this.api.createPatient(
       valor.cedula, valor.nombre, valor.apellido1, valor.apellido2, valor.email,
@@ -101,6 +102,7 @@ export class LoginComponent implements OnInit{
         alert('Error al crear el usuario!');
       }
     })
+    this.api.pantallaCarga(false);
   }
 
   createOption(texto:string){

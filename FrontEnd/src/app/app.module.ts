@@ -14,6 +14,7 @@ import { LoginNUTRIComponent } from './login-nutri/login-nutri.component';
 import { LoginADMINComponent } from './login-admin/login-admin.component';
 import { NavVarComponent } from './nav-var/nav-var.component';
 import { ReporteComponent } from './reporte/reporte.component';
+import { CargaComponent } from './carga/carga.component';
 
 const appRoutes:Routes=[
   {path:'', component: LoginComponent},
@@ -37,7 +38,8 @@ const appRoutes:Routes=[
     LoginNUTRIComponent,
     LoginADMINComponent,
     NavVarComponent,
-    ReporteComponent
+    ReporteComponent,
+    CargaComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
