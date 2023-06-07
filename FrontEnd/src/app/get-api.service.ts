@@ -522,6 +522,15 @@ export class GetApiService {
     return this.http.get(url);
   }
 
+  createRecipeStore(
+    description: string,
+    products: string,
+    portions: string
+  ) {
+    const url = `${this.baseUrl}/api/Functions/createRecipe/${description}/${products}/${portions}`;
+    return this.http.post(url, {});
+  }
+
   caloriesPerPlan() {
     const url = `${this.baseUrl}/api/Functions/getCaloriesPerPlan`;
     return this.http.get(url);

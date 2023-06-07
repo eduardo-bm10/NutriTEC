@@ -79,6 +79,23 @@ namespace Postgre_API.Controllers {
             return null;
         }
 
+        [HttpPost("createRecipe/{description}/{products}/{portions}")]
+        public async void createRecipe(string description, string products, string portions) {
+            var productList = Array.ConvertAll(products.Split(","), s => int.Parse(s));
+            var portionList = Array.ConvertAll(portions.Split(","), s => int.Parse(s));
+            string conString = "Server=server-nutritec.postgres.database.azure.com;Database=nutritec-db;Port=5432;User Id=jimena;Password=Nutri_TEC;Ssl Mode=VerifyFull;";
+            NpgsqlConnection con = new NpgsqlConnection(conString);
+            con.Open();
+            string query = $"CALL create_recipe(@desc, @products, @portions)";
+            await using (NpgsqlCommand cmd = new NpgsqlCommand(query, con)) {
+                cmd.Parameters.AddWithValue("@desc", description);
+                cmd.Parameters.AddWithValue("@products", productList);
+                cmd.Parameters.AddWithValue("@portions", portionList);
+                await cmd.ExecuteNonQueryAsync();
+                con.Close();
+            }
+        }
+
         [HttpGet("getCaloriesPerPlan")]
         public async Task<IEnumerable<ViewCaloriesPerMealtimeOnPlan>> getCaloriesPerPlan() {
             string connectionString = "Server=server-nutritec.postgres.database.azure.com;Database=nutritec-db;Port=5432;User Id=jimena;Password=Nutri_TEC;Ssl Mode=VerifyFull;";

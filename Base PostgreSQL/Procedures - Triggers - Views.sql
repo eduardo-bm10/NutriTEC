@@ -143,6 +143,7 @@ BEGIN
 	END LOOP;
 END; $$
 
+drop procedure create_recipe
 call create_recipe('Gallo Pinto', '{7,9,10}', '{100,4,9}')
 
 select * from product
