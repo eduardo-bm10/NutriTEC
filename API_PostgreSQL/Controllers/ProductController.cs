@@ -173,9 +173,8 @@ namespace Postgre_API.Controllers
             {
                 var product = await _dbContext.Products.FindAsync(barcode);
                 var allAdminProductAssoc = await _dbContext.AdminProductAssociations
-                var 
                     .Where(a => a.Productbarcode == barcode)
-                    .ToListAsync(); // Get all associations with this admin
+                    .ToListAsync(); // Get all associations with this product
 
                 if (product == null)
                 {
