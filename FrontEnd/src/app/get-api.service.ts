@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
+import { SharedService} from "./shared.service";
 
 
 @Injectable({
@@ -12,10 +13,14 @@ export class GetApiService {
   private baseUrl = 'https://postgresqlapi.azurewebsites.net';
   private mongoUrl = 'https://mongo-api.azurewebsites.net';
 
-  constructor(private http: HttpClient, private router:Router) {}
+  constructor(private http: HttpClient, private router:Router, private sharedService: SharedService) {}
 
   resetFormulario(form:any){
     form.resetForm();
+  }
+
+  pantallaCarga(valor:boolean): void {
+    this.sharedService.setMostrar(valor);
   }
 
   getFecha(){
