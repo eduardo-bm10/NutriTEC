@@ -46,7 +46,7 @@ namespace Postgre_API.Controllers
                 return BadRequest(new {message = e.Message});
             }}
 
-        [HttpPost]
+        [HttpPost("post/{description}/{BarcodeProducts}/{PortionProducts}")]
         public async Task<ActionResult<Recipe>> CreateRecipe(string description, string  BarcodeProducts, string PortionProducts)
         {
             try{
@@ -98,7 +98,7 @@ namespace Postgre_API.Controllers
                 return BadRequest(new {message = e.Message});
             }}
 
-        [HttpPut("put/{id}/{description}")]
+        [HttpPut("put/{id}/{description}/{BarcodeProducts}/{PortionProducts}")]
         public async Task<IActionResult> UpdateRecipe(int id, string description, string  BarcodeProducts, string PortionProducts)
         {
          try{

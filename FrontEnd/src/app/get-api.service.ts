@@ -494,8 +494,18 @@ export class GetApiService {
     return this.http.post(url, null, {});
   }
 
+  getRecipeById(id: number) {
+    const url = `${this.baseUrl}/api/Recipes/${id}`;
+    return this.http.get(url);
+  }
+
+  getRecipes() {
+    const url = `${this.baseUrl}/api/Recipes`;
+    return this.http.get(url);
+  }
+
   createRecipe(description: string, barcodeProducts: string, portionProducts:string) {
-    const url = `${this.baseUrl}/api/Recipes/description=${description}&barcodeProducts=${barcodeProducts}&portionProducts=${portionProducts}`;
+    const url = `${this.baseUrl}/api/Recipes/post/${description}/${barcodeProducts}/${portionProducts}`;
     return this.http.post(url, null,{});
   }
 

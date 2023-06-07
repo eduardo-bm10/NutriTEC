@@ -201,29 +201,43 @@ namespace Postgre_API.Controllers
         {
             try
             {
+                // Recetas, consumo, vitaminas, AdminProductAssociation, Product
                 var product = await _dbContext.Products.FindAsync(barcode);
-                var allAdminProductAssoc = await _dbContext.AdminProductAssociations
-                    .Where(a => a.Productbarcode == barcode)
-                    .ToListAsync(); // Get all associations with this product
+                var recipes = await _dbContext.RecipeProductAssociations.Where(r => r.Productbarcode == barcode).ToListAsync();
+                var allAdminProductAssoc = await _dbContext.AdminProductAssociations.Where(a => a.Productbarcode == barcode).ToListAsync();
+                var consumptions = await _dbContext.Consumptions.Where(c => c.Productbarcode == barcode).ToListAsync();
+                var vitamins = await _dbContext.Vitamins.Where(v => v.ProductBarcode == barcode).ToListAsync();
 
                 if (product == null)
                 {
                     return NotFound(new { message = "Product not found" });
                 }
-                // If there are no associations with this admin, just delete the admin
-                else if (allAdminProductAssoc != null && allAdminProductAssoc.Count == 0)
+
+                //borrar todas las recetas que contengan el producto
+                foreach (var recipe in recipes)
                 {
-                    _dbContext.Products.Remove(product);
-                    await _dbContext.SaveChangesAsync();
-                    return Ok(new { message = "ok" });
+                    _dbContext.RecipeProductAssociations.Remove(recipe);
                 }
 
-                // Else Delete all associations with this admin and the admin
-                _dbContext.AdminProductAssociations.RemoveRange(allAdminProductAssoc);
-                await _dbContext.SaveChangesAsync();
+                //borrar todas las asociaciones de admin-producto que contengan el producto
+                foreach (var adminProductAssoc in allAdminProductAssoc)
+                {
+                    _dbContext.AdminProductAssociations.Remove(adminProductAssoc);
+                }
 
-                // Remove the administrator entity
-                _dbContext.Products.Remove(product);
+                //borrar todos los consumos que contengan el producto
+                foreach (var consumption in consumptions)
+                {
+                    _dbContext.Consumptions.Remove(consumption);
+                }
+
+                //borrar todas las vitaminas que contengan el producto
+                foreach (var vitamin in vitamins)
+                {
+                    _dbContext.Vitamins.Remove(vitamin);
+                }
+                
+                _dbContext.Products.Remove(product);//elimina el producto
                 await _dbContext.SaveChangesAsync();
 
                 return Ok(new { message = "ok" });
