@@ -49,9 +49,6 @@ interface api_service {
         @Path("fatPercentage") fatPercentage: String
     ): Response<JsonObject>
 
-
-
-
     @GET("/api/Mealtime")
     suspend fun getMealTimes(): Response<JsonArray>
 
@@ -61,6 +58,34 @@ interface api_service {
 
     @GET("/api/Product/getByBarcode/{barcode}")
     suspend fun getProductByBarcode(
+        @Path("barcode") barcode: Int
+    ): Response<JsonObject>
+
+    @GET("/api/Recipes")
+    suspend fun getRecipes(): Response<JsonArray>
+    @DELETE ("/api/Recipes/delete/{id}")
+    suspend fun deleteRecipeById(
+        @Path("id") id: Int
+    ): Response<JsonObject>
+
+    @PUT ("/api/Recipes/delete/{id}/{description}/{barcodeProducts}/{portionProducts}")
+    suspend fun updateRecipe(
+        @Path("id") id: Int,
+        @Path("description") description: String,
+        @Path("barcodeProducts") barcodeProducts: String,
+        @Path("portionProducts") portionProducts: String
+    ): Response<JsonObject>
+
+
+    @POST ("/api/Recipes/delete/{id}/{description}/{barcodeProducts}/{portionProducts}")
+    suspend fun createRecipe(
+        @Path("id") id: Int,
+        @Path("description") description: String,
+        @Path("barcodeProducts") barcodeProducts: String,
+        @Path("portionProducts") portionProducts: String
+    ): Response<JsonObject>
+    @GET("/api/Recipe/get")
+    suspend fun getRecipes(
         @Path("barcode") barcode: Int
     ): Response<JsonObject>
 

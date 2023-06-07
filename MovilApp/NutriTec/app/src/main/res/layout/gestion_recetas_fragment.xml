@@ -82,6 +82,28 @@
             android:layout_marginTop="16dp"
             android:text="Añadir receta" />
 
+
+        <Button
+            android:id="@+id/seeRecipesButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Ver recetas" />
+
+        <Button
+            android:id="@+id/editRecipeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Editar receta" />
+
+        <Button
+            android:id="@+id/deleteRecipesButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Eliminar receta" />
+
     </LinearLayout>
 
 </ScrollView>

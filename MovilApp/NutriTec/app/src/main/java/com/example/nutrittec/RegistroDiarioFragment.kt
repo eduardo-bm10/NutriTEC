@@ -1,5 +1,6 @@
 package com.example.nutrittec
 
+import android.annotation.SuppressLint
 import android.content.ClipDescription
 import android.content.Intent
 import android.content.Intent.getIntent
@@ -44,7 +45,9 @@ class RegistroDiarioFragment : Fragment() {
     private lateinit var registerConsumptionButton: Button
     private lateinit var productFoundTextView2: TextView
     private lateinit var registerConsumptionButton2: Button
-
+    private lateinit var mealtime: String
+    private var diccionarioMeals: MutableMap<String, Int> = mutableMapOf()
+    private var currentProductCode: Int = 0
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -91,9 +94,8 @@ class RegistroDiarioFragment : Fragment() {
             }
 
             if(productFoundTextView.text =="Producto/Receta encontrada"){
-                val mealTimeSelected = mealTimeSpinner.selectedItem
-                var mealTimeId = extras?.getInt(mealTimeSelected.toString())
-                val barcodeCode = extras?.getString("Barcode")
+                var mealTimeId = diccionarioMeals[mealtime]
+                val barcodeCode = currentProductCode
                 callApiConsumption(cedula.toString(), date,mealTimeId.toString(),barcodeCode.toString())
             }
         }
@@ -105,8 +107,7 @@ class RegistroDiarioFragment : Fragment() {
             }
 
             if(productFoundTextView2.text =="Producto/Receta encontrada"){
-                val mealTimeSelected = mealTimeSpinner.selectedItem
-                var mealTimeId = extras?.getInt(mealTimeSelected.toString())
+                var mealTimeId = diccionarioMeals[mealtime]
                 callApiConsumption(cedula.toString(), date,mealTimeId.toString(),barcode.toString())
             }
         }
@@ -114,7 +115,7 @@ class RegistroDiarioFragment : Fragment() {
         mealTimeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 val selectedItem = parent.getItemAtPosition(position) as String
-                // Handle the selected item
+                mealtime = selectedItem
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -123,14 +124,14 @@ class RegistroDiarioFragment : Fragment() {
         }
     }
 
+    @SuppressLint("ResourceType")
     private fun parseResponse(responseBody: String?): List<String> {
         val mealTimes = JSONArray(responseBody)
         val names = mutableListOf<String>()
-        val extra =  getActivity()?.getIntent()
         for (i in 0 until mealTimes.length()) {
             val mealTime = mealTimes.getJSONObject(i)
             val name = mealTime.getString("name")
-            extra?.putExtra(name,mealTime.getInt("id"))
+            diccionarioMeals[name.toString()]=mealTime.getInt("id")
             names.add(name)
         }
         return names
@@ -161,8 +162,7 @@ class RegistroDiarioFragment : Fragment() {
         CoroutineScope(Dispatchers.IO).launch {
             val call = apiService.getProductByBarcode(barcode)
             val cuerpo = call.body()
-            val extra =  getActivity()?.getIntent()
-            extra?.putExtra("productBarcode", cuerpo?.get("Barcode")?.toString())
+            currentProductCode = (cuerpo?.get("Barcode")?.toString()?.toInt()!!)
             Log.d("test2",cuerpo.toString())
             requireActivity().runOnUiThread {
                 if(call.isSuccessful){
@@ -180,7 +180,7 @@ class RegistroDiarioFragment : Fragment() {
         CoroutineScope(Dispatchers.IO).launch {
             val call = apiService.getProductByDescription(description)
             val cuerpo = call.body()
-
+            currentProductCode = (cuerpo?.get("Barcode")?.toString()?.toInt()!!)
             Log.d("test3",cuerpo.toString())
             requireActivity().runOnUiThread {
                 if(call.isSuccessful){
@@ -201,7 +201,8 @@ class RegistroDiarioFragment : Fragment() {
                 Log.d("test4","here2")
                 val call = apiService.crearConsumo(patientId,date,mealtimeId,barcode)
                 val cuerpo = call.body()
-                Log.d("test4",call.message())
+                Log.d("test4",call.toString())
+                Log.d("test4",cuerpo.toString())
                 requireActivity().runOnUiThread {
                     if(call.isSuccessful){
                         Toast.makeText(requireContext(), "Consumo diario registrado", Toast.LENGTH_SHORT).show()
