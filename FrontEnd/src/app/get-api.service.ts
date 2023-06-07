@@ -62,7 +62,7 @@ export class GetApiService {
 
   // Obtener un administrador por ID
   getAdministratorById(id: string) {
-    const url = `${this.baseUrl}/api/Administrator/${id}`;
+    const url = `${this.baseUrl}/api/Administrator/gwt/${id}`;
     return this.http.get(url);
   }
 
@@ -75,13 +75,13 @@ export class GetApiService {
     email: string,
     password: string
   ) {
-    const url = `${this.baseUrl}/api/Administrator/${id}?firstname=${firstname}&lastname1=${lastname1}&lastname2=${lastname2}&email=${email}&password=${password}`;
+    const url = `${this.baseUrl}/api/Administrator/post/${id}/firstname=${firstname}&lastname1=${lastname1}&lastname2=${lastname2}&email=${email}&password=${password}`;
     return this.http.post(url, null);
   }
 
   // Actualizar un administrador
   updateAdministrator(id: string, firstname: string, lastname1: string, lastname2: string, email: string, password: string) {
-    const url = `${this.baseUrl}/api/Administrator/put/${id}?firstname=${firstname}&lastname1=${lastname1}&lastname2=${lastname2}&email=${email}&password=${password}`;
+    const url = `${this.baseUrl}/api/Administrator/put/${id}/firstname=${firstname}&lastname1=${lastname1}&lastname2=${lastname2}&email=${email}&password=${password}`;
     return this.http.put(url, null);
   }
 
@@ -114,7 +114,7 @@ export class GetApiService {
     paymentid: number,
     photo: string
   ) {
-    const url = `${this.baseUrl}/api/Nutritionists?id=${id}&nutritionistcode=${nutritionistcode}&firstname=${firstname}&lastname1=${lastname1}&lastname2=${lastname2}&email=${email}&password=${password}&weight=${weight}&bmi=${bmi}&cardNumber=${creditCard}&address=${address}&paymentid=${paymentid}&photo=${photo}`;
+    const url = `${this.baseUrl}/api/Nutritionists/id=${id}&nutritionistcode=${nutritionistcode}&firstname=${firstname}&lastname1=${lastname1}&lastname2=${lastname2}&email=${email}&password=${password}&weight=${weight}&bmi=${bmi}&cardNumber=${creditCard}&address=${address}&paymentid=${paymentid}&photo=${photo}`;
 
     return this.http.post(url, null, {
       headers: { 'Content-Type': 'application/json' }
@@ -142,7 +142,7 @@ export class GetApiService {
     paymentid: number,
     photo: string
   ) {
-    const url = `${this.baseUrl}/api/Nutritionists/${id}?nutritionistcode=${nutritionistcode}&firstname=${firstname}&lastname1=${lastname1}&lastname2=${lastname2}&email=${email}&password=${password}&weight=${weight}&bmi=${bmi}&address=${address}&paymentid=${paymentid}&photo=${photo}`;
+    const url = `${this.baseUrl}/api/Nutritionists/${id}/nutritionistcode=${nutritionistcode}&firstname=${firstname}&lastname1=${lastname1}&lastname2=${lastname2}&email=${email}&password=${password}&weight=${weight}&bmi=${bmi}&address=${address}&paymentid=${paymentid}&photo=${photo}`;
 
     return this.http.put(url, null, {
       headers: { 'Content-Type': 'application/json' }
@@ -182,7 +182,7 @@ export class GetApiService {
     musclePercentage: number,
     fatPercentage: number
   ) {
-    const url = `${this.baseUrl}/api/Patients?id=${id}&firstname=${firstname}&lastname1=${lastname1}&lastname2=${lastname2}&email=${email}&password=${password}&weight=${weight}&bmi=${bmi}&address=${address}&birthdate=${birthdate}&country=${country}&maxconsumption=${maxconsumption}&waist=${waist}&neck=${neck}&hips=${hips}&musclePercentage=${musclePercentage}&fatPercentage=${fatPercentage}`;
+    const url = `${this.baseUrl}/api/Patients/post/${id}/${firstname}/${lastname1}/${lastname2}/${email}/${password}/${weight}/${bmi}/${address}/${birthdate}/${country}/${maxconsumption}/${waist}/${neck}/${hips}/${musclePercentage}/${fatPercentage}`;
 
     return this.http.post(url, null, {
       headers: { 'Content-Type': 'application/json' }
@@ -210,7 +210,7 @@ export class GetApiService {
     country: string,
     maxconsumption: number
   ) {
-    const url = `${this.baseUrl}/api/Patients/${id}?firstname=${firstname}&lastname1=${lastname1}&lastname2=${lastname2}&email=${email}&password=${password}&weight=${weight}&bmi=${bmi}&address=${address}&birthdate=${birthdate}&country=${country}&maxconsumption=${maxconsumption}`;
+    const url = `${this.baseUrl}/api/Patients/${id}/firstname=${firstname}&lastname1=${lastname1}&lastname2=${lastname2}&email=${email}&password=${password}&weight=${weight}&bmi=${bmi}&address=${address}&birthdate=${birthdate}&country=${country}&maxconsumption=${maxconsumption}`;
 
     return this.http.put(url, null, {
       headers: { 'Content-Type': 'application/json' }
@@ -230,7 +230,7 @@ export class GetApiService {
     mealtimeId: number,
     productBarcode: number
   ) {
-    const url = `${this.baseUrl}/api/Consumptions?patientId=${patientId}&date=${date}&mealtimeId=${mealtimeId}&productBarcode=${productBarcode}`;
+    const url = `${this.baseUrl}/api/Consumptions/post/${patientId}/${date}/${mealtimeId}/${productBarcode}`;
     return this.http.post(url, null, {});
   }
 
@@ -249,7 +249,7 @@ export class GetApiService {
     musclePercentage: number,
     fatPercentage: number
   ) {
-    const url = `${this.baseUrl}/api/Measurements/${patientId}?waist=${waist}&neck=${neck}&hips=${hips}&musclePercentage=${musclePercentage}&fatPercentage=${fatPercentage}`;
+    const url = `${this.baseUrl}/api/Measurements/${patientId}/waist=${waist}&neck=${neck}&hips=${hips}&musclePercentage=${musclePercentage}&fatPercentage=${fatPercentage}`;
     return this.http.post(url, {});
   }
 
@@ -266,7 +266,7 @@ export class GetApiService {
     musclePercentage: number,
     fatPercentage: number
   ) {
-    const url = `${this.baseUrl}/api/Measurements/${id}?waist=${waist}&neck=${neck}&hips=${hips}&musclePercentage=${musclePercentage}&fatPercentage=${fatPercentage}`;
+    const url = `${this.baseUrl}/api/Measurements/${id}/waist=${waist}&neck=${neck}&hips=${hips}&musclePercentage=${musclePercentage}&fatPercentage=${fatPercentage}`;
     return this.http.put(url, {});
   }
 
@@ -293,7 +293,7 @@ export class GetApiService {
   }
 
   updatePaymentType(id: number, description: string) {
-    const url = `${this.baseUrl}/api/PaymentType/${id}?description=${description}`;
+    const url = `${this.baseUrl}/api/PaymentType/${id}/description=${description}`;
     return this.http.put(url, {});
   }
 
@@ -335,7 +335,7 @@ export class GetApiService {
     status: boolean,
     vitamins: string
   ){
-    const url = `${this.baseUrl}/api/Product/post/${barcode}?description=${description}&iron=${iron}&sodium=${sodium}&energy=${energy}&fat=${fat}&calcium=${calcium}&carbohydrates=${carbohydrates}&protein=${protein}&status=${status}&vitamins=${vitamins}`;
+    const url = `${this.baseUrl}/api/Product/post/${barcode}/description=${description}&iron=${iron}&sodium=${sodium}&energy=${energy}&fat=${fat}&calcium=${calcium}&carbohydrates=${carbohydrates}&protein=${protein}&status=${status}&vitamins=${vitamins}`;
     return this.http.post(url, null, {});
   }
 
@@ -352,7 +352,7 @@ export class GetApiService {
     protein: number,
     status: boolean
   ) {
-    const url = `${this.baseUrl}/api/Products/put/${barcode}?description=${description}&iron=${iron}&sodium=${sodium}&energy=${energy}&fat=${fat}&calcium=${calcium}&carbohydrates=${carbohydrates}&protein=${protein}&status=${status}`;
+    const url = `${this.baseUrl}/api/Products/put/${barcode}/description=${description}&iron=${iron}&sodium=${sodium}&energy=${energy}&fat=${fat}&calcium=${calcium}&carbohydrates=${carbohydrates}&protein=${protein}&status=${status}`;
     return this.http.put(url, null, {});
   }
 
@@ -380,7 +380,7 @@ export class GetApiService {
     mealtimeId: number,
     productBarcode: number
   ) {
-    const url = `${this.baseUrl}/api/Plan/${description}?nutritionistId=${nutritionistId}&mealtimeId=${mealtimeId}&productBarcode=${productBarcode}`;
+    const url = `${this.baseUrl}/api/Plan/${description}/nutritionistId=${nutritionistId}&mealtimeId=${mealtimeId}&productBarcode=${productBarcode}`;
     return this.http.post(url, {});
   }
 
@@ -389,7 +389,7 @@ export class GetApiService {
     nutritionistId: string,
     description: string,
   ) {
-    const url = `${this.baseUrl}/api/Plan/${id}?nutritionistId=${nutritionistId}&description=${description}`;
+    const url = `${this.baseUrl}/api/Plan/${id}/nutritionistId=${nutritionistId}&description=${description}`;
     return this.http.put(url, {});
   }
 
@@ -414,7 +414,7 @@ export class GetApiService {
     productBarcode: number,
     vitamin: string
   ) {
-    const url = `${this.baseUrl}/Vitamins?productBarcode=${productBarcode}&vitamin=${vitamin}`;
+    const url = `${this.baseUrl}/Vitamins/productBarcode=${productBarcode}&vitamin=${vitamin}`;
     return this.http.post(url, {});
   }
 
@@ -422,7 +422,7 @@ export class GetApiService {
     productBarcode: number,
     vitamin: string
   ) {
-    const url = `${this.baseUrl}/Vitamins/${productBarcode}?vitamin=${vitamin}`;
+    const url = `${this.baseUrl}/Vitamins/${productBarcode}/vitamin=${vitamin}`;
     return this.http.put(url, {});
   }
 
@@ -447,7 +447,7 @@ export class GetApiService {
     id: number,
     name: string,
   ) {
-    const url = `${this.baseUrl}/api/Mealtime/${id}?name=${name}`;
+    const url = `${this.baseUrl}/api/Mealtime/${id}/name=${name}`;
     return this.http.post(url, {});
   }
 
@@ -455,12 +455,12 @@ export class GetApiService {
     id: number,
     name: string,
   ) {
-    const url = `${this.baseUrl}/api/Mealtime/${id}?name=${name}`;
+    const url = `${this.baseUrl}/api/Mealtime/${id}/name=${name}`;
     return this.http.put(url, {});
   }
 
   createAdminProductAssociation(adminId: string, productBarcode: number, status: boolean) {
-    const url = `${this.baseUrl}/api/AdminProductAssociations/${adminId}/${productBarcode}?status=${status}`;
+    const url = `${this.baseUrl}/api/AdminProductAssociations/${adminId}/${productBarcode}/status=${status}`;
 
     return this.http.post(url, null, {});
   }
@@ -471,17 +471,17 @@ export class GetApiService {
   }
 
   createPatientNutrionistAssociation(nutritionistId: string, patientId: string){
-    const url = `${this.baseUrl}/api/PatientNutritionistAssociation?nutritionistId=${nutritionistId}&patientId=${patientId}`;
+    const url = `${this.baseUrl}/api/PatientNutritionistAssociation/nutritionistId=${nutritionistId}&patientId=${patientId}`;
     return this.http.post(url, null, {});
   }
 
   createPlanPatientAssociation(nutritionistId:string,planId: number, patientId: string, startdate: string, enddate: string){
-    const url = `${this.baseUrl}/api/PlanPatientAssociations?nutritionistId=${nutritionistId}&planId=${planId}&patientId=${patientId}&startdate=${startdate}&enddate=${enddate}`;
+    const url = `${this.baseUrl}/api/PlanPatientAssociations/nutritionistId=${nutritionistId}&planId=${planId}&patientId=${patientId}&startdate=${startdate}&enddate=${enddate}`;
     return this.http.post(url, null, {});
   }
 
   createRecipe(description: string, barcodeProducts: string, portionProducts:string) {
-    const url = `${this.baseUrl}/api/Recipes?description=${description}&barcodeProducts=${barcodeProducts}&portionProducts=${portionProducts}`;
+    const url = `${this.baseUrl}/api/Recipes/description=${description}&barcodeProducts=${barcodeProducts}&portionProducts=${portionProducts}`;
     return this.http.post(url, null,{});
   }
 

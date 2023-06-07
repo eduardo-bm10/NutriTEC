@@ -66,7 +66,7 @@ namespace Postgre_API.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("post/{id}/{firstname}/{lastname1}/{lastname2}/{email}/{password}/{weight}/{bmi}/{address}/{birthdate}/{country}/{maxconsumption}/{waist}/{neck}/{hips}/{musclePercentage}/{fatPercentage}")]
         public async Task<IActionResult> CreatePatient(string id, string firstname, string lastname1, string lastname2, string email, string password, int weight, double bmi, string address, DateTime birthdate, string country, double maxconsumption, double waist, double neck, double hips, double musclePercentage, double fatPercentage)
         {
             try
@@ -126,7 +126,7 @@ namespace Postgre_API.Controllers
             }
             }
 
-        [HttpPut("{id}")]
+        [HttpPut("put/{id}")]
         public async Task<IActionResult> UpdatePatient(string id, string firstname, string lastname1, string lastname2, string email, string password, int weight, double bmi, string address, DateTime birthdate, string country, double maxconsumption)
         {
             try
@@ -159,7 +159,7 @@ namespace Postgre_API.Controllers
             return BadRequest(new { message =  e.Message});
         }}
 
-        [HttpDelete("{id}")]
+        [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeletePatient(string id)
         {
             try

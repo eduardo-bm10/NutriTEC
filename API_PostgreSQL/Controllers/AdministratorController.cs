@@ -70,7 +70,7 @@ namespace Postgre_API.Controllers
             } 
         }
 
-        [HttpPost("{id}/{firstname}/{lastname1}/{lastname2}/{email}/{password}")]
+        [HttpPost("post/{id}/{firstname}/{lastname1}/{lastname2}/{email}/{password}")]
         public async Task<ActionResult<Administrator>> CreateAdministrator(string id, string firstname, string lastname1, string lastname2, string email, string password)
         {
             try
@@ -98,7 +98,7 @@ namespace Postgre_API.Controllers
             }
         }
 
-        [HttpPut("put/{id}/{firstname}/{lastname1}/{lastname2}/{email}/{password}")]
+        [HttpPut("put/")]
         public async Task<IActionResult> UpdateAdministrator(string id, string firstname, string lastname1, string lastname2, string email, string password)
         {
             try

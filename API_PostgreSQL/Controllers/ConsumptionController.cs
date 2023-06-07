@@ -53,7 +53,7 @@ namespace Postgre_API.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("post/{patientId}/{date}/{mealtimeId}/{productBarcode}"))]
         public async Task<ActionResult<Consumption>> CreateConsumption(string patientId, DateTime date, int mealtimeId, int productBarcode)
         {
             try
@@ -93,7 +93,7 @@ namespace Postgre_API.Controllers
 
                 string json = JsonConvert.SerializeObject(consumption, options);
 
-                return Ok(new { message = "ok", data = json });
+                return Ok(new { message = json});
             }
             catch (Exception e)
             {
