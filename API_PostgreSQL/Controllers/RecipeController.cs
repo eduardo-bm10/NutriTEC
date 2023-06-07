@@ -102,7 +102,7 @@ namespace Postgre_API.Controllers
             }}
 
         // PUT: api/Recipes/5
-        [HttpPut("{id}")]
+        [HttpPut("put/{id}")]
         public async Task<IActionResult> UpdateRecipe(int id, string description, int productBarcode, int productPortion)
         {
             try{
@@ -165,7 +165,7 @@ namespace Postgre_API.Controllers
             }}
 
         // DELETE: api/Recipes/{id}
-        [HttpDelete("{id}")]
+        [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteRecipe(int id)
         {
             try{

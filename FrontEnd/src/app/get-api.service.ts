@@ -358,7 +358,7 @@ export class GetApiService {
 
   // Eliminar un producto
   deleteProduct(barcode: number) {
-    const url = `${this.baseUrl}/api/Products/${barcode}`;
+    const url = `${this.baseUrl}/api/Products/delete/${barcode}`;
     return this.http.delete(url);
   }
 

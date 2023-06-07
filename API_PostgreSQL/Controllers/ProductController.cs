@@ -28,8 +28,7 @@ namespace Postgre_API.Controllers
             }}
         
 
-        // GET: api/Products/5
-        [HttpGet("{barcode}")]
+        [HttpGet("getByBarcode/{barcode}")]
         public async Task<ActionResult<Product>> GetProduct(int barcode)
         {
             try{            
@@ -57,8 +56,7 @@ namespace Postgre_API.Controllers
             }
         }
 
-        // GET: api/Products/Tomato
-        [HttpGet("{description}")]
+        [HttpGet("getByDescription/{description}")]
         public async Task<ActionResult<Product>> GetProductByDescription(string description)
         {
             try{
@@ -82,8 +80,7 @@ namespace Postgre_API.Controllers
             }}
 
 
-        // POST: api/Products
-        [HttpPost("{barcode}")]
+        [HttpPost("post/{barcode}")]
         public async Task<ActionResult<Product>> CreateProduct(int barcode, string description, double iron, double sodium, double energy, double fat, double calcium, double carbohydrate, double protein, string vitamins)
         {
             try{
@@ -132,8 +129,7 @@ namespace Postgre_API.Controllers
                 return BadRequest(new {message = e.Message});
             }}
 
-        // PUT: api/Products/5
-        [HttpPut("{barcode}")]
+        [HttpPut("put/{barcode}")]
         public async Task<IActionResult> UpdateProduct(int barcode, string description, double iron, double sodium, double energy, double fat, double calcium, double carbohydrate, double protein, bool status)
         {
             try{
@@ -169,29 +165,43 @@ namespace Postgre_API.Controllers
                 return BadRequest(new {message = e.Message});
             }}
 
-        // DELETE: api/Products/5
-        [HttpDelete("{barcode}")]
+        [HttpDelete("delete/{barcode}")]
         public async Task<IActionResult> DeleteProduct(int barcode)
         {
-            try{
-            var product = await _dbContext.Products.FindAsync(barcode);
-            if (product == null)
+            try
             {
-                return NotFound(new {message = "Product not found"});
+                var product = await _dbContext.Products.FindAsync(barcode);
+                var allAdminProductAssoc = await _dbContext.AdminProductAssociations
+                    .Where(a => a.Productbarcode == barcode)
+                    .ToListAsync(); // Get all associations with this admin
+
+                if (product == null)
+                {
+                    return NotFound(new { message = "Product not found" });
+                }
+                // If there are no associations with this admin, just delete the admin
+                else if (allAdminProductAssoc != null && allAdminProductAssoc.Count == 0)
+                {
+                    _dbContext.Products.Remove(product);
+                    await _dbContext.SaveChangesAsync();
+                    return Ok(new { message = "ok" });
+                }
+
+                // Else Delete all associations with this admin and the admin
+                _dbContext.AdminProductAssociations.RemoveRange(allAdminProductAssoc);
+                await _dbContext.SaveChangesAsync();
+
+                // Remove the administrator entity
+                _dbContext.Products.Remove(product);
+                await _dbContext.SaveChangesAsync();
+
+                return Ok(new { message = "ok" });
             }
-
-            _dbContext.Products.Remove(product);
-            await _dbContext.SaveChangesAsync();
-
-            return Ok(new { message = "ok" });
-        }catch (Exception e)
+            catch (Exception e)
             {
-                return BadRequest(new {message = e.Message});
-            }}
-
-        private bool ProductExists(int barcode)
-        {
-            return _dbContext.Products.Any(e => e.Barcode == barcode);
+                Console.WriteLine(e);
+                return BadRequest(new { message = e.Message });
+            }
         }
     }
 }
