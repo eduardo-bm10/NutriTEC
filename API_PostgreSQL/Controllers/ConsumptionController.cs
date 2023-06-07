@@ -53,7 +53,7 @@ namespace Postgre_API.Controllers
             }
         }
 
-        [HttpPost("post/{patientId}/{date}/{mealtimeId}/{productBarcode}"))]
+        [HttpPost("post/{patientId}/{date}/{mealtimeId}/{productBarcode}")]
         public async Task<ActionResult<Consumption>> CreateConsumption(string patientId, DateTime date, int mealtimeId, int productBarcode)
         {
             try

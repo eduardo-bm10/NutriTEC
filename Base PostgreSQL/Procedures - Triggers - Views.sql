@@ -143,6 +143,9 @@ BEGIN
 	END LOOP;
 END; $$
 
+call create_recipe('Gallo Pinto', '{7,9,10}', '{100,4,9}')
+
+select * from product
 -- View: CaloriesPerMealTimeOnPlan
 CREATE VIEW CaloriesPerMealTimeOnPlan AS
 	SELECT 
@@ -171,14 +174,20 @@ CREATE VIEW TotalRecipeCalories AS
 	FROM
 		RECIPE JOIN RECIPE_PRODUCT_ASSOCIATION ON RECIPE.ID = RecipeID JOIN
 		PRODUCT ON ProductBarcode = Barcode
-	GROUP BY RECIPE.ID, RECIPE.DESCRIPTION, PRODUCT.DESCRIPTION, ProductPortion, Fat, Carbohydrate, Protein;
+	GROUP BY RECIPE.ID, RECIPE.DESCRIPTION, PRODUCT.DESCRIPTION, ProductPortion, Fat, Carbohydrate, Protein
+	ORDER BY RECIPE.DESCRIPTION;
+drop view totalrecipecalories
+select * from TotalRecipeCalories
 
 -- View: PatientCurrentMeasures
 CREATE VIEW NonAssociatedClients AS
 	SELECT
 		PATIENT.ID AS PatientSSN,
 		CONCAT (PATIENT.FirstName, ' ', PATIENT.LastName1, ' ', PATIENT.LastName2) AS PatientName,
-		AGE(NOW(), PATIENT.BirthDate) AS Age
+		AGE(PATIENT.BirthDate, NOW()) AS Age
 	FROM
 		PATIENT LEFT JOIN PATIENT_NUTRITIONIST_ASSOCIATION ON ID = PatientID
 	WHERE PatientID IS NULL;
+
+drop view nonassociatedclients
+select * from nonassociatedclients
