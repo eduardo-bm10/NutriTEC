@@ -62,7 +62,7 @@ export class GetApiService {
 
   // Obtener un administrador por ID
   getAdministratorById(id: string) {
-    const url = `${this.baseUrl}/api/Administrator/gwt/${id}`;
+    const url = `${this.baseUrl}/api/Administrator/get/${id}`;
     return this.http.get(url);
   }
 
@@ -75,7 +75,7 @@ export class GetApiService {
     email: string,
     password: string
   ) {
-    const url = `${this.baseUrl}/api/Administrator/post/${id}/firstname=${firstname}&lastname1=${lastname1}&lastname2=${lastname2}&email=${email}&password=${password}`;
+    const url = `${this.baseUrl}/api/Administrator/post/${id}/${firstname}/${lastname1}/${lastname2}/${email}/${password}`;
     return this.http.post(url, null);
   }
 
@@ -142,7 +142,7 @@ export class GetApiService {
     paymentid: number,
     photo: string
   ) {
-    const url = `${this.baseUrl}/api/Nutritionists/${id}/nutritionistcode=${nutritionistcode}&firstname=${firstname}&lastname1=${lastname1}&lastname2=${lastname2}&email=${email}&password=${password}&weight=${weight}&bmi=${bmi}&address=${address}&paymentid=${paymentid}&photo=${photo}`;
+    const url = `${this.baseUrl}/api/Nutritionists/put/${id}/nutritionistcode=${nutritionistcode}&firstname=${firstname}&lastname1=${lastname1}&lastname2=${lastname2}&email=${email}&password=${password}&weight=${weight}&bmi=${bmi}&address=${address}&paymentid=${paymentid}&photo=${photo}`;
 
     return this.http.put(url, null, {
       headers: { 'Content-Type': 'application/json' }
@@ -230,7 +230,7 @@ export class GetApiService {
     mealtimeId: number,
     productBarcode: number
   ) {
-    const url = `${this.baseUrl}/api/Consumptions/post/${patientId}/${date}/${mealtimeId}/${productBarcode}`;
+    const url = `${this.baseUrl}/api/Consumptions/post/${patientId}`;
     return this.http.post(url, null, {});
   }
 
@@ -266,12 +266,12 @@ export class GetApiService {
     musclePercentage: number,
     fatPercentage: number
   ) {
-    const url = `${this.baseUrl}/api/Measurements/${id}/waist=${waist}&neck=${neck}&hips=${hips}&musclePercentage=${musclePercentage}&fatPercentage=${fatPercentage}`;
+    const url = `${this.baseUrl}/api/Measurements/put/${id}/waist=${waist}&neck=${neck}&hips=${hips}&musclePercentage=${musclePercentage}&fatPercentage=${fatPercentage}`;
     return this.http.put(url, {});
   }
 
   deleteMeasurement(id: number) {
-    const url = `${this.baseUrl}/api/Measurements/${id}`;
+    const url = `${this.baseUrl}/api/Measurements/delete/${id}`;
     return this.http.delete(url);
   }
 
@@ -288,17 +288,17 @@ export class GetApiService {
   }
 
   createPaymentType(description: string) {
-    const url = `${this.baseUrl}/api/PaymentType/${description}`;
+    const url = `${this.baseUrl}/api/PaymentType/post/${description}`;
     return this.http.post(url, {});
   }
 
   updatePaymentType(id: number, description: string) {
-    const url = `${this.baseUrl}/api/PaymentType/${id}/description=${description}`;
+    const url = `${this.baseUrl}/api/PaymentType/put/${id}/description=${description}`;
     return this.http.put(url, {});
   }
 
   deletePaymentType(id: number) {
-    const url = `${this.baseUrl}/api/PaymentType/${id}`;
+    const url = `${this.baseUrl}/api/PaymentType/delete/${id}`;
     return this.http.delete(url);
   }
 
@@ -483,6 +483,11 @@ export class GetApiService {
   createRecipe(description: string, barcodeProducts: string, portionProducts:string) {
     const url = `${this.baseUrl}/api/Recipes/description=${description}&barcodeProducts=${barcodeProducts}&portionProducts=${portionProducts}`;
     return this.http.post(url, null,{});
+  }
+
+  updateRecipe(id: number, description: string, barcodeProducts: string, portionProducts:string) {
+    const url = `${this.baseUrl}/api/Recipes/put/${id}/${description}/${barcodeProducts}/${portionProducts}`;
+    return this.http.put(url, null,{});
   }
 
   //------------------ Mongo API Methods ----------------------------------------------------------

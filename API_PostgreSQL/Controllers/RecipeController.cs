@@ -19,7 +19,6 @@ namespace Postgre_API.Controllers
             _context = context;
         }
 
-        // GET: api/Recipes
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Recipe>>> GetRecipes()
         {
@@ -30,8 +29,6 @@ namespace Postgre_API.Controllers
                 return BadRequest(new {message = e.Message});
             }}
         
-
-        // GET: api/Recipes/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Recipe>> GetRecipe(int id)
         {
@@ -49,7 +46,6 @@ namespace Postgre_API.Controllers
                 return BadRequest(new {message = e.Message});
             }}
 
-        // POST: api/Recipes
         [HttpPost]
         public async Task<ActionResult<Recipe>> CreateRecipe(string description, string  BarcodeProducts, string PortionProducts)
         {
@@ -59,6 +55,12 @@ namespace Postgre_API.Controllers
             var valoresPortions = PortionProducts.Split(',');
 
             int length = Math.Min(valoresProducts.Length, valoresPortions.Length);
+            var recipe = new Recipe
+            {
+                Description = description
+            };
+            _context.Recipes.Add(recipe);
+            await _context.SaveChangesAsync();
 
             for (int i = 0; i < length; i++)
             {
@@ -66,16 +68,11 @@ namespace Postgre_API.Controllers
                 int Product_portion =  int.Parse(valoresPortions[i]);
    
                  var productBarcode_exists = await _context.Products.FindAsync(productBarcode);
+                 
                 if (productBarcode_exists == null)
                 {
                     return NotFound(new {message = "Product not found"});
                 }
-                var recipe = new Recipe
-                {
-                    Description = description
-                };
-                _context.Recipes.Add(recipe);
-                await _context.SaveChangesAsync();
                 var recipeId = await _context.Recipes.FirstOrDefaultAsync(r => r.Description == description);
                 var recipeProductAssociation = new RecipeProductAssociation
                 {
@@ -101,61 +98,47 @@ namespace Postgre_API.Controllers
                 return BadRequest(new {message = e.Message});
             }}
 
-        // PUT: api/Recipes/5
-        [HttpPut("put/{id}")]
-        public async Task<IActionResult> UpdateRecipe(int id, string description, int productBarcode, int productPortion)
+        [HttpPut("put/{id}/{description}")]
+        public async Task<IActionResult> UpdateRecipe(int id, string description, string  BarcodeProducts, string PortionProducts)
         {
-            try{
-            var recipe = await _context.Recipes.FindAsync(id);
+         try{
+            var recipe0 = await _context.Recipes.FindAsync(id);
 
-            if (recipe == null)
+            if (recipe0 == null)
             {
                 return NotFound(new {message = "Recipe not found"});
             }
 
-            var productBarcodeExists = await _context.Products.FindAsync(productBarcode);
+            recipe0.Description = description;
+            _context.Entry(recipe0).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
 
-            if (productBarcodeExists == null)
+            var valoresProducts = BarcodeProducts.Split(',');
+            var valoresPortions = PortionProducts.Split(',');
+            int length = Math.Min(valoresProducts.Length, valoresPortions.Length);
+
+            for (int i = 0; i < length; i++)
             {
-                return NotFound(new {message = "Product not found"});
-            }
-
-            recipe.Description = description;
-
-            var recipeProductAssociation = await _context.RecipeProductAssociations.FirstOrDefaultAsync(rpa => rpa.Recipeid == id);
-
-            if (recipeProductAssociation != null)
-            {
-                recipeProductAssociation.Productbarcode = productBarcode;
-                recipeProductAssociation.Productportion = productPortion;
-            }
-            else
-            {
-                recipeProductAssociation = new RecipeProductAssociation
+                int productBarcode = int.Parse(valoresProducts[i]);
+                int Product_portion =  int.Parse(valoresPortions[i]);
+   
+                 var productBarcode_exists = await _context.Products.FindAsync(productBarcode);
+                if (productBarcode_exists == null)
                 {
-                    Recipeid = id,
-                    Productbarcode = productBarcode,
-                    Productportion = productPortion,
-                };
+                    return NotFound(new {message = "Product not found"});
+                }
 
-                _context.RecipeProductAssociations.Add(recipeProductAssociation);
-            }
+                var recipeId = await _context.Recipes.FirstOrDefaultAsync(r => r.Description == description);
+                var recipeProductAssociation = await _context.RecipeProductAssociations.FirstOrDefaultAsync(rpa => rpa.Recipeid == id && rpa.Productbarcode == productBarcode);
+                recipeProductAssociation.Productportion = Product_portion;
 
-            try
-            {
+                _context.Entry(recipeProductAssociation).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            var options = new JsonSerializerSettings
             {
-                if (!RecipeExists(id))
-                {
-                    return NotFound(new {message = "Recipe not found"});
-                }
-                else
-                {
-                    throw;
-                }
-            }
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            };
 
             return Ok(new { message = "ok" });
 
@@ -164,7 +147,6 @@ namespace Postgre_API.Controllers
                 return BadRequest(new {message = e.Message});
             }}
 
-        // DELETE: api/Recipes/{id}
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteRecipe(int id)
         {
@@ -176,22 +158,28 @@ namespace Postgre_API.Controllers
                 return NotFound(new {message = "Recipe not found"});
             }
 
-            var recipeProductAssociation = await _context.RecipeProductAssociations.FirstOrDefaultAsync(rpa => rpa.Recipeid == id);
+            var recipeProductAssociation = await _context.RecipeProductAssociations
+                    .Where(rpa => rpa.Recipeid == id)
+                    .ToListAsync();
 
+            // Cuando hay asocs
             if (recipeProductAssociation != null)
             {
-                _context.RecipeProductAssociations.Remove(recipeProductAssociation);
+                _context.RecipeProductAssociations.RemoveRange(recipeProductAssociation);
+                await _context.SaveChangesAsync();
             }
 
+            // Cuando no hay asocs
             _context.Recipes.Remove(recipe);
             await _context.SaveChangesAsync();
 
             return Ok(new { message = "ok" });
             
         }catch (Exception e)
-            {
-                return BadRequest(new {message = e.Message});
-            }}
+        {
+            return BadRequest(new {message = e.Message});
+        }
+        }
         private bool RecipeExists(int id)
         {
             return _context.Recipes.Any(e => e.Id == id);

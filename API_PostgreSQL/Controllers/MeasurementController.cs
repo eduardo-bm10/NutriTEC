@@ -54,7 +54,7 @@ namespace Postgre_API.Controllers
             }
         }
 
-        [HttpPost("{patientId}")]
+        [HttpPost("post/{patientId}")]
         public async Task<ActionResult<Measurement>> CreateMeasurement(string patientId, double waist, double neck, double hips, double musclePercentage, double fatPercentage)
         {
             try
@@ -101,7 +101,7 @@ namespace Postgre_API.Controllers
             }
         }
 
-        [HttpPut("{patientId}/{date}")]
+        [HttpPut("put/{patientId}/{date}")]
         public async Task<IActionResult> UpdateMeasurement(int patientId, DateTime date, double waist, double neck, double hips, double musclePercentage, double fatPercentage)
         {
             try
@@ -138,7 +138,7 @@ namespace Postgre_API.Controllers
             }
         }
 
-        [HttpDelete("{patientId}/{date}")]
+        [HttpDelete("delete/{patientId}/{date}")]
         public async Task<IActionResult> DeleteMeasurement(int id, DateTime date)
         {
             try

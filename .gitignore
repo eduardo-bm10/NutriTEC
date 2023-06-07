@@ -7,3 +7,5 @@ API_PostgreSQL/obj/Postgre_API.csproj.nuget.g.targets
 API_PostgreSQL/obj/project.assets.json
 API_PostgreSQL/obj/project.nuget.cache
 API_PostgreSQL/obj/Debug/net7.0/Postgre_API.assets.cache
+*.dll
+*.dll

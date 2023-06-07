@@ -45,7 +45,7 @@ namespace Postgre_API.Controllers
                 return BadRequest(new {message = e.Message});
             }}
 
-        [HttpPost("{descripcion}")]
+        [HttpPost("post/{descripcion}")]
         public async Task<IActionResult> CreatePaymentType(int id, string descripcion)
         {
             try{
@@ -67,7 +67,7 @@ namespace Postgre_API.Controllers
                 return BadRequest(new {message = e.Message});
             }}
 
-        [HttpPut("{id}")]
+        [HttpPut("put/{id}")]
         public async Task<IActionResult> UpdatePaymentType(int id, PaymentType paymentType)
         {
             try{
@@ -100,7 +100,7 @@ namespace Postgre_API.Controllers
                 return BadRequest(new {message = e.Message});
             }}
 
-        [HttpDelete("{id}")]
+        [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeletePaymentType(int id)
         {
             try{

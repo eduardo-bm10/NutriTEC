@@ -70,7 +70,7 @@ namespace Postgre_API.Controllers
             }
         }
 
-        // POST: api/Nutritionists
+   
         [HttpPost]
         public async Task<ActionResult<Nutritionist>> CreateNutritionist(string id, string nutritionistcode, string firstname, string lastname1, string lastname2, string email, string password, int weight, double bmi, string cardNumber, string address, string photo, int paymentid = 0)
         {
@@ -114,7 +114,7 @@ namespace Postgre_API.Controllers
         }
 
         // PUT: api/Nutritionists/5
-        [HttpPut("{id}")]
+        [HttpPut("put/{id}")]
         public async Task<IActionResult> UpdateNutritionist(string id, string nutritionistcode, string firstname, string lastname1, string lastname2, string email, string password, int weight, double bmi, string cardNumber, string address, string photo, int paymentid = 0)
         {
             try
@@ -171,8 +171,8 @@ namespace Postgre_API.Controllers
             }
         }
 
-        // DELETE: api/Nutritionists/5
-        [HttpDelete("{id}")]
+  
+        [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteNutritionist(string id)
         {
             try

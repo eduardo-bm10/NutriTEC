@@ -36,6 +36,18 @@ namespace Postgre_API.Controllers
             }
             return encryptedPassword;
         }
+        
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Administrator>>> GetAdministrators()
+        {
+            try{
+                return await _dbContext.Administrators.ToListAsync();
+
+            }catch(Exception e){
+                Console.WriteLine(e);
+                return BadRequest(new { message = e.Message });
+            } 
+        }
 
         [HttpGet("get/{id}")]
         public async Task<ActionResult<Administrator>> GetAdministrator(string id)
@@ -56,18 +68,6 @@ namespace Postgre_API.Controllers
                 Console.WriteLine(e);
                 return BadRequest(new { message = e.Message });
             }
-        }
-
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Administrator>>> GetAdministrators()
-        {
-            try{
-                return await _dbContext.Administrators.ToListAsync();
-
-            }catch(Exception e){
-                Console.WriteLine(e);
-                return BadRequest(new { message = e.Message });
-            } 
         }
 
         [HttpPost("post/{id}/{firstname}/{lastname1}/{lastname2}/{email}/{password}")]
