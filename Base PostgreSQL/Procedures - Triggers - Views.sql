@@ -9,7 +9,7 @@ RETURNS TABLE (
 	FullName VARCHAR,
 	TotalPayment INT,
 	Discount VARCHAR,
-	FinalPayment INT
+	FinalPayment REAL
 )
 LANGUAGE PLPGSQL AS $$
 DECLARE
@@ -43,10 +43,7 @@ BEGIN
 	END LOOP;
 END; $$
 
-drop function calculate_payment
-select * from calculate_payment(2)
-
-SELECT * FROM NUTRITIONIST
+select * from calculate_payment(1)
 
 -- Store Procedure: CUSTOMERS ADVANCE REPORT.
 -- Description: Muestras las medidas registradas por un específico usuario dentro de un lapso indicado.
