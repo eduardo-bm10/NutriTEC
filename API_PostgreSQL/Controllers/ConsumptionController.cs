@@ -9,17 +9,29 @@ using Newtonsoft.Json;
 
 namespace Postgre_API.Controllers
 {
+
+    /// <summary>
+    /// Controller for managing consumptions.
+    /// </summary>
     [Route("api/Consumptions")]
     [ApiController]
     public class ConsumptionsController : ControllerBase
     {
         private readonly NutritecDbContext _dbContext;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConsumptionsController"/> class.
+        /// </summary>
+        /// <param name="dbContext">The database context.</param>
         public ConsumptionsController(NutritecDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
+        /// <summary>
+        /// Retrieves all consumptions.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Consumption>>> GetConsumptions()
         {
@@ -33,6 +45,13 @@ namespace Postgre_API.Controllers
             }
         }
 
+        /// <summary>
+        /// Retrieves a specific consumption by patient ID, date, and mealtime ID.
+        /// </summary>
+        /// <param name="patientId">The ID of the patient.</param>
+        /// <param name="date">The date of the consumption.</param>
+        /// <param name="mealtimeId">The ID of the mealtime.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [HttpGet("{patientId}/{date}/{mealtimeId}")]
         public async Task<ActionResult<Consumption>> GetConsumption(string patientId, DateTime date, int mealtimeId)
         {
@@ -53,6 +72,14 @@ namespace Postgre_API.Controllers
             }
         }
 
+        /// <summary>
+        /// Creates a new consumption.
+        /// </summary>
+        /// <param name="patientId">The ID of the patient.</param>
+        /// <param name="date">The date of the consumption.</param>
+        /// <param name="mealtimeId">The ID of the mealtime.</param>
+        /// <param name="productBarcode">The barcode of the product.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [HttpPost("post/{patientId}/{date}/{mealtimeId}/{productBarcode}")]
         public async Task<ActionResult<Consumption>> CreateConsumption(string patientId, DateTime date, int mealtimeId, int productBarcode)
         {
@@ -101,6 +128,14 @@ namespace Postgre_API.Controllers
             }
         }
 
+        /// <summary>
+        /// Updates an existing consumption.
+        /// </summary>
+        /// <param name="patientId">The ID of the patient.</param>
+        /// <param name="date">The date of the consumption.</param>
+        /// <param name="mealtimeId">The ID of the mealtime.</param>
+        /// <param name="productBarcode">The barcode of the product.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [HttpPut("{patientId}/{date}/{mealtimeId}")]
         public async Task<IActionResult> UpdateConsumption(string patientId, DateTime date, int productBarcode, int mealtimeId)
         {
@@ -126,6 +161,13 @@ namespace Postgre_API.Controllers
             }
         }
 
+        /// <summary>
+        /// Deletes a consumption.
+        /// </summary>
+        /// <param name="patientId">The ID of the patient.</param>
+        /// <param name="date">The date of the consumption.</param>
+        /// <param name="mealtimeId">The ID of the mealtime.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [HttpDelete("{patientId}/{date}/{mealtimeId}")]
         public async Task<IActionResult> DeleteConsumption(string patientId, DateTime date, int mealtimeId)
         {
