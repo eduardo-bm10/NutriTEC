@@ -9,17 +9,28 @@ using Newtonsoft.Json;
 
 namespace Postgre_API.Controllers
 {
+    /// <summary>
+    /// Controller for managing measurements.
+    /// </summary>
     [Route("api/Measurements")]
     [ApiController]
     public class MeasurementsController : ControllerBase
     {
         private readonly NutritecDbContext _dbContext;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MeasurementsController"/> class.
+        /// </summary>
+        /// <param name="dbContext">The database context.</param>
         public MeasurementsController(NutritecDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
+        /// <summary>
+        /// Retrieves all measurements.
+        /// </summary>
+        /// <returns>A list of measurements.</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Measurement>>> GetMeasurements()
         {
@@ -34,6 +45,12 @@ namespace Postgre_API.Controllers
             }
         }
 
+        /// <summary>
+        /// Retrieves a specific measurement by patient ID and date.
+        /// </summary>
+        /// <param name="patientId">The ID of the patient.</param>
+        /// <param name="date">The date of the measurement.</param>
+        /// <returns>The requested measurement.</returns>
         [HttpGet("{patientId}/{date}")]
         public async Task<ActionResult<Measurement>> GetMeasurement(int patientId, DateTime date)
         {
@@ -54,6 +71,16 @@ namespace Postgre_API.Controllers
             }
         }
 
+        /// <summary>
+        /// Creates a new measurement for a patient.
+        /// </summary>
+        /// <param name="patientId">The ID of the patient.</param>
+        /// <param name="waist">The waist measurement.</param>
+        /// <param name="neck">The neck measurement.</param>
+        /// <param name="hips">The hips measurement.</param>
+        /// <param name="musclePercentage">The muscle percentage.</param>
+        /// <param name="fatPercentage">The fat percentage.</param>
+        /// <returns>The created measurement.</returns>
         [HttpPost("post/{patientId}")]
         public async Task<ActionResult<Measurement>> CreateMeasurement(string patientId, double waist, double neck, double hips, double musclePercentage, double fatPercentage)
         {
@@ -101,6 +128,17 @@ namespace Postgre_API.Controllers
             }
         }
 
+        /// <summary>
+        /// Updates an existing measurement.
+        /// </summary>
+        /// <param name="patientId">The ID of the patient.</param>
+        /// <param name="date">The date of the measurement.</param>
+        /// <param name="waist">The updated waist measurement.</param>
+        /// <param name="neck">The updated neck measurement.</param>
+        /// <param name="hips">The updated hips measurement.</param>
+        /// <param name="musclePercentage">The updated muscle percentage.</param>
+        /// <param name="fatPercentage">The updated fat percentage.</param>
+        /// <returns>An action result indicating the status of the update operation.</returns>
         [HttpPut("put/{patientId}/{date}")]
         public async Task<IActionResult> UpdateMeasurement(int patientId, DateTime date, double waist, double neck, double hips, double musclePercentage, double fatPercentage)
         {
@@ -138,6 +176,12 @@ namespace Postgre_API.Controllers
             }
         }
 
+        /// <summary>
+        /// Deletes a measurement by ID and date.
+        /// </summary>
+        /// <param name="id">The ID of the measurement.</param>
+        /// <param name="date">The date of the measurement.</param>
+        /// <returns>An action result indicating the status of the delete operation.</returns>
         [HttpDelete("delete/{patientId}/{date}")]
         public async Task<IActionResult> DeleteMeasurement(int id, DateTime date)
         {
