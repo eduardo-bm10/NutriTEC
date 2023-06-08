@@ -9,17 +9,28 @@ using Newtonsoft.Json;
 
 namespace Postgre_API.Controllers
 {
+    /// <summary>
+    /// Controller for managing admin-product associations.
+    /// </summary>
     [Route("api/AdminProductAssociations")]
     [ApiController]
     public class AdminProductAssociationsController : ControllerBase
     {
         private readonly NutritecDbContext _dbContext;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AdminProductAssociationsController"/> class.
+        /// </summary>
+        /// <param name="dbContext">The database context.</param>
         public AdminProductAssociationsController(NutritecDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
+        /// <summary>
+        /// Retrieves all admin-product associations.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AdminProductAssociation>>> GetAdminProductAssociations()
         {
@@ -33,6 +44,12 @@ namespace Postgre_API.Controllers
             }
         }
 
+        /// <summary>
+        /// Retrieves a specific admin-product association by admin ID and product barcode.
+        /// </summary>
+        /// <param name="adminId">The ID of the admin.</param>
+        /// <param name="productBarcode">The barcode of the product.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [HttpGet("{adminId}/{productBarcode}")]
         public async Task<ActionResult<AdminProductAssociation>> GetAdminProductAssociation(string adminId, int productBarcode)
         {
@@ -53,6 +70,13 @@ namespace Postgre_API.Controllers
             }
         }
 
+        /// <summary>
+        /// Creates a new admin-product association.
+        /// </summary>
+        /// <param name="adminId">The ID of the admin.</param>
+        /// <param name="productBarcode">The barcode of the product.</param>
+        /// <param name="status">The status of the association.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [HttpPost("post/{adminId}/{productBarcode}")]
         public async Task<ActionResult<AdminProductAssociation>> CreateAdminProductAssociation(string adminId, int productBarcode, bool status)
         {
@@ -88,7 +112,13 @@ namespace Postgre_API.Controllers
             }
         }
 
-        // Este metodo no se usa porque esta tabla solo tiene PK compuesta por 2 elementos
+        /// <summary>
+        /// Updates an existing admin-product association. Este metodo no se usa porque esta tabla solo tiene PK compuesta por 2 elementos
+        /// </summary>
+        /// <param name="adminId">The ID of the admin.</param>
+        /// <param name="productBarcode">The barcode of the product.</param>
+        /// <param name="status">The new status of the association.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [HttpPut("put/{adminId}/{productBarcode}/{status}")]
         public async Task<IActionResult> UpdateAdminProductAssociation(string adminId, int productBarcode, bool status)
         {
@@ -113,6 +143,12 @@ namespace Postgre_API.Controllers
             }
         }
 
+        /// <summary>
+        /// Deletes an admin-product association.
+        /// </summary>
+        /// <param name="adminId">The ID of the admin.</param>
+        /// <param name="productBarcode">The barcode of the product.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [HttpDelete("delete/{adminId}/{productBarcode}")]
         public async Task<IActionResult> DeleteAdminProductAssociation(string adminId, int productBarcode)
         {
