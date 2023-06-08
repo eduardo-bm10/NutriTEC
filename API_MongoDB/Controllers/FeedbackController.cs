@@ -6,32 +6,17 @@ namespace API_MongoDB.Controllers {
     [ApiController]
     [Route("api/[controller]")]
     public class FeedbackController : ControllerBase {
-        public NutritecService service = new NutritecService();
 
-        //private readonly NutritecDbContext postgreHandlers = new NutritecDbContext();
-
+        /// <summary>
+        /// Creates feedback from nutritionist to patient or from patient to nutritionist.
+        /// </summary>
+        /// <param name="senderSsn">The ID of the user posting the message</param>
+        /// <param name="receptorSsn">The ID of the destination user</param>
+        /// <param name="message">The message that is going to be posted</param>
+        /// <returns>A JSON-format message indicating that the publication has been successful</returns>  
         [HttpPost]
         [Route("createFeedback/{senderSsn}/{receptorSsn}/{message}")]
         public dynamic CreateFeedback(string senderSsn, string receptorSsn, string message) {
-            //if (verifyNutritionist(senderSsn)) {
-                //if (verifyPatient(receptorSsn)) {
-                  //  return result("nutritionist");
-                //}
-                //else {
-                //    return new { message = receptorSsn + " is not a patient."};
-              //  }
-            //}
-            //else if (verifyPatient(senderSsn)) {
-                //if (verifyNutritionist(receptorSsn)) {
-                  //  return result("patient");
-                //}
-                //else {
-                //    return new { message = receptorSsn + " is not a nutritionist."};
-              //  }
-            //}
-            //else {
-              //  return new { message = senderSsn + " is not a nutritionist nor patient."};
-            //}
             Feedback f = new Feedback();
             f.SenderSsn = senderSsn;
             f.ReceptorSsn = receptorSsn;
@@ -42,6 +27,10 @@ namespace API_MongoDB.Controllers {
             return new { message = "Successfully created on " + f.Date + " by " + senderSsn};
         }
 
+        /// <summary>
+        /// Retrieves all posted feedback messages.
+        /// </summary>
+        /// <returns>A JSON-format object containing all feedback messages</returns> 
         [HttpGet]
         [Route("getAllFeedbacks")]
         public dynamic GetAllFeedbacks() {
@@ -54,6 +43,11 @@ namespace API_MongoDB.Controllers {
             }
         }
 
+        /// <summary>
+        /// Retrieves every feedback message posted by the indicated user.
+        /// </summary>
+        /// <param name="ssn">The ID of the user who posted the messages</param>
+        /// <returns>A JSON-format object containing the feedback messages posted by the user</returns> 
         [HttpGet]
         [Route("getBySsn/{ssn}")]
         public dynamic GetBySsn(string ssn) {
@@ -67,6 +61,11 @@ namespace API_MongoDB.Controllers {
 
         }
 
+        /// <summary>
+        /// Retrieves every feedback message posted on the indicated date.
+        /// </summary>
+        /// <param name="date">The date on which the feedback had been posted</param>
+        /// <returns>A JSON-format object containing the feedback messages posted on that date</returns> 
         [HttpGet]
         [Route("getByDate/{date}")]
         public dynamic GetByDate(string date) {
@@ -83,6 +82,11 @@ namespace API_MongoDB.Controllers {
             }
         }
 
+        /// <summary>
+        /// Removes a feedback message indicating its ID
+        /// </summary>
+        /// <param name="id">The identifier of the feedback message</param>
+        /// <returns>A JSON-format message indicating that the feedback has been successfully removed</returns> 
         [HttpDelete]
         [Route("removeById/{id}")]
         public dynamic RemoveById(string id) {
@@ -94,35 +98,5 @@ namespace API_MongoDB.Controllers {
                 return new { message = "Feedback with ID " + id + " does not exist on the Database"};
             }
         }
-
-        // ---------------------- Create feedback handlers --------------------------------
-        //private JsonResult result(string type) {
-          //  Feedback f = new Feedback();
-           // f.SenderSsn = senderSsn;
-          //  f.ReceptorSsn = receptorSsn;
-          //  f.Date = DateTime.Now.ToString();
-          //  f.Message = message;
-
-          //  service.Create(f);
-          //  return new { message = "Successfully created on " + f.Date + " by " + type + " " + senderSsn};
-        //}
-
-        //private bool verifyNutritionist(int ssn) {
-          //  if (this.postgreHandlers.Nutritionist.FindAsync(ssn)) {
-            //    return true;
-            //}
-            //else {
-              //  return false;
-            //}
-        //}
-
-        //private bool verifyPatient(int ssn) {
-          //  if (this.postgreHandlers.Patient.FindAsync(ssn)) {
-              //  return true;
-            //}
-            //else {
-              //  return false;
-            //}
-        //}
     }
 }

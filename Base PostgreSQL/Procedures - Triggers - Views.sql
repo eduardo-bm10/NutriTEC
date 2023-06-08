@@ -1,7 +1,7 @@
--- Función: CALCULATE PAYMENT.
--- Description: Calcula el pago que debe realizarse a los nutricionistas
--- de acuerdo con su modo de pago.
--- Parameters: Payment
+-- funtion: CALCULATE_PAYMENT.
+-- summary: Calculates the corresponding amount of money that a nutritionist must receive.
+-- param p_payment: The payment type.
+-- returns: a table containing email, full name, and total payment that corresponds to a nutritionist.
 -- Author: Eduardo Bolívar Minguet
 CREATE OR REPLACE FUNCTION calculate_payment(p_payment INT)
 RETURNS TABLE (
@@ -43,9 +43,12 @@ BEGIN
 	END LOOP;
 END; $$
 
--- Store Procedure: CUSTOMERS ADVANCE REPORT.
--- Description: Muestras las medidas registradas por un específico usuario dentro de un lapso indicado.
--- Parameters: SSN, StartDate, FinalDate
+-- function: CUSTOMERS_ADVANCE_REPORT.
+-- summary: shows the measurements registered by a specific user within an indicated period.
+-- param ssn: the ssn of the user. 
+-- param startDate: the initial date of the period.
+-- param finalDate: the final date of the period.
+-- returns: table containing patientId, date of the register, and varios measures.
 -- Author: Eduardo Bolívar Minguet
 CREATE OR REPLACE FUNCTION customers_advance_report
 (
@@ -101,15 +104,11 @@ BEGIN
 	END IF;
 END; $$
 
-drop function customers_advance_report
-
-select * from customers_advance_report('232567456', '2023-05-05', '2023-05-06')
-select * from measurement
-
--- Store Procedure: CREATE RECIPE.
--- Description: Verifica si los ingredientes existen para luego insertar a la base de datos
--- una nueva receta con dichos ingredientes.
--- Parameters: Description, Ingredients, Portions
+-- sp: CREATE_RECIPE.
+-- summary: verifies if the ingredients exist and then inserts a new recipe with these ingredients into the database.
+-- param description: the description of the new recipe to be created.
+-- param ingredients: a list of products to be used in the recipe.
+-- param portions: a list of portions for each product.
 -- Author: Eduardo Bolívar Minguet
 CREATE OR REPLACE PROCEDURE create_recipe
 (
@@ -143,7 +142,10 @@ BEGIN
 	END LOOP;
 END; $$
 
--- Function vitamin_per_product
+-- function: vitamin_per_product
+-- summary: retrieves all the vitamins contained in a specified product.
+-- param p_barcode: the barcode of the specified product.
+-- returns: table containing all vitamins of that product.
 -- Author: Eduardo Bolívar Minguet
 CREATE OR REPLACE FUNCTION vitamins_per_product(p_barcode INT)
 RETURNS TABLE (
@@ -175,7 +177,9 @@ BEGIN
 	END IF;
 END; $$
 
--- View: CaloriesPerMealTimeOnPlan
+-- view: CaloriesPerMealTimeOnPlan
+-- summary: shows the total calories contained on a plan.
+-- author: Eduardo Bolívar Minguet
 CREATE VIEW CaloriesPerMealTimeOnPlan AS
 	SELECT 
 		PLAN.ID AS PlanId,
@@ -189,10 +193,10 @@ CREATE VIEW CaloriesPerMealTimeOnPlan AS
 		PLAN.ID, 
 		PLAN.Description, 
 		MEAL_TIME.Name;
-
-select * from caloriespermealtimeonplan
 		
--- View: TotalRecipeCalories
+-- view: TotalRecipeCalories
+-- summary: shows the total calories on a recipe.
+-- author: Eduardo Bolívar Minguet
 CREATE VIEW TotalRecipeCalories AS
 	SELECT
 		RECIPE.ID AS RecipeID,
@@ -207,10 +211,10 @@ CREATE VIEW TotalRecipeCalories AS
 		PRODUCT ON ProductBarcode = Barcode
 	GROUP BY RECIPE.ID, RECIPE.DESCRIPTION, PRODUCT.DESCRIPTION, ProductPortion, Fat, Carbohydrate, Protein
 	ORDER BY RECIPE.DESCRIPTION;
-drop view totalrecipecalories
-select * from TotalRecipeCalories
 
--- View: PatientCurrentMeasures
+-- view: PatientCurrentMeasures
+-- summary: shows all the clients that are not associated to a nutritionist.
+-- author: Eduardo Bolívar Minguet
 CREATE VIEW NonAssociatedClients AS
 	SELECT
 		PATIENT.ID AS PatientSSN,
@@ -218,6 +222,3 @@ CREATE VIEW NonAssociatedClients AS
 	FROM
 		PATIENT LEFT JOIN PATIENT_NUTRITIONIST_ASSOCIATION ON ID = PatientID
 	WHERE PatientID IS NULL;
-
-drop view nonassociatedclients
-select * from nonassociatedclients
