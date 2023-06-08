@@ -19,7 +19,10 @@ namespace Postgre_API.Controllers
             _context = context;
         }
 
-        // GET: api/PlanPatientAssociations
+        /// <summary>
+        /// Retrieves all plan patient associations.
+        /// </summary>
+        /// <returns>A list of plan patient associations.</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PlanPatientAssociation>>> GetPlanPatientAssociations()
         {
@@ -30,8 +33,12 @@ namespace Postgre_API.Controllers
                 return BadRequest(new {message = e.Message});
             }}
         
-
-        // GET: api/PlanPatientAssociations/5
+        /// <summary>
+        /// Retrieves a specific plan patient association by patient ID and plan ID.
+        /// </summary>
+        /// <param name="patientid">The ID of the patient.</param>
+        /// <param name="planid">The ID of the plan.</param>
+        /// <returns>The plan patient association with the specified patient ID and plan ID.</returns>
         [HttpGet("{patientid}/{planid}")]
         public async Task<ActionResult<PlanPatientAssociation>> GetPlanPatientAssociation(string patientid, int planid)
         {
@@ -49,7 +56,15 @@ namespace Postgre_API.Controllers
                 return BadRequest(new {message = e.Message});
             }}
 
-        // POST: api/PlanPatientAssociations
+        /// <summary>
+        /// Creates a new plan patient association.
+        /// </summary>
+        /// <param name="nutritionistId">The ID of the nutritionist.</param>
+        /// <param name="planId">The ID of the plan.</param>
+        /// <param name="patientId">The ID of the patient.</param>
+        /// <param name="startdate">The start date of the association.</param>
+        /// <param name="enddate">The end date of the association.</param>
+        /// <returns>The created plan patient association.</returns>
         [HttpPost]
         public async Task<ActionResult<PlanPatientAssociation>> CreatePlanPatientAssociation(string nutritionistId,int planId, string patientId, DateTime startdate, DateTime enddate)
         {
@@ -93,7 +108,13 @@ namespace Postgre_API.Controllers
                 return BadRequest(new {message = e.Message});
             }}
 
-        // PUT: api/PlanPatientAssociations/5
+        /// <summary>
+        /// Updates a specific plan patient association.
+        /// </summary>
+        /// <param name="patientid">The ID of the patient.</param>
+        /// <param name="planid">The ID of the plan.</param>
+        /// <param name="planPatientAssociation">The updated plan patient association.</param>
+        /// <returns>An IActionResult indicating the result of the update operation.</returns>
         [HttpPut("{patientid}/{planid}")]
         public async Task<IActionResult> UpdatePlanPatientAssociation(string patientid, int planid, PlanPatientAssociation planPatientAssociation)
         {
@@ -128,7 +149,12 @@ namespace Postgre_API.Controllers
                 return BadRequest(new { message = e.Message });
             }}
 
-        // DELETE: api/PlanPatientAssociations/5
+        /// <summary>
+        /// Deletes a specific plan patient association.
+        /// </summary>
+        /// <param name="patientid">The ID of the patient.</param>
+        /// <param name="planid">The ID of the plan.</param>
+        /// <returns>An IActionResult indicating the result of the delete operation.</returns>
         [HttpDelete("{patientid}/{planid}")]
         public async Task<IActionResult> DeletePlanPatientAssociation(string patientid, int planid)
         {
