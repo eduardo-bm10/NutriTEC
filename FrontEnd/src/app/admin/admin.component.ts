@@ -20,7 +20,8 @@ export class AdminComponent implements OnInit{
   provincias = ["San José", "Alajuela", "Cartago", "Limón", "Guanacaste", "Puntarenas", "Heredia"]
 
   opcionesGlobales = {
-    "productos" : {}
+    "productosFalsos" : {},
+    "productosTotales" : {}
   }
 
   ngOnInit() {
@@ -29,6 +30,7 @@ export class AdminComponent implements OnInit{
       tmp.style.display = 'none'
     }
     this.cargarProductos();
+    this.cargarProductosTotales();
     this.cargarProvincias(["gestSucSpaPROVINCIA", "gestEmplPPROVINCIA", "gestEmplPPROVINCIA2"]);
   }
 
@@ -47,12 +49,30 @@ export class AdminComponent implements OnInit{
   }
   
   cargarProductos(){
-    this.api.getProducts().subscribe((data) => {
+    this.api.getProductByStatus(false).subscribe((data) => {
+      const llegada = JSON.parse(JSON.stringify(data));
+      //console.log(llegada);
+      this.opcionesGlobales.productosFalsos = llegada;
+      const tmp = document.getElementById("aprobacionProductosSelect") as HTMLInputElement;
+
+      for(const op in llegada){
+        const aux = llegada[op];
+        const opcionTmp = document.createElement('option');
+        opcionTmp.value = aux.barcode;
+        opcionTmp.textContent = aux.barcode;
+        tmp.appendChild(opcionTmp);
+      }
+
+      this.cambiarInfo('productosFalsos', 'aprobacionProductosSelect', 'TEST', 'TEST');      
+    })
+  }
+
+  cargarProductosTotales(){
+    this.api.getProducts().subscribe(data => {
       const llegada = JSON.parse(JSON.stringify(data));
       console.log(llegada);
-      this.opcionesGlobales.productos = llegada;
-      const tmp = document.getElementById("aprobacionProductosSelect") as HTMLInputElement;
-      const tmpTotal = document.getElementById("aprobacionProductosTotalSelect") as HTMLInputElement;
+      this.opcionesGlobales.productosTotales = llegada;
+      const tmp = document.getElementById("aprobacionProductosTotalSelect") as HTMLInputElement;
       const textarea = document.getElementById("aprobacionProductosDatos") as HTMLTextAreaElement;
 
       for(const op in llegada){
@@ -60,22 +80,16 @@ export class AdminComponent implements OnInit{
         const opcionTmp = document.createElement('option');
         opcionTmp.value = aux.barcode;
         opcionTmp.textContent = aux.barcode;
-        if (aux.status == false){
-          tmp.appendChild(opcionTmp);
-        }
-
-        const opcionTmpTotal = document.createElement('option');
-        opcionTmpTotal.value = aux.barcode;
-        opcionTmpTotal.textContent = aux.barcode
-        tmpTotal.appendChild(opcionTmpTotal);
+        tmp.appendChild(opcionTmp);
 
         const info = llegada[op];
         textarea.append(`Codigo: ${llegada[op].barcode}. Nombre: ${llegada[op].description}, Hierro: ${llegada[op].iron}, Sodio: ${llegada[op].sodium}, Energia: ${llegada[op].energy} , Grasa: ${llegada[op].fat}, Calcio: ${llegada[op].calcium}, Carbohidratos: ${llegada[op].carbohydrate}, Proteina: ${llegada[op].protein}\n`)
       }
 
-    
-      this.cambiarInfo('productos', 'aprobacionProductosSelect', 'TEST', 'TEST');  
-      this.cambiarInfo('productos', 'aprobacionProductosTotalSelect', 'TEST', 'TEST');      
+      
+
+  
+      this.cambiarInfo('productosTotales', 'aprobacionProductosTotalSelect', 'TEST', 'TEST');     
     })
   }
 
@@ -398,24 +412,34 @@ agregarNuevoInventario(){
   //Funcion encargada de tomar el identificador de un producto que aun no ha sido aprovado, y cambiarle el estado a aprovado
   aprobarProducto(){
     const barras = document.getElementById('aprobacionProductosSelect') as HTMLInputElement;
+    const barra = parseInt(barras.value)
+    var usuario = localStorage.getItem("usuario");
 
-    this.api.getProductById(Number(barras.value)).subscribe((data) => {
-      const llegada = JSON.parse(JSON.stringify(data));
+    console.log(barra)
 
-      /*
-      this.api.updateProduct(llegada.Barcode, llegada.Description, llegada.Iron, llegada.Sodium, llegada.Energy, llegada.Fat, llegada.Calcium, llegada.Carbohydrate, llegada.Protein, true).subscribe((data) => {
-        console.log(data)
+    if (usuario !== null) {
+      var user = JSON.parse(usuario);
+      /*this.api.updateProductStatus(user.id,barra,true).subscribe(data => {
+        console.log(data);
       });*/
-    });
+      this.api.createAdminProductAssociation(user.id, barra, true).subscribe(data => {
+        console.log(data)
+      })
+    }
   }
 
 
   eliminarProducto(){
     const barras = document.getElementById('aprobacionProductosTotalSelect') as HTMLInputElement;
-    alert(barras.value)
-    this.api.deleteProduct(Number(barras.value)).subscribe((data) => {
-      console.log(data)
-    });;
+    if(confirm("Are you sure to delete "+ barras.value)) {
+      this.api.deleteProduct(Number(barras.value)).subscribe((data) => {
+        console.log(data)
+      });
+    }
+  }
+
+  logOut(){
+    this.api.logout();
   }
 
 }//bracket que cierras

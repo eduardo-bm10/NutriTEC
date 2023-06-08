@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import { GetApiService } from '../get-api.service';
 
 @Component({
   selector: 'app-login-admin',
@@ -6,6 +7,7 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./login-admin.component.css']
 })
 export class LoginADMINComponent implements OnInit{
+  constructor(private api:GetApiService){}
   mostrar = false
 
   ngOnInit() {
@@ -54,6 +56,25 @@ export class LoginADMINComponent implements OnInit{
   }
   login(form:any){
     const valor = form.value;
+    console.log(valor);
+    this.api.login(
+      valor.email, valor.password
+    ).subscribe(data => {
+      const llegada = JSON.parse(JSON.stringify(data));
+      console.log(llegada);
+      if(llegada[1] == ''){
+        localStorage.setItem('usuario', JSON.stringify(llegada[0]));
+        this.api.ruta('/paciente');
+      }
+      else if (llegada.tipo == 'administrator') {
+        localStorage.setItem('usuario', JSON.stringify(llegada.usuario));
+        console.log(llegada.usuario);
+        this.api.ruta('/admin');
+      }
+      else{
+        alert('Error!');
+      }
+    })
   }
 
   register(form:any){

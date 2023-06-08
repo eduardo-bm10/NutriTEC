@@ -1,7 +1,8 @@
-import { Component, Renderer2, ElementRef, OnInit } from '@angular/core';
+  import { Component, Renderer2, ElementRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { GetApiService } from "../get-api.service";
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-cliente',
@@ -115,7 +116,8 @@ export class ClienteComponent implements OnInit {
 
 
   cargarAlimentos() {
-    this.api.getProducts().subscribe(data => {
+    this.api.getProductByStatus(true).subscribe(data => {
+      console.log(data)
       const llegada = JSON.parse(JSON.stringify(data));
       const select = document.getElementById('registroConsumoProducto') as HTMLSelectElement;
       const select2 = document.getElementById('registroConsumoCodigo') as HTMLSelectElement;
@@ -134,8 +136,9 @@ export class ClienteComponent implements OnInit {
       const select2 = document.getElementById('registroConsumoTiempo2') as HTMLSelectElement;
       for (const op in llegada) {
         const aux = llegada[op];
-        select.appendChild(this.api.createOption(aux.name, aux.name));
-        select2.appendChild(this.api.createOption(aux.name, aux.name));
+        
+        select.appendChild(this.api.createOption(aux.name, aux.id));
+        select2.appendChild(this.api.createOption(aux.name, aux.id));
       }
     })
   }
@@ -189,7 +192,7 @@ export class ClienteComponent implements OnInit {
 
   cargarAlimentosBoxes() {
 
-    this.api.getProducts().subscribe(data => {
+    this.api.getProductByStatus(true).subscribe(data => {
       const todo = JSON.parse(JSON.stringify(data));
       console.log(todo);
       const length = Object.keys(todo).length;
@@ -234,12 +237,14 @@ export class ClienteComponent implements OnInit {
     const musculo = document.getElementById('registroMedidasMusculo') as HTMLInputElement;
     const grasa = document.getElementById('registroMedidasGrasa') as HTMLInputElement;
 
-    console.log()
+    
 
     this.api.createMeasurement(cedula, Number(cintura.value), Number(cuello.value), Number(cadera.value), Number(musculo.value), Number(grasa.value))
       .subscribe(data => {
         const llegada = JSON.parse(JSON.stringify(data));
         console.log(llegada);
+      },(error: HttpErrorResponse) => {
+          alert("You have already created a measurement today")
       })
   }
 
@@ -312,7 +317,6 @@ export class ClienteComponent implements OnInit {
   }
 
   crearNuevoProducto(){
-    console.log('a')
     const barras = document.getElementById("gestionProductosBarras") as HTMLInputElement
     const descripcion = document.getElementById("gestionProductosDescripcion") as HTMLInputElement
     const hierro = document.getElementById("gestionProductosHierro") as HTMLInputElement
@@ -349,6 +353,35 @@ export class ClienteComponent implements OnInit {
     const fecha2 = document.getElementById('reporteAvanceFinal') as HTMLInputElement;
 
     //this.api.
+  }
+
+  registrarPorId(){
+    const producto = document.getElementById('registroConsumoCodigo') as HTMLInputElement;
+    const tiempo = document.getElementById('registroConsumoTiempo2') as HTMLInputElement;
+    
+    const usuario = localStorage.getItem("usuario")
+    if (usuario !== null) {
+      const id_usuario = JSON.parse(usuario).id
+      const date = new Date().toISOString().substring(0, 10);
+      this.api.createConsumption(id_usuario, date, parseInt(tiempo.value), parseInt(producto.value)).subscribe(data => {
+        console.log(data)
+      })
+    }
+    
+  }
+
+  registrarPorProducto(){
+    const producto = document.getElementById('registroConsumoProducto') as HTMLInputElement;
+    const tiempo = document.getElementById('registroConsumoTiempo') as HTMLInputElement;
+    
+    const usuario = localStorage.getItem("usuario")
+    if (usuario !== null) {
+      const id_usuario = JSON.parse(usuario).id
+      const date = new Date().toISOString().substring(0, 10);
+      this.api.createConsumption(id_usuario, date, parseInt(tiempo.value), parseInt(producto.value)).subscribe(data => {
+        console.log(data)
+      })
+    }
   }
 
 }

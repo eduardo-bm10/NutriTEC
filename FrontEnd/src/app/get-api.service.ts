@@ -226,11 +226,11 @@ export class GetApiService {
   // Consumption--------------------------------------------
   createConsumption(
     patientId: string,
-    date: Date,
+    date: string,
     mealtimeId: number,
     productBarcode: number
   ) {
-    const url = `${this.baseUrl}/api/Consumptions/post/${patientId}`;
+    const url = `${this.baseUrl}/api/Consumptions/post/${patientId}/${date}/${mealtimeId}/${productBarcode}`;
     return this.http.post(url, null, {});
   }
 
@@ -249,7 +249,7 @@ export class GetApiService {
     musclePercentage: number,
     fatPercentage: number
   ) {
-    const url = `${this.baseUrl}/api/Measurements/${patientId}/waist=${waist}&neck=${neck}&hips=${hips}&musclePercentage=${musclePercentage}&fatPercentage=${fatPercentage}`;
+    const url = `${this.baseUrl}/api/Measurements/post/${patientId}?waist=${waist}&neck=${neck}&hips=${hips}&musclePercentage=${musclePercentage}&fatPercentage=${fatPercentage}`;
     return this.http.post(url, {});
   }
 
@@ -372,7 +372,7 @@ export class GetApiService {
 
   // Eliminar un producto: PENDIENTE INVOLUCRA MUCHAS TABLAS
   deleteProduct(barcode: number) {
-    const url = `${this.baseUrl}/api/Products/delete/${barcode}`;
+    const url = `${this.baseUrl}/api/Product/delete/${barcode}`;
     return this.http.delete(url);
   }
 
@@ -474,7 +474,7 @@ export class GetApiService {
   }
 
   createAdminProductAssociation(adminId: string, productBarcode: number, status: boolean) {
-    const url = `${this.baseUrl}/api/AdminProductAssociations/${adminId}/${productBarcode}/status=${status}`;
+    const url = `${this.baseUrl}/api/AdminProductAssociations/post/${adminId}/${productBarcode}?status=${status}`;
 
     return this.http.post(url, null, {});
   }
