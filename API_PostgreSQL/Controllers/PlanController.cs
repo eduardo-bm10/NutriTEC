@@ -19,7 +19,10 @@ namespace Postgre_API.Controllers
             _dbContext = dbContext;
         }
 
-        // GET: api/Plans
+        /// <summary>
+        /// Retrieves all plans.
+        /// </summary>
+        /// <returns>A list of plans.</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Plan>>> GetPlans()
         {
@@ -30,7 +33,11 @@ namespace Postgre_API.Controllers
                 return BadRequest(new {message = e.Message});
             }}
 
-        // GET: api/Plans/5
+        /// <summary>
+        /// Retrieves a specific plan by its ID.
+        /// </summary>
+        /// <param name="id">The ID of the plan.</param>
+        /// <returns>The plan with the specified ID.</returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<Plan>> GetPlan(int id)
         {
@@ -48,7 +55,14 @@ namespace Postgre_API.Controllers
             }
         }
 
-        // POST: api/Plans
+        /// <summary>
+        /// Creates a new plan.
+        /// </summary>
+        /// <param name="description">The description of the plan.</param>
+        /// <param name="nutritionistId">The ID of the nutritionist associated with the plan.</param>
+        /// <param name="mealtimeId">The ID of the mealtime associated with the plan.</param>
+        /// <param name="productBarcode">The barcode of the product associated with the plan.</param>
+        /// <returns>The created plan.</returns>
         [HttpPost("{description}")]
         public async Task<ActionResult<Plan>> CreatePlan(string description, string nutritionistId, int mealtimeId, int productBarcode)
         {
@@ -93,7 +107,13 @@ namespace Postgre_API.Controllers
                 return BadRequest(new {message = e.Message});
             }}
 
-        // PUT: api/Plans/5
+        
+        /// <summary>
+        /// Updates a specific plan.
+        /// </summary>
+        /// <param name="id">The ID of the plan to update.</param>
+        /// <param name="plan">The updated plan object.</param>
+        /// <returns>An IActionResult indicating the result of the update operation.</returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdatePlan(int id, Plan plan)
         {
@@ -115,7 +135,11 @@ namespace Postgre_API.Controllers
             }
         }
 
-        // DELETE: api/Plans/5
+        /// <summary>
+        /// Deletes a specific plan.
+        /// </summary>
+        /// <param name="id">The ID of the plan to delete.</param>
+        /// <returns>An IActionResult indicating the result of the delete operation.</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePlan(int id)
         {
