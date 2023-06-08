@@ -8,24 +8,40 @@ using Newtonsoft.Json;
 
 namespace Postgre_API.Controllers
 {
+    /// <summary>
+    /// Represents a controller for managing recipe-product associations.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class RecipeProductAssociationsController : ControllerBase
     {
         private readonly NutritecDbContext _context;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RecipeProductAssociationsController"/> class.
+        /// </summary>
+        /// <param name="context">The NutritecDbContext instance.</param>
         public RecipeProductAssociationsController(NutritecDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/RecipeProductAssocs
+        /// <summary>
+        /// Retrieves all recipe-product associations.
+        /// </summary>
+        /// <returns>A list of recipe-product associations.</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RecipeProductAssociation>>> GetRecipeProductAssocs()
         {
             return await _context.RecipeProductAssociations.ToListAsync();
         }
 
+        /// <summary>
+        /// Retrieves a recipe-product association by recipe ID and product barcode.
+        /// </summary>
+        /// <param name="recipeid">The ID of the recipe.</param>
+        /// <param name="productbarcode">The barcode of the product.</param>
+        /// <returns>The recipe-product association with the specified recipe ID and product barcode.</returns>
         [HttpGet("{recipeid}/{productbarcode}")]
         public async Task<ActionResult<RecipeProductAssociation>> GetRecipeProductAssoc(int recipeid, int productbarcode)
         {
@@ -39,7 +55,11 @@ namespace Postgre_API.Controllers
             return recipeProductAssoc;
         }
 
-        // POST: api/RecipeProductAssocs
+        /// <summary>
+        /// Creates a new recipe-product association.
+        /// </summary>
+        /// <param name="recipeProductAssoc">The recipe-product association to create.</param>
+        /// <returns>The created recipe-product association.</returns>
         [HttpPost]
         public async Task<ActionResult<RecipeProductAssociation>> CreateRecipeProductAssoc(RecipeProductAssociation recipeProductAssoc)
         {
@@ -49,6 +69,11 @@ namespace Postgre_API.Controllers
             return Ok(new { message = "ok" });
         }
 
+        /// <summary>
+        /// Retrieves products and portions associated with a recipe.
+        /// </summary>
+        /// <param name="recipeid">The ID of the recipe.</param>
+        /// <returns>A list of dictionaries containing product names and portions.</returns>
         [HttpGet("getProductsAndPortionsFromRecipe/{recipeid}")]
         public async Task<ActionResult<IEnumerable<Dictionary<string, object>>>> GetProductsAndPortionsFromRecipe(int recipeid)
         {
@@ -81,7 +106,13 @@ namespace Postgre_API.Controllers
             return productsNameAndPortions;
         }
 
-        // PUT: api/RecipeProductAssocs/5
+        /// <summary>
+        /// Updates an existing recipe-product association.
+        /// </summary>
+        /// <param name="recipeid">The ID of the recipe.</param>
+        /// <param name="productbarcode">The barcode of the product.</param>
+        /// <param name="recipeProductAssoc">The updated recipe-product association.</param>
+        /// <returns>A response indicating the update status.</returns>
         [HttpPut("{recipeid}/{productbarcode}")]
         public async Task<IActionResult> UpdateRecipeProductAssoc(int recipeid, int productbarcode, RecipeProductAssociation recipeProductAssoc)
         {
@@ -116,7 +147,13 @@ namespace Postgre_API.Controllers
                 return BadRequest(new { message = e.Message });
             }}
 
-        // DELETE: api/RecipeProductAssocs/5
+
+        /// <summary>
+        /// Deletes a recipe-product association by recipe ID and product barcode.
+        /// </summary>
+        /// <param name="recipeid">The ID of the recipe.</param>
+        /// <param name="productbarcode">The barcode of the product.</param>
+        /// <returns>A response indicating the deletion status.</returns>
         [HttpDelete("{recipeid}/{productbarcode}")]
         public async Task<IActionResult> DeleteRecipeProductAssoc(int recipeid, int productbarcode)
         {
