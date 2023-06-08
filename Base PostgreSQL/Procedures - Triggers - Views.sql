@@ -71,7 +71,7 @@ BEGIN
 					FROM 
 					MEASUREMENT)
 	LOOP
-		IF ssn = r_row.PatientID THEN
+		IF ssn = r_row.Measurement.PatientID THEN
 			p_exists := TRUE;
 		END IF;
 	END LOOP;
@@ -88,13 +88,13 @@ BEGIN
 							MEASUREMENT 
 						WHERE PatientID = ssn AND Date >= startDate AND Date <= finalDate)
 		LOOP
-			Patient := r_row.PatientID;
-			ReDate := r_row.Date;
-			Waist := r_row.Waist;
-			Neck := r_row.Neck;
-			Hips := r_row.Hips;
-			MusclePercentage := r_row.MusclePercentage;
-			FatPercentage := r_row.FatPercentage;
+			Patient := r_row.Measurement.PatientID;
+			ReDate := r_row.Measurement.Date;
+			Waist := r_row.Measurement.Waist;
+			Neck := r_row.Measurement.Neck;
+			Hips := r_row.Measurement.Hips;
+			MusclePercentage := r_row.Measurement.MusclePercentage;
+			FatPercentage := r_row.Measurement.FatPercentage;
 			RETURN NEXT;
 		END LOOP;
 	ELSE
