@@ -8,17 +8,28 @@ using System.Threading.Tasks;
 
 namespace Postgre_API.Controllers
 {
+    /// <summary>
+    /// Controller for managing patient-nutritionist associations.
+    /// </summary>
     [Route("api/PatientNutritionistAssociation")]
     [ApiController]
     public class PatientNutritionistAssociationController : ControllerBase
     {
         private readonly NutritecDbContext _dbContext;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PatientNutritionistAssociationController"/> class.
+        /// </summary>
+        /// <param name="dbContext">The database context.</param>
         public PatientNutritionistAssociationController(NutritecDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
+        /// <summary>
+        /// Retrieves all patient-nutritionist associations.
+        /// </summary>
+        /// <returns>A list of patient-nutritionist associations.</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PatientNutritionistAssociation>>> GetPatientNutritionistAssociations()
         {
@@ -33,6 +44,12 @@ namespace Postgre_API.Controllers
             
         }
 
+        /// <summary>
+        /// Retrieves a specific patient-nutritionist association by nutritionist ID and patient ID.
+        /// </summary>
+        /// <param name="nutritionistId">The ID of the nutritionist.</param>
+        /// <param name="patientId">The ID of the patient.</param>
+        /// <returns>The requested patient-nutritionist association.</returns>
         [HttpGet("{nutritionistId}/{patientId}")]
         public async Task<ActionResult<PatientNutritionistAssociation>> GetPatientNutritionistAssociation(string nutritionistId, string patientId)
         {
@@ -53,6 +70,12 @@ namespace Postgre_API.Controllers
             }
         }
 
+        /// <summary>
+        /// Creates a new patient-nutritionist association.
+        /// </summary>
+        /// <param name="nutritionistId">The ID of the nutritionist.</param>
+        /// <param name="patientId">The ID of the patient.</param>
+        /// <returns>The created patient-nutritionist association.</returns>
         [HttpPost]
         public async Task<IActionResult> CreatePatientNutritionistAssociation(string nutritionistId, string patientId)
         {
@@ -95,8 +118,15 @@ namespace Postgre_API.Controllers
         }catch (Exception e)
             {
                 return BadRequest(new {message = e.Message});
-            }}
+            }
+        }
 
+        /// <summary>
+        /// Deletes a patient-nutritionist association.
+        /// </summary>
+        /// <param name="nutritionistId">The ID of the nutritionist.</param>
+        /// <param name="patientId">The ID of the patient.</param>
+        /// <returns>The status of the delete operation.</returns>
         [HttpDelete("{nutritionistId}/{patientId}")]
         public async Task<IActionResult> DeletePatientNutritionistAssociation(string nutritionistId, string patientId)
         {
