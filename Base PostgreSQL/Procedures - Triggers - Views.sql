@@ -67,11 +67,9 @@ DECLARE
 	r_row RECORD;
 	p_exists BOOLEAN := FALSE;
 BEGIN
-	FOR r_row IN (	SELECT PatientID
-					FROM 
-					MEASUREMENT)
+	FOR r_row IN (SELECT PatientID FROM MEASUREMENT)
 	LOOP
-		IF ssn = r_row.Measurement.PatientID THEN
+		IF ssn = r_row.PatientID THEN
 			p_exists := TRUE;
 		END IF;
 	END LOOP;
@@ -79,22 +77,23 @@ BEGIN
 		FOR r_row IN (SELECT 
 							PatientID, 
 							Date, 
-							Waist, 
-							Neck, 
-							Hips, 
-							MusclePercentage, 
-							FatPercentage
+							MEASUREMENT.Waist AS W, 
+							MEASUREMENT.Neck AS N, 
+							MEASUREMENT.Hips AS H, 
+							MEASUREMENT.MusclePercentage AS M, 
+							MEASUREMENT.FatPercentage AS F
 						FROM 
 							MEASUREMENT 
-						WHERE PatientID = ssn AND Date >= startDate AND Date <= finalDate)
+						WHERE PatientID = ssn AND Date >= startDate AND Date <= finalDate
+					 	ORDER BY Date)
 		LOOP
-			Patient := r_row.Measurement.PatientID;
-			ReDate := r_row.Measurement.Date;
-			Waist := r_row.Measurement.Waist;
-			Neck := r_row.Measurement.Neck;
-			Hips := r_row.Measurement.Hips;
-			MusclePercentage := r_row.Measurement.MusclePercentage;
-			FatPercentage := r_row.Measurement.FatPercentage;
+			Patient := r_row.PatientID;
+			ReDate := r_row.Date;
+			Waist := r_row.W;
+			Neck := r_row.N;
+			Hips := r_row.H;
+			MusclePercentage := r_row.M;
+			FatPercentage := r_row.F;
 			RETURN NEXT;
 		END LOOP;
 	ELSE
@@ -104,7 +103,8 @@ END; $$
 
 drop function customers_advance_report
 
-select * from customers_advance_report('111278965', '2023-05-05', '2023-06-06')
+select * from customers_advance_report('232567456', '2023-05-05', '2023-05-06')
+select * from measurement
 
 -- Store Procedure: CREATE RECIPE.
 -- Description: Verifica si los ingredientes existen para luego insertar a la base de datos
