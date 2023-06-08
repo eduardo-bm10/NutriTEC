@@ -4,10 +4,18 @@ using Postgre_API.Functions;
 using Postgre_API.Models;
 
 namespace Postgre_API.Controllers {
+    /// <summary>
+    /// Controller for calling database functions.
+    /// </summary>
     [Route("api/Functions")]
     [ApiController]
     public class FunctionsControllers : ControllerBase {
 
+        /// <summary>
+        /// Retrieves the payment report for a given payment ID.
+        /// </summary>
+        /// <param name="paymentId">The ID of the payment.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [HttpGet("getPaymentReport/{paymentId}")]
         public async Task<IEnumerable<PaymentReport>> getPaymentReport(int paymentId) {
             string connectionString = "Server=server-nutritec.postgres.database.azure.com;Database=nutritec-db;Port=5432;User Id=jimena;Password=Nutri_TEC;Ssl Mode=VerifyFull;";
@@ -41,6 +49,13 @@ namespace Postgre_API.Controllers {
             return null;
         }
 
+        /// <summary>
+        /// Retrieves the advance report for a given patient ID and date range.
+        /// </summary>
+        /// <param name="patientId">The ID of the patient.</param>
+        /// <param name="startDate">The start date of the report.</param>
+        /// <param name="finalDate">The end date of the report.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [HttpGet("getAdvanceReport/{patientId}/{startDate}/{finalDate}")]
         public async Task<IEnumerable<CustomersAdvanceReport>> getAdvanceReport(string patientId, DateTime startDate, DateTime finalDate) {
             string connectionString = "Server=server-nutritec.postgres.database.azure.com;Database=nutritec-db;Port=5432;User Id=jimena;Password=Nutri_TEC;Ssl Mode=VerifyFull;";
@@ -80,6 +95,12 @@ namespace Postgre_API.Controllers {
             return null;
         }
 
+        /// <summary>
+        /// Creates a new recipe.
+        /// </summary>
+        /// <param name="description">The description of the recipe.</param>
+        /// <param name="products">The products used in the recipe (comma-separated).</param>
+        /// <param name="portions">The portions of each product used in the recipe (comma-separated).</param>
         [HttpPost("createRecipe/{description}/{products}/{portions}")]
         public async void createRecipe(string description, string products, string portions) {
             var productList = Array.ConvertAll(products.Split(","), s => int.Parse(s));
@@ -97,6 +118,11 @@ namespace Postgre_API.Controllers {
             }
         }
 
+        /// <summary>
+        /// Retrieves the list of vitamins for a given product barcode.
+        /// </summary>
+        /// <param name="barcode">The barcode of the product.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [HttpGet("getVitamins/{barcode}")]
         public async Task<IEnumerable<Vitamin>> getVitamins(int barcode) {
             string conString = "Server=server-nutritec.postgres.database.azure.com;Database=nutritec-db;Port=5432;User Id=jimena;Password=Nutri_TEC;Ssl Mode=VerifyFull;";
@@ -123,6 +149,10 @@ namespace Postgre_API.Controllers {
             return null;
         }
 
+        /// <summary>
+        /// Retrieves the calories per mealtime on a plan.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [HttpGet("getCaloriesPerPlan")]
         public async Task<IEnumerable<ViewCaloriesPerMealtimeOnPlan>> getCaloriesPerPlan() {
             string connectionString = "Server=server-nutritec.postgres.database.azure.com;Database=nutritec-db;Port=5432;User Id=jimena;Password=Nutri_TEC;Ssl Mode=VerifyFull;";
@@ -151,6 +181,10 @@ namespace Postgre_API.Controllers {
             return null;
         }
 
+        /// <summary>
+        /// Retrieves the total calories for each recipe.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [HttpGet("getRecipeCalories")]
         public async Task<IEnumerable<ViewTotalRecipeCalories>> getRecipeCalories() {
             string connectionString = "Server=server-nutritec.postgres.database.azure.com;Database=nutritec-db;Port=5432;User Id=jimena;Password=Nutri_TEC;Ssl Mode=VerifyFull;";
@@ -187,6 +221,10 @@ namespace Postgre_API.Controllers {
             return null;
         }
 
+        /// <summary>
+        /// Retrieves the list of non-associated clients.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [HttpGet("getNotAssociatedClients")]
         public async Task<IEnumerable<ViewNonAssociatedClients>> getNotAssociatedClients() {
             string connectionString = "Server=server-nutritec.postgres.database.azure.com;Database=nutritec-db;Port=5432;User Id=jimena;Password=Nutri_TEC;Ssl Mode=VerifyFull;";
