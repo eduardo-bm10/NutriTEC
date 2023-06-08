@@ -18,7 +18,10 @@ namespace Postgre_API.Controllers
             _context = context;
         }
 
-        // GET: api/PlanMealtimeAssociations
+        /// <summary>
+        /// Retrieves all plan mealtime associations.
+        /// </summary>
+        /// <returns>A list of plan mealtime associations.</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PlanMealtimeAssociation>>> GetPlanMealtimeAssociations()
         {
@@ -31,7 +34,12 @@ namespace Postgre_API.Controllers
             }
         }
 
-        // GET: api/PlanMealtimeAssociations/5
+        /// <summary>
+        /// Retrieves a specific plan mealtime association by its plan ID and mealtime ID.
+        /// </summary>
+        /// <param name="planid">The ID of the plan.</param>
+        /// <param name="mealtimeid">The ID of the mealtime.</param>
+        /// <returns>The plan mealtime association with the specified plan ID and mealtime ID.</returns>
         [HttpGet("{planid}/{mealtimeid}")]
         public async Task<ActionResult<PlanMealtimeAssociation>> GetPlanMealtimeAssociation(int planid, int mealtimeid)
         {
@@ -45,7 +53,11 @@ namespace Postgre_API.Controllers
             return planMealtimeAssociation;
         }
 
-        // POST: api/PlanMealtimeAssociations
+        /// <summary>
+        /// Creates a new plan mealtime association.
+        /// </summary>
+        /// <param name="planMealtimeAssociation">The plan mealtime association to create.</param>
+        /// <returns>The created plan mealtime association.</returns>
         [HttpPost]
         public async Task<ActionResult<PlanMealtimeAssociation>> CreatePlanMealtimeAssociation(PlanMealtimeAssociation planMealtimeAssociation)
         {
@@ -55,7 +67,13 @@ namespace Postgre_API.Controllers
             return Ok(new { message = "ok" });
         }
 
-        // PUT: api/PlanMealtimeAssociations/5
+        /// <summary>
+        /// Updates a specific plan mealtime association.
+        /// </summary>
+        /// <param name="planid">The ID of the plan.</param>
+        /// <param name="mealtimeid">The ID of the mealtime.</param>
+        /// <param name="planMealtimeAssociation">The updated plan mealtime association object.</param>
+        /// <returns>An IActionResult indicating the result of the update operation.</returns>
         [HttpPut("{planid}/{mealtimeid}")]
         public async Task<IActionResult> UpdatePlanMealtimeAssociation(int planid, int mealtimeid, PlanMealtimeAssociation planMealtimeAssociation)
         {
@@ -91,7 +109,13 @@ namespace Postgre_API.Controllers
             }
         }
 
-        // DELETE: api/PlanMealtimeAssociations/5
+
+        /// <summary>
+        /// Deletes a specific plan mealtime association.
+        /// </summary>
+        /// <param name="planid">The ID of the plan.</param>
+        /// <param name="mealtimeid">The ID of the mealtime.</param>
+        /// <returns>An IActionResult indicating the result of the delete operation.</returns>
         [HttpDelete("{planid}/{mealtimeid}")]
         public async Task<IActionResult> DeletePlanMealtimeAssociation(int planid, int mealtimeid)
         {
