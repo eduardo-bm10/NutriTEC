@@ -7,6 +7,7 @@ namespace API_MongoDB.Controllers {
     [Route("api/[controller]")]
     public class FeedbackController : ControllerBase {
 
+        private NutritecService service = new NutritecService();
         /// <summary>
         /// Creates feedback from nutritionist to patient or from patient to nutritionist.
         /// </summary>
