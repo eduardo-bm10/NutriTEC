@@ -5,18 +5,28 @@ using Newtonsoft.Json;
 
 namespace Postgre_API.Controllers
 {
+    /// <summary>
+    /// Represents a controller for managing products.
+    /// </summary>
     [Route("api/Product")]
     [ApiController]
     public class ProductsController : ControllerBase
     {
         private readonly NutritecDbContext _dbContext;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProductsController"/> class.
+        /// </summary>
+        /// <param name="context">The NutritecDbContext instance.</param>
         public ProductsController(NutritecDbContext context)
         {
             _dbContext = context;
         }
 
-        // GET: api/Products
+        /// <summary>
+        /// Retrieves all products.
+        /// </summary>
+        /// <returns>A list of products.</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
@@ -27,7 +37,10 @@ namespace Postgre_API.Controllers
                 return BadRequest(new {message = e.Message});
             }}
         
-
+        /// <summary>
+        /// Retrieves all products.
+        /// </summary>
+        /// <returns>A list of products.</returns>
         [HttpGet("getByBarcode/{barcode}")]
         public async Task<ActionResult<Product>> GetProduct(int barcode)
         {
@@ -56,6 +69,11 @@ namespace Postgre_API.Controllers
             }
         }
 
+        /// <summary>
+        /// Retrieves a product by description.
+        /// </summary>
+        /// <param name="description">The description of the product.</param>
+        /// <returns>The product with the specified description.</returns>
         [HttpGet("getByDescription/{description}")]
         public async Task<ActionResult<Product>> GetProductByDescription(string description)
         {
@@ -79,7 +97,20 @@ namespace Postgre_API.Controllers
                 return BadRequest(new {message = e.Message});
             }}
 
-
+        /// <summary>
+        /// Creates a new product.
+        /// </summary>
+        /// <param name="barcode">The barcode of the product.</param>
+        /// <param name="description">The description of the product.</param>
+        /// <param name="iron">The iron content of the product.</param>
+        /// <param name="sodium">The sodium content of the product.</param>
+        /// <param name="energy">The energy content of the product.</param>
+        /// <param name="fat">The fat content of the product.</param>
+        /// <param name="calcium">The calcium content of the product.</param>
+        /// <param name="carbohydrate">The carbohydrate content of the product.</param>
+        /// <param name="protein">The protein content of the product.</param>
+        /// <param name="vitamins">The vitamins associated with the product.</param>
+        /// <returns>The created product.</returns>
         [HttpPost("post/{barcode}")]
         public async Task<ActionResult<Product>> CreateProduct(int barcode, string description, double iron, double sodium, double energy, double fat, double calcium, double carbohydrate, double protein, string vitamins)
         {
@@ -129,6 +160,11 @@ namespace Postgre_API.Controllers
                 return BadRequest(new {message = e.Message});
             }}
         
+        /// <summary>
+        /// Retrieves products by status.
+        /// </summary>
+        /// <param name="status">The status of the products.</param>
+        /// <returns>The products with the specified status.</returns>
         [HttpGet("getByStatus/{status}")]
         public async Task<IActionResult> GetProductByStatus(bool status)
         {
@@ -149,6 +185,24 @@ namespace Postgre_API.Controllers
             }
         }
 
+        /// <summary>
+        /// Updates an existing product.
+        /// </summary>
+        /// <param name="barcode">The barcode of the product.</param>
+        /// <param name="description">The description of the product.</param>
+        /// <param name="iron">The iron content of the product.</param>
+        /// <param name="sodium">The sodium content of the product.</param>
+        /// <param name="energy">The energy content of the product.</param>
+        /// <param name="fat">The fat content of the product.</param>
+        /// <summary>
+        /// Updates an existing product.
+        /// </summary>
+        /// <param name="barcode">The barcode of the product.</param>
+        /// <param name="description">The description of the product.</param>
+        /// <param name="iron">The iron content of the product.</param>
+        /// <param name="sodium">The sodium content of the product.</param>
+        /// <param name="energy">The energy content of the product.</param>
+        /// <param name="fat">The fat content of the product.</param>
         [HttpPut("put/{barcode}/{description}/{iron}/{sodium}/{energy}/{fat}/{calcium}/{carbohydrate}/{protein}/{vitamins}")]
         public async Task<IActionResult> UpdateProduct(int barcode, string description, double iron, double sodium, double energy, double fat, double calcium, double carbohydrate, double protein, string vitamins)
         {
@@ -193,9 +247,11 @@ namespace Postgre_API.Controllers
                 return BadRequest(new {message = e.Message});
             }}
 
-        
-
-        // Pendiente involucra muchas tablas
+        /// <summary>
+        /// Deletes a product by barcode.
+        /// </summary>
+        /// <param name="barcode">The barcode of the product.</param>
+        /// <returns>A response indicating the deletion status.</returns>
         [HttpDelete("delete/{barcode}")]
         public async Task<IActionResult> DeleteProduct(int barcode)
         {
