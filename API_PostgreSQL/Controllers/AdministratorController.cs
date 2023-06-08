@@ -8,12 +8,19 @@ using Postgre_API.Models;
 
 namespace Postgre_API.Controllers
 {
+    /// <summary>
+    /// Controller for managing administrators.
+    /// </summary>
     [Route("api/Administrator")]
     [ApiController]
     public class AdministratorsController : ControllerBase
     {
         private readonly NutritecDbContext _dbContext;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AdministratorsController"/> class.
+        /// </summary>
+        /// <param name="dbContext">The database context.</param>
         public AdministratorsController(NutritecDbContext dbContext)
         {
             _dbContext = dbContext;
@@ -37,6 +44,11 @@ namespace Postgre_API.Controllers
             return encryptedPassword;
         }
         
+
+        /// <summary>
+        /// Retrieves all administrators.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Administrator>>> GetAdministrators()
         {
@@ -49,6 +61,11 @@ namespace Postgre_API.Controllers
             } 
         }
 
+        /// <summary>
+        /// Retrieves a specific administrator by ID.
+        /// </summary>
+        /// <param name="id">The ID of the administrator to retrieve.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [HttpGet("get/{id}")]
         public async Task<ActionResult<Administrator>> GetAdministrator(string id)
         {
@@ -70,6 +87,16 @@ namespace Postgre_API.Controllers
             }
         }
 
+        /// <summary>
+        /// Creates a new administrator.
+        /// </summary>
+        /// <param name="id">The ID of the administrator.</param>
+        /// <param name="firstname">The firstname of the administrator.</param>
+        /// <param name="lastname1">The first lastname of the administrator.</param>
+        /// <param name="lastname2">The second lastname of the administrator.</param>
+        /// <param name="email">The email of the administrator.</param>
+        /// <param name="password">The password of the administrator.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [HttpPost("post/{id}/{firstname}/{lastname1}/{lastname2}/{email}/{password}")]
         public async Task<ActionResult<Administrator>> CreateAdministrator(string id, string firstname, string lastname1, string lastname2, string email, string password)
         {
@@ -98,6 +125,16 @@ namespace Postgre_API.Controllers
             }
         }
 
+        /// <summary>
+        /// Updates an existing administrator.
+        /// </summary>
+        /// <param name="id">The ID of the administrator to update.</param>
+        /// <param name="firstname">The new firstname of the administrator.</param>
+        /// <param name="lastname1">The new first lastname of the administrator.</param>
+        /// <param name="lastname2">The new second lastname of the administrator.</param>
+        /// <param name="email">The new email of the administrator.</param>
+        /// <param name="password">The new password of the administrator.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [HttpPut("put/")]
         public async Task<IActionResult> UpdateAdministrator(string id, string firstname, string lastname1, string lastname2, string email, string password)
         {
@@ -128,6 +165,11 @@ namespace Postgre_API.Controllers
             }
         }
 
+        /// <summary>
+        /// Deletes an administrator.
+        /// </summary>
+        /// <param name="id">The ID of the administrator to delete.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteAdministrator(string id)
         {
