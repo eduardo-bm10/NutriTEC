@@ -9,12 +9,19 @@ using Newtonsoft.Json;
 
 namespace Postgre_API.Controllers
 {
+    /// <summary>
+    /// Controller for handling user login.
+    /// </summary>
     [ApiController]
     [Route("api/Login")]
     public class LoginController : ControllerBase
     {
         private readonly NutritecDbContext _dbContext;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LoginController"/> class.
+        /// </summary>
+        /// <param name="dbContext">The database context.</param>
         public LoginController(NutritecDbContext dbContext)
         {
             _dbContext = dbContext;
@@ -35,6 +42,12 @@ namespace Postgre_API.Controllers
             }
         }
 
+        /// <summary>
+        /// Logs in a user with the provided email and password.
+        /// </summary>
+        /// <param name="email">The user's email.</param>
+        /// <param name="password">The user's password.</param>
+        /// <returns>An action result indicating the login status and user information.</returns>
         [HttpPost]
         [Route("{email}/{password}")]
         public IActionResult LoginUser(string email, string password)
