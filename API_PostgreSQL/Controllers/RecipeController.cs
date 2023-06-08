@@ -8,17 +8,29 @@ using Newtonsoft.Json;
 
 namespace Postgre_API.Controllers
 {
+    /// <summary>
+    /// Represents a controller for managing recipes.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class RecipesController : ControllerBase
     {
         private readonly NutritecDbContext _context;
 
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RecipesController"/> class.
+        /// </summary>
+        /// <param name="context">The NutritecDbContext instance.</param>
         public RecipesController(NutritecDbContext context)
         {
             _context = context;
         }
 
+        /// <summary>
+        /// Retrieves all recipes.
+        /// </summary>
+        /// <returns>A list of recipes.</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Recipe>>> GetRecipes()
         {
@@ -29,6 +41,11 @@ namespace Postgre_API.Controllers
                 return BadRequest(new {message = e.Message});
             }}
         
+        /// <summary>
+        /// Retrieves a recipe by ID.
+        /// </summary>
+        /// <param name="id">The ID of the recipe.</param>
+        /// <returns>The recipe with the specified ID.</returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<Recipe>> GetRecipe(int id)
         {
@@ -46,6 +63,13 @@ namespace Postgre_API.Controllers
                 return BadRequest(new {message = e.Message});
             }}
 
+        /// <summary>
+        /// Creates a new recipe.
+        /// </summary>
+        /// <param name="description">The description of the recipe.</param>
+        /// <param name="BarcodeProducts">The barcode products associated with the recipe.</param>
+        /// <param name="PortionProducts">The portion products associated with the recipe.</param>
+        /// <returns>The created recipe.</returns>
         [HttpPost("post/{description}/{BarcodeProducts}/{PortionProducts}")]
         public async Task<ActionResult<Recipe>> CreateRecipe(string description, string  BarcodeProducts, string PortionProducts)
         {
@@ -98,6 +122,14 @@ namespace Postgre_API.Controllers
                 return BadRequest(new {message = e.Message});
             }}
 
+        /// <summary>
+        /// Updates an existing recipe.
+        /// </summary>
+        /// <param name="id">The ID of the recipe.</param>
+        /// <param name="description">The description of the recipe.</param>
+        /// <param name="BarcodeProducts">The barcode products associated with the recipe.</param>
+        /// <param name="PortionProducts">The portion products associated with the recipe.</param>
+        /// <returns>A response indicating the update status.</returns>
         [HttpPut("put/{id}/{description}/{BarcodeProducts}/{PortionProducts}")]
         public async Task<IActionResult> UpdateRecipe(int id, string description, string  BarcodeProducts, string PortionProducts)
         {
@@ -147,6 +179,11 @@ namespace Postgre_API.Controllers
                 return BadRequest(new {message = e.Message});
             }}
 
+        /// <summary>
+        /// Deletes a recipe by ID.
+        /// </summary>
+        /// <param name="id">The ID of the recipe.</param>
+        /// <returns>A response indicating the deletion status.</returns>
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteRecipe(int id)
         {
