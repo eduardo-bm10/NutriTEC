@@ -419,11 +419,6 @@ export class GetApiService {
     return this.http.get(url);
   }
 
-  getVitaminById(productBarcode: number) {
-    const url = `${this.baseUrl}/Vitamins/${productBarcode}`;
-    return this.http.get(url);
-  }
-
   createVitamin(
     productBarcode: number,
     vitamin: string
@@ -504,11 +499,6 @@ export class GetApiService {
     return this.http.get(url);
   }
 
-  createRecipe(description: string, barcodeProducts: string, portionProducts:string) {
-    const url = `${this.baseUrl}/api/Recipes/post/${description}/${barcodeProducts}/${portionProducts}`;
-    return this.http.post(url, null,{});
-  }
-
   updateRecipe(id: number, description: string, barcodeProducts: string, portionProducts:string) {
     const url = `${this.baseUrl}/api/Recipes/put/${id}/${description}/${barcodeProducts}/${portionProducts}`;
     return this.http.put(url, null,{});
@@ -532,7 +522,7 @@ export class GetApiService {
     return this.http.get(url);
   }
 
-  createRecipeStore(
+  createRecipe(
     description: string,
     products: string,
     portions: string
@@ -541,7 +531,7 @@ export class GetApiService {
     return this.http.post(url, {});
   }
 
-  getVitaminsFunc(barcode: number) {
+  getVitaminsByBarcode(barcode: number) {
     const url = `${this.baseUrl}/api/Functions/getVitamins/${barcode}`;
     return this.http.get(url);
   }
