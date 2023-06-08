@@ -48,14 +48,17 @@
                 android:hint="Porción"
                 android:minHeight="48dp" />
 
-            <Button
-                android:id="@+id/addProductButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Añadir otro producto" />
-
         </LinearLayout>
-
+        <Button
+            android:id="@+id/addProductButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Añadir otro producto" />
+        <Button
+            android:id="@+id/removeProductButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Eliminar último producto" />
         <!-- Etiqueta de producto/receta encontrada -->
         <TextView
             android:id="@+id/productFoundTextView"

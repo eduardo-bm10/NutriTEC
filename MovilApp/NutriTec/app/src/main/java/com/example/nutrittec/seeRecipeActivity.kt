@@ -22,6 +22,7 @@ class seeRecipeActivity  : AppCompatActivity() {
     private lateinit var descriptionReceta: TextView
     private lateinit var productPortionListReceta: TextView
     private var diccionarioRecipes: MutableMap<String, Int> = mutableMapOf()
+    private var productList: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,10 +41,10 @@ class seeRecipeActivity  : AppCompatActivity() {
         seeRecipeButton.setOnClickListener {
             val selectedRecipe = recipeSpinner.selectedItem.toString()
             callApiGetRecipes()
+            getRecipeData(diccionarioRecipes[selectedRecipe.toString()].toString())
 
             // Mostrar la descripción y la lista de productos y porciones
-            descriptionReceta.text = descriptionReceta.text.toString() + selectedRecipe
-            productPortionListReceta.text = productPortionListReceta.text.toString() +"recipeProductPortions"
+            descriptionReceta.text = "Nombre Receta:"+ selectedRecipe
         }
     }
 
@@ -60,6 +61,19 @@ class seeRecipeActivity  : AppCompatActivity() {
         }
         return names
     }
+
+
+
+
+    private fun parseResponseData(responseBody: String?,id:String) {
+        val allRecipesProductPortion = JSONArray(responseBody)
+        for (i in 0 until allRecipesProductPortion.length()) {
+            val recetaActual = allRecipesProductPortion.getJSONObject(i)
+            productList += "Producto: "+recetaActual.getString("productName")+" con una porción de "+recetaActual.getString("productportion")+"\n"
+        }
+        Log.d("Productos",productList)
+    }
+
 
     private fun  callApiGetRecipes(){
         val apiService = api_service.create()
@@ -82,8 +96,25 @@ class seeRecipeActivity  : AppCompatActivity() {
         }
     }
 
-    private fun getRecipeData(){
+    private fun getRecipeData(id: String){
+        val apiService = api_service.create()
+        CoroutineScope(Dispatchers.IO).launch {
+            val call = apiService.getRecipesData(id)
+            //val call = apiService.getRecipesData(id)
+            val cuerpo = call.body()
+            runOnUiThread {
+                if(call.isSuccessful){
+                    val responseBody = cuerpo.toString()
+                    parseResponseData(responseBody,id)
+                    runOnUiThread {
+                        productPortionListReceta.text = "Productos y porciones:\n" + productList
+                    }
+                }else {
+                    Toast.makeText(applicationContext, "No se obtienen recetas", Toast.LENGTH_SHORT).show()
+                }
 
+            }
+        }
     }
 
 }

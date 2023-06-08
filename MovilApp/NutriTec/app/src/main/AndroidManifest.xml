@@ -36,11 +36,11 @@
             android:exported="true">
         </activity>
         <activity
-            android:name=".editRecipeActivity"
+            android:name=".seeRecipeActivity"
             android:exported="true">
         </activity>
         <activity
-            android:name=".seeRecipeActivity"
+            android:name=".editRecipeActivity"
             android:exported="true">
         </activity>
     </application>

@@ -63,12 +63,20 @@ interface api_service {
 
     @GET("/api/Recipes")
     suspend fun getRecipes(): Response<JsonArray>
+
+    @GET("/api/Product")
+    suspend fun getProducts(): Response<JsonArray>
+
+    @GET("/api/RecipeProductAssociations/getProductsAndPortionsFromRecipe/{id}")
+    suspend fun getRecipesData(
+        @Path("id") id: String
+    ): Response<JsonArray>
     @DELETE ("/api/Recipes/delete/{id}")
     suspend fun deleteRecipeById(
         @Path("id") id: Int
     ): Response<JsonObject>
 
-    @PUT ("/api/Recipes/delete/{id}/{description}/{barcodeProducts}/{portionProducts}")
+    @PUT ("/api/Recipes/put/{id}/{description}/{barcodeProducts}/{portionProducts}")
     suspend fun updateRecipe(
         @Path("id") id: Int,
         @Path("description") description: String,
@@ -77,13 +85,12 @@ interface api_service {
     ): Response<JsonObject>
 
 
-    @POST ("/api/Recipes/delete/{id}/{description}/{barcodeProducts}/{portionProducts}")
+    @POST ("/api/Recipes/post/{description}/{barcodeProducts}/{portionProducts}")
     suspend fun createRecipe(
-        @Path("id") id: Int,
         @Path("description") description: String,
         @Path("barcodeProducts") barcodeProducts: String,
         @Path("portionProducts") portionProducts: String
-    ): Response<JsonObject>
+    ): Response<JsonArray>
     @GET("/api/Recipe/get")
     suspend fun getRecipes(
         @Path("barcode") barcode: Int
