@@ -1,11 +1,11 @@
 package com.example.nutrittec
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
@@ -14,13 +14,31 @@ import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
+import com.google.gson.Gson
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody
+import okhttp3.Response
+import okhttp3.ResponseBody
+import okhttp3.ResponseBody.Companion.toResponseBody
 import org.json.JSONArray
-import org.w3c.dom.Text
-
+import org.json.JSONObject
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.io.IOException
+import java.security.MessageDigest
+/**
+ * Actividad que permite editar una receta.
+ */
 class editRecipeActivity : AppCompatActivity() {
 
     private lateinit var productLayoutList: LinearLayout
@@ -50,8 +68,8 @@ class editRecipeActivity : AppCompatActivity() {
         recetasDesplegable = findViewById(R.id.recetasSpinner)
         recipeNameText = findViewById(R.id.recipeNameEditText)
 
+        // Obtener las recetas
         getRecipes()
-
 
         // Set click listener for the editRecipeButton
         editRecipeButton.setOnClickListener {
@@ -71,7 +89,7 @@ class editRecipeActivity : AppCompatActivity() {
                 }
             }
 
-            Log.d("Data",productPortionUpdated)
+            // Obtener el código de los productos
             for ((index, product) in productList.withIndex()) {
                 productCode += diccionarioProducts[product].toString()
                 if (index < productList.size - 1) {
@@ -79,7 +97,7 @@ class editRecipeActivity : AppCompatActivity() {
                 }
             }
 
-            Log.d("Data",productCode)
+            // Llamar a la API para editar la receta
             callApiEditarReceta(diccionarioRecipes[nombreReceta]?.toInt()!!, recipeNameText.text.toString(),productCode,productPortionUpdated)
         }
 
@@ -91,10 +109,15 @@ class editRecipeActivity : AppCompatActivity() {
             getRecipeData(diccionarioRecipes[selectedRecipe.toString()].toString())
             // Mostrar la descripción y la lista de productos y porciones
             recipeNameText.setText(selectedRecipe.toString())
-
         }
     }
 
+    /**
+     * Agrega un layout de producto a la lista de productos editables.
+     *
+     * @param valorProducto El nombre del producto.
+     * @param valorPortion La porción del producto.
+     */
     private fun addProductLayout(valorProducto: String, valorPortion: String) {
         val inflater = LayoutInflater.from(applicationContext)
         val productLayout = inflater.inflate(R.layout.edit_product_list, productLayoutList, false)
@@ -108,6 +131,12 @@ class editRecipeActivity : AppCompatActivity() {
     }
 
 
+    /**
+     * Analiza la respuesta de la llamada a la API y devuelve una lista con los nombres de las recetas.
+     *
+     * @param responseBody La respuesta de la llamada a la API.
+     * @return Una lista de nombres de recetas.
+     */
     @SuppressLint("ResourceType")
     private fun parseResponse(responseBody: String?): List<String> {
         val allRecipes = JSONArray(responseBody)
@@ -122,6 +151,12 @@ class editRecipeActivity : AppCompatActivity() {
         return names
     }
 
+    /**
+     * Analiza la respuesta de la llamada a la API y procesa los datos de la receta.
+     *
+     * @param responseBody La respuesta de la llamada a la API.
+     * @param id El ID de la receta.
+     */
     private fun parseResponseData(responseBody: String?,id:String) {
         val allRecipesProductPortion = JSONArray(responseBody)
         for (i in 0 until allRecipesProductPortion.length()) {
@@ -133,6 +168,14 @@ class editRecipeActivity : AppCompatActivity() {
         Log.d("Productos",productList.toString())
     }
 
+    /**
+     * Realiza la llamada a la API para editar una receta.
+     *
+     * @param id El ID de la receta.
+     * @param recipeName El nombre de la receta.
+     * @param selectedProducts Los productos seleccionados.
+     * @param portionValues Las porciones de los productos.
+     */
     private fun callApiEditarReceta(id:Int,recipeName:String,selectedProducts: String,portionValues:String) {
         val apiService = api_service.create()
         CoroutineScope(Dispatchers.IO).launch {
@@ -149,6 +192,9 @@ class editRecipeActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Obtiene la lista de recetas desde la API.
+     */
     private fun  getRecipes(){
         val apiService = api_service.create()
         CoroutineScope(Dispatchers.IO).launch {
@@ -169,6 +215,11 @@ class editRecipeActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Obtiene los datos de la receta desde la API.
+     *
+     * @param id El ID de la receta.
+     */
     private fun getRecipeData(id: String){
         val apiService = api_service.create()
         CoroutineScope(Dispatchers.IO).launch {
@@ -185,6 +236,9 @@ class editRecipeActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Obtiene la lista de productos desde la API.
+     */
     private fun getProducts(){
         val apiService = api_service.create()
         CoroutineScope(Dispatchers.IO).launch {
@@ -204,6 +258,12 @@ class editRecipeActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Analiza la respuesta de la llamada a la API y devuelve una lista con los nombres de los productos.
+     *
+     * @param responseBody La respuesta de la llamada a la API.
+     * @return Una lista de nombres de productos.
+     */
     @SuppressLint("ResourceType")
     private fun parseResponseProducts(responseBody: String?): List<String> {
         val productsList = JSONArray(responseBody)

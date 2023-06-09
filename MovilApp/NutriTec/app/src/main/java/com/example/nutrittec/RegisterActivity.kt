@@ -25,6 +25,7 @@ import java.io.IOException
 
 class RegisterActivity : AppCompatActivity() {
 
+    // Declaración de variables de los elementos de la interfaz de usuario
     private lateinit var etCedula: EditText
     private lateinit var etNombre: EditText
     private lateinit var etPrimerApellido: EditText
@@ -44,10 +45,12 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var registerButton: Button
     private lateinit var etMaxConsumption: EditText
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
+        // Inicialización de los elementos de la interfaz de usuario
         etCedula = findViewById(R.id.etCedula)
         etNombre = findViewById(R.id.etNombre)
         etPrimerApellido = findViewById(R.id.etPrimerApellido)
@@ -67,11 +70,14 @@ class RegisterActivity : AppCompatActivity() {
         registerButton = findViewById(R.id.registerButton)
         etMaxConsumption = findViewById(R.id.etMaxCom)
 
+        // Asignar un listener al EditText de fecha de nacimiento para mostrar el DatePicker
         etFechaNacimiento.setOnClickListener {
             showDatePicker()
         }
 
+        // Asignar un listener al botón de registro
         registerButton.setOnClickListener {
+            // Obtener los valores ingresados por el usuario
             val id = etCedula.text.toString()
             val firstname = etNombre.text.toString()
             val lastname1 = etPrimerApellido.text.toString()
@@ -92,6 +98,9 @@ class RegisterActivity : AppCompatActivity() {
 
 
 
+            // Validar los datos ingresados por el usuario
+
+            // Validar la longitud de la cédula
             if (id.length != 9) {
                 Toast.makeText(
                     this@RegisterActivity,
@@ -101,32 +110,41 @@ class RegisterActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            // Validar el formato del correo electrónico
             if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                 Toast.makeText(this@RegisterActivity, "Correo invalido", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
+            // Llamar a la función de creación de paciente
             createPatient(id,firstname, lastname1, lastname2, email, password, weight, bmi, address, birthdate, country, maxconsumption, waist, neck, hips, musclePercentage, fatPercentage)
-
-
         }
     }
 
+    /**
+     * Función para mostrar el DatePicker al hacer clic en el EditText de fecha de nacimiento
+     */
     private fun showDatePicker() {
+        // Obtener la fecha actual
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
+        // Crear el DatePickerDialog y mostrarlo
         val datePickerDialog = DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
             // Handle the selected date here
             val formattedDate = "$selectedDay/${selectedMonth + 1}/$selectedYear"
             etFechaNacimiento.setText(formattedDate)
         }, year, month, day)
 
+
         datePickerDialog.show()
     }
 
+    /**
+     * Función para crear un nuevo paciente
+      */
     private fun createPatient(id: String, firstname: String, lastname1: String, lastname2: String,
                               email: String, password: String, weight: String, bmi: String,
                               address: String, birthdate: String, country: String, maxconsumption: String,
@@ -134,11 +152,13 @@ class RegisterActivity : AppCompatActivity() {
                               fatPercentage: String){
         val apiService = api_service.create()
         CoroutineScope(Dispatchers.IO).launch {
+            // Llamar al método de creación de paciente en el servicio de la API
             val call = apiService.createPatient(id,firstname,lastname1,
                                                 lastname2,email,password,weight.toInt(),bmi,
                                                 address,birthdate,country,maxconsumption,waist,
                                                 neck,hips,musclePercentage, fatPercentage)
             Log.d("testeo",call.toString())
+            // Actualizar la interfaz de usuario en el hilo principal
             runOnUiThread {
                 if(call.isSuccessful){
                     Toast.makeText(this@RegisterActivity, "Registro exitoso", Toast.LENGTH_SHORT).show()

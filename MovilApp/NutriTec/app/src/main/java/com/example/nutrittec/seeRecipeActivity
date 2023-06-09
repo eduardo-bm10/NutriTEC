@@ -1,0 +1,134 @@
+package com.example.nutrittec;
+
+import android.annotation.SuppressLint;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+import kotlinx.coroutines.CoroutineScope;
+import kotlinx.coroutines.Dispatchers;
+import kotlinx.coroutines.launch;
+import org.json.JSONArray;
+
+/**
+ * Clase de actividad para ver una receta.
+ */
+public class SeeRecipeActivity extends AppCompatActivity {
+
+    private Spinner recipeSpinner;
+    private Button seeRecipeButton;
+    private TextView descriptionReceta;
+    private TextView productPortionListReceta;
+    private MutableMap<String, Integer> diccionarioRecipes = new MutableMap<>();
+    private String productList = "";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.see_recipe_activity);
+
+        // Inicializar vistas
+        recipeSpinner = findViewById(R.id.recipeSpinner);
+        seeRecipeButton = findViewById(R.id.seeRecipeButton);
+        descriptionReceta = findViewById(R.id.descriptionReceta);
+        productPortionListReceta = findViewById(R.id.productPortionListReceta);
+
+        callApiGetRecipes();
+
+        // Configurar el botón para mostrar la receta seleccionada
+        seeRecipeButton.setOnClickListener(v -> {
+        String selectedRecipe = recipeSpinner.getSelectedItem().toString();
+        callApiGetRecipes();
+        getRecipeData(String.valueOf(diccionarioRecipes.get(selectedRecipe)));
+
+        // Mostrar la descripción y la lista de productos y porciones
+        descriptionReceta.setText("Nombre Receta:" + selectedRecipe);
+    });
+    }
+
+    /**
+     * Analiza la respuesta JSON y devuelve una lista de nombres de recetas.
+     *
+     * @param responseBody la respuesta JSON recibida del servidor.
+     * @return una lista de nombres de recetas.
+     */
+    @SuppressLint("ResourceType")
+    private List<String> parseResponse(String responseBody) {
+        JSONArray allRecipes = new JSONArray(responseBody);
+        List<String> names = new ArrayList<>();
+        diccionarioRecipes.clear();
+        for (int i = 0; i < allRecipes.length(); i++) {
+        JSONObject mealTime = allRecipes.getJSONObject(i);
+        String name = mealTime.getString("description");
+        diccionarioRecipes.put(name, mealTime.getInt("id"));
+        names.add(name);
+    }
+        return names;
+    }
+
+    /**
+     * Analiza la respuesta JSON y obtiene la lista de productos y porciones de la receta.
+     *
+     * @param responseBody la respuesta JSON recibida del servidor.
+     * @param id el ID de la receta.
+     */
+    private void parseResponseData(String responseBody, String id) {
+        JSONArray allRecipesProductPortion = new JSONArray(responseBody);
+        for (int i = 0; i < allRecipesProductPortion.length(); i++) {
+        JSONObject recetaActual = allRecipesProductPortion.getJSONObject(i);
+        productList += "Producto: " + recetaActual.getString("productName") + " con una porción de " + recetaActual.getString("productportion") + "\n";
+    }
+        Log.d("Productos", productList);
+    }
+
+    /**
+     * Realiza la llamada a la API para obtener la lista de recetas.
+     */
+    private void callApiGetRecipes() {
+        ApiService apiService = ApiService.create();
+        CoroutineScope(Dispatchers.IO).launch {
+            Response<List<Recipe>> call = apiService.getRecipes();
+            ResponseBody cuerpo = call.body();
+            runOnUiThread(() -> {
+            if (call.isSuccessful()) {
+                String responseBody = cuerpo.toString();
+                List<String> items = parseResponse(responseBody);
+                ArrayAdapter adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, items);
+                adapter.notifyDataSetChanged();
+                recipeSpinner.setAdapter(adapter);
+            } else {
+                Toast.makeText(getApplicationContext(), "No se obtienen recetas", Toast.LENGTH_SHORT).show();
+            }
+        });
+        }
+    }
+
+    /**
+     * Obtiene los datos de la receta seleccionada mediante una llamada a la API.
+     *
+     * @param id el ID de la receta seleccionada.
+     */
+    private void getRecipeData(String id) {
+        ApiService apiService = ApiService.create();
+        CoroutineScope(Dispatchers.IO).launch {
+            Response<List<Recipe>> call = apiService.getRecipesData(id);
+            ResponseBody cuerpo = call.body();
+            runOnUiThread(() -> {
+            if (call.isSuccessful()) {
+                String responseBody = cuerpo.toString();
+                parseResponseData(responseBody, id);
+                runOnUiThread(() -> {
+                    productPortionListReceta.setText("Productos y porciones:\n" + productList);
+                });
+            } else {
+                Toast.makeText(getApplicationContext(), "No se obtienen recetas", Toast.LENGTH_SHORT).show();
+            }
+        });
+        }
+    }
+
+}

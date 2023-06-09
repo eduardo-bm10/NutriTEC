@@ -14,7 +14,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONArray
 
-
+/**
+ * Actividad que permite eliminar una receta.
+ */
 class DeleteActivity : AppCompatActivity() {
     private lateinit var recipeSpinner: Spinner
     private lateinit var deleteRecipeButton: Button
@@ -25,20 +27,30 @@ class DeleteActivity : AppCompatActivity() {
         recipeSpinner = findViewById(R.id.recipeSpinner)
         deleteRecipeButton = findViewById(R.id.deleteRecipeButton)
 
-
+        // Realiza la llamada a la API para obtener las recetas
         callApiGetRecipes()
 
 
-        // Agregar un listener al botón de eliminación de receta
+        // Agrega un listener al botón de eliminación de receta
         deleteRecipeButton.setOnClickListener(View.OnClickListener {
+            // Obtiene la receta seleccionada del spinner
             val selectedRecipe = recipeSpinner.getSelectedItem().toString()
+            // Obtiene el ID de la receta del diccionario
             val idReceta = diccionarioRecipes[selectedRecipe]!!
+            // Elimina la receta por su ID
             elimarRecetaById(idReceta)
+            // Realiza la llamada a la API para actualizar la lista de recetas
             callApiGetRecipes()
         })
     }
 
 
+    /**
+     * Analiza la respuesta de la llamada a la API y devuelve una lista con los nombres de las recetas.
+     *
+     * @param responseBody La respuesta de la llamada a la API.
+     * @return Una lista de nombres de recetas.
+     */
     @SuppressLint("ResourceType")
     private fun parseResponse(responseBody: String?): List<String> {
         val allRecipes = JSONArray(responseBody)
@@ -54,6 +66,9 @@ class DeleteActivity : AppCompatActivity() {
         return names
     }
 
+    /**
+     * Realiza la llamada a la API para obtener las recetas disponibles.
+     */
     private fun  callApiGetRecipes(){
         val apiService = api_service.create()
         CoroutineScope(Dispatchers.IO).launch {
@@ -75,6 +90,11 @@ class DeleteActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Elimina una receta por su ID.
+     *
+     * @param id El ID de la receta a eliminar.
+     */
     private fun elimarRecetaById(id:Int){
         val apiService = api_service.create()
         CoroutineScope(Dispatchers.IO).launch {

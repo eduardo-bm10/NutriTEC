@@ -30,6 +30,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
 import java.security.MessageDigest
 
+/**
+ * Actividad principal de la aplicación que maneja el inicio de sesión y registro de usuarios.
+ */
 class MainActivity : AppCompatActivity() {
 
     private lateinit var username: EditText
@@ -46,16 +49,18 @@ class MainActivity : AppCompatActivity() {
         loginButton = findViewById(R.id.loginButton)
         signUpButton = findViewById(R.id.signUpButton)
 
+        /**
+         * Método ejecutado al hacer clic en el botón de inicio de sesión.
+         */
         loginButton.setOnClickListener(View.OnClickListener setOnClickListener@{
             val email = username.text.toString()
             val currentPassword = password.text.toString()
 
-
+            // Verifica si el correo electrónico tiene un formato válido.
             if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                Toast.makeText(this@MainActivity, "Correo invalido", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, "Correo inválido", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-
 
             val apiService = api_service.create()
             CoroutineScope(Dispatchers.IO).launch {
@@ -67,13 +72,13 @@ class MainActivity : AppCompatActivity() {
                         Log.d("test",userType)
                         if (userType != null) {
                             if(userType == "\"patient\""){
-                                Toast.makeText(this@MainActivity, "Login exitoso", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this@MainActivity, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
                                 val menu = Intent(applicationContext, MenuActivity::class.java)
                                 menu.putExtra("CedulaPatient",JSONObject(cuerpo?.get("usuario").toString()).get("id").toString())
                                 startActivity(menu)
                                 finish()
                             }else {
-                                Toast.makeText(this@MainActivity, "Login fallido", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this@MainActivity, "Inicio de sesión fallido", Toast.LENGTH_SHORT).show()
                             }
                         }
                     }else{
@@ -81,12 +86,11 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
-
-
-
-
         })
 
+        /**
+         * Método ejecutado al hacer clic en el botón de registro.
+         */
         signUpButton.setOnClickListener(View.OnClickListener {
             val register = Intent(applicationContext, RegisterActivity::class.java)
             startActivity(register)
@@ -94,11 +98,17 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+    /**
+     * Calcula el hash MD5 de una cadena de entrada.
+     *
+     * @param input La cadena de entrada para la cual se calculará el hash MD5.
+     * @return El hash MD5 calculado como una cadena hexadecimal.
+     */
     fun calculateMD5Hash(input: String): String {
         val md = MessageDigest.getInstance("MD5")
         val messageDigest = md.digest(input.toByteArray())
 
-        // Convert the byte array to hexadecimal representation
+        // Convierte el arreglo de bytes a una representación hexadecimal
         val hexString = StringBuilder()
         for (byte in messageDigest) {
             val hex = String.format("%02x", byte.toInt() and 0xFF)

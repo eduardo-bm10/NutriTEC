@@ -60,7 +60,7 @@ class GestionRecetasFragment : Fragment() {
         addProductButton.setOnClickListener {
             // Add a new LinearLayout with product and portion fields
             val sublist = valores.subList(1, valores.size)
-            addProductLayout(sublist)
+            addProductLayout(valores)
         }
 
         // Dentro del método addRecipeButton.setOnClickListener()
@@ -201,6 +201,13 @@ class GestionRecetasFragment : Fragment() {
         }
     }
 
+    /**
+     * Realiza una llamada a la API para crear una nueva receta.
+     *
+     * @param recipeName El nombre de la receta.
+     * @param selectedProducts Los productos seleccionados para la receta en formato de cadena.
+     * @param portionValues Los valores de las porciones para los productos seleccionados en formato de cadena.
+     */
     private fun callCreateRecipe(recipeName:String,selectedProducts: String,portionValues:String){
         val apiService = api_service.create()
         CoroutineScope(Dispatchers.IO).launch {

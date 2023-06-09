@@ -9,6 +9,9 @@ import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 
+/**
+ * Actividad del menú que muestra pestañas y un ViewPager para navegar entre fragmentos.
+ */
 class MenuActivity : AppCompatActivity() {
     private lateinit var viewPager: ViewPager
     private lateinit var tabLayout: TabLayout
@@ -25,6 +28,10 @@ class MenuActivity : AppCompatActivity() {
 
         tabLayout.setupWithViewPager(viewPager)
     }
+
+    /**
+     * Adaptador de los fragmentos
+     */
 
     private inner class PagerAdapter(fm: FragmentManager) :
         FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {

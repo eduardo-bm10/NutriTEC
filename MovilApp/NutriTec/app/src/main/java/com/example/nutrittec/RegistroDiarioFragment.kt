@@ -149,13 +149,13 @@ class RegistroDiarioFragment : Fragment() {
                     val items = parseResponse(responseBody)
                     val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, items)
                     mealTimeSpinner.adapter = adapter
-                    }else {
-                            Toast.makeText(requireContext(), "No se obtienen Tiempos de comida", Toast.LENGTH_SHORT).show()
-                        }
-
+                }else {
+                    Toast.makeText(requireContext(), "No se obtienen Tiempos de comida", Toast.LENGTH_SHORT).show()
                 }
+
             }
         }
+    }
 
     private fun callApiProductByBarcode(barcode: Int){
         val apiService = api_service.create()
@@ -195,23 +195,22 @@ class RegistroDiarioFragment : Fragment() {
     }
 
     private fun callApiConsumption(patientId:String,date:String,mealtimeId:String,barcode:String){
-            val apiService = api_service.create()
-            Log.d("test4","here")
-            CoroutineScope(Dispatchers.IO).launch {
-                Log.d("test4","here2")
-                val call = apiService.crearConsumo(patientId,date,mealtimeId,barcode)
-                val cuerpo = call.body()
-                Log.d("test4",call.toString())
-                Log.d("test4",cuerpo.toString())
-                requireActivity().runOnUiThread {
-                    if(call.isSuccessful){
-                        Toast.makeText(requireContext(), "Consumo diario registrado", Toast.LENGTH_SHORT).show()
-                    }else {
-                        Toast.makeText(requireContext(), "No se puede registrar dicho consumo", Toast.LENGTH_SHORT).show()
-                    }
-
+        val apiService = api_service.create()
+        Log.d("test4","here")
+        CoroutineScope(Dispatchers.IO).launch {
+            Log.d("test4","here2")
+            val call = apiService.crearConsumo(patientId,date,mealtimeId,barcode)
+            val cuerpo = call.body()
+            Log.d("test4",call.toString())
+            Log.d("test4",cuerpo.toString())
+            requireActivity().runOnUiThread {
+                if(call.isSuccessful){
+                    Toast.makeText(requireContext(), "Consumo diario registrado", Toast.LENGTH_SHORT).show()
+                }else {
+                    Toast.makeText(requireContext(), "No se puede registrar dicho consumo", Toast.LENGTH_SHORT).show()
                 }
+
             }
         }
+    }
 }
-
