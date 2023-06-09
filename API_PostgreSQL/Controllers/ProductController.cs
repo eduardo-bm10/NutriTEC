@@ -257,12 +257,13 @@ namespace Postgre_API.Controllers
         {
             try
             {
-                // Recetas, consumo, vitaminas, AdminProductAssociation, Product
+                // Recetas, consumo, vitaminas, AdminProductAssociation, Product, PlanMealtimeAssociation
                 var product = await _dbContext.Products.FindAsync(barcode);
                 var recipes = await _dbContext.RecipeProductAssociations.Where(r => r.Productbarcode == barcode).ToListAsync();
                 var allAdminProductAssoc = await _dbContext.AdminProductAssociations.Where(a => a.Productbarcode == barcode).ToListAsync();
                 var consumptions = await _dbContext.Consumptions.Where(c => c.Productbarcode == barcode).ToListAsync();
                 var vitamins = await _dbContext.Vitamins.Where(v => v.ProductBarcode == barcode).ToListAsync();
+                var planMealtimeAssoc = await _dbContext.PlanMealtimeAssociations.Where(p => p.Productbarcode == barcode).ToListAsync();
 
                 if (product == null)
                 {
@@ -279,6 +280,12 @@ namespace Postgre_API.Controllers
                 foreach (var adminProductAssoc in allAdminProductAssoc)
                 {
                     _dbContext.AdminProductAssociations.Remove(adminProductAssoc);
+                }
+
+                // borrar todas las asociaciones de plan-comida que contengan el producto
+                foreach (var planMealtime in planMealtimeAssoc)
+                {
+                    _dbContext.PlanMealtimeAssociations.Remove(planMealtime);
                 }
 
                 //borrar todos los consumos que contengan el producto
