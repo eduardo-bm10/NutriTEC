@@ -515,8 +515,8 @@ export class GetApiService {
 
   customerAdvanceReport(
     patientId: string,
-    startDate: Date,
-    finalDate: Date
+    startDate: string,
+    finalDate: string
   ) {
     const url = `${this.baseUrl}/api/Functions/getAdvanceReport/${patientId}/${startDate}/${finalDate}`;
     return this.http.get(url);

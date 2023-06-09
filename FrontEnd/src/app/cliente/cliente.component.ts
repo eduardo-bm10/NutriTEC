@@ -384,4 +384,18 @@ export class ClienteComponent implements OnInit {
     }
   }
 
+  generarReporteMedidas(){
+    const fechaInicial = document.getElementById('reporteAvanceInicial') as HTMLInputElement;
+    const fechaFinal = document.getElementById('reporteAvanceFinal') as HTMLInputElement;
+
+    const usuario = localStorage.getItem("usuario")
+    if (usuario !== null) {
+      const id_usuario = JSON.parse(usuario).id
+
+      this.api.customerAdvanceReport(id_usuario, fechaInicial.value, fechaFinal.value).subscribe(data => {
+        console.log(data)
+      })
+    }
+  }
+
 }
