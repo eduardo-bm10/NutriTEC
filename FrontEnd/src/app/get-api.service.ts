@@ -394,7 +394,7 @@ export class GetApiService {
     mealtimeId: number,
     productBarcode: number
   ) {
-    const url = `${this.baseUrl}/api/Plan/${description}/nutritionistId=${nutritionistId}&mealtimeId=${mealtimeId}&productBarcode=${productBarcode}`;
+    const url = `${this.baseUrl}/api/Plan/post/${description}/nutritionistId=${nutritionistId}&mealtimeId=${mealtimeId}&productBarcode=${productBarcode}`;
     return this.http.post(url, {});
   }
 
@@ -403,12 +403,12 @@ export class GetApiService {
     nutritionistId: string,
     description: string,
   ) {
-    const url = `${this.baseUrl}/api/Plan/${id}/nutritionistId=${nutritionistId}&description=${description}`;
+    const url = `${this.baseUrl}/api/Plan/put/${id}/nutritionistId=${nutritionistId}&description=${description}`;
     return this.http.put(url, {});
   }
 
   deletePlan(id: number) {
-    const url = `${this.baseUrl}/api/Plan/${id}`;
+    const url = `${this.baseUrl}/api/Plan/delete/${id}`;
     return this.http.delete(url);
   }
 

@@ -63,7 +63,7 @@ namespace Postgre_API.Controllers
         /// <param name="mealtimeId">The ID of the mealtime associated with the plan.</param>
         /// <param name="productBarcode">The barcode of the product associated with the plan.</param>
         /// <returns>The created plan.</returns>
-        [HttpPost("{description}")]
+        [HttpPost("post/{description}")]
         public async Task<ActionResult<Plan>> CreatePlan(string description, string nutritionistId, int mealtimeId, int productBarcode)
         {
             try{
@@ -114,7 +114,7 @@ namespace Postgre_API.Controllers
         /// <param name="id">The ID of the plan to update.</param>
         /// <param name="plan">The updated plan object.</param>
         /// <returns>An IActionResult indicating the result of the update operation.</returns>
-        [HttpPut("{id}")]
+        [HttpPut("put/{id}")]
         public async Task<IActionResult> UpdatePlan(int id, Plan plan)
         {
             try{
@@ -140,7 +140,7 @@ namespace Postgre_API.Controllers
         /// </summary>
         /// <param name="id">The ID of the plan to delete.</param>
         /// <returns>An IActionResult indicating the result of the delete operation.</returns>
-        [HttpDelete("{id}")]
+        [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeletePlan(int id)
         {
             try{
