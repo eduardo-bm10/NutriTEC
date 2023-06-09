@@ -19,31 +19,105 @@ namespace Postgre_API.Controllers
             _dbContext = dbContext;
         }
 
+        [HttpGet("getOnlyIds")]
+        public async Task<ActionResult<IEnumerable<Dictionary<string, object>>>> GetPlanOnlyId()
+        {
+            try{
+                var plans = await _dbContext.Plans.ToListAsync();
+                
+                if (plans == null)
+                {
+                    return NotFound(new { message = "Plan not found" });
+                }
+
+                List<Dictionary<string,object>> allPlansIds = new List<Dictionary<string, object>>();
+                foreach(var plan in plans){
+                    Dictionary<string, object> planIds = new Dictionary<string, object>();
+                    planIds["planid"] = plan.Id;
+                    allPlansIds.Add(planIds);
+                }
+
+                var options = new JsonSerializerSettings
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                };
+
+                string json = JsonConvert.SerializeObject(allPlansIds, options);
+
+                return Ok(json);
+            }catch(Exception e){
+                return BadRequest(new {message = e.Message});
+            }
+        }
+
         /// <summary>
         /// Retrieves all plans.
         /// </summary>
         /// <returns>A list of plans.</returns>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Plan>>> GetPlans()
+        public async Task<ActionResult<IEnumerable<Dictionary<string, object>>>> GetPlans()
         {
             try{
+
+                var plans = await _dbContext.Plans.ToListAsync();
                 // Obtener las PlanProductAssociation para cada plan
                 var planMealtimeAssocs = await _dbContext.PlanMealtimeAssociations.ToListAsync();
-                var mealtime1Products = new List<Product>();
-                var mealtime2Products = new List<Product>();
-                var mealtime3Products = new List<Product>();
-                var mealtime4Products = new List<Product>();
-                var mealtime5Products = new List<Product>();
+                var mealtime1Products = new List<int>();
+                var mealtime2Products = new List<int>();
+                var mealtime3Products = new List<int>();
+                var mealtime4Products = new List<int>();
+                var mealtime5Products = new List<int>();
 
                 // Obtener los productos para cada PlanProductAssociation
                 foreach (var planMealtimeAssoc in planMealtimeAssocs)
                 {
                     //Rellenar los productos de cada comida
+                    var product = await _dbContext.Products.FindAsync(planMealtimeAssoc.Productbarcode);
+                    switch (planMealtimeAssoc.Mealtimeid)
+                    {
+                        case 1:
+                            mealtime1Products.Add(product.Barcode);
+                            break;
+                        case 2:
+                            mealtime2Products.Add(product.Barcode);
+                            break;
+                        case 3:
+                            mealtime3Products.Add(product.Barcode);
+                            break;
+                        case 4:
+                            mealtime4Products.Add(product.Barcode);
+                            break;
+                        case 5:
+                            mealtime5Products.Add(product.Barcode);
+                            break;
+                    }
                     
                 }
 
+                // Retornar los planes con sus productos
+                List<Dictionary<string, object>> plansWithProducts = new List<Dictionary<string, object>>();
+                foreach (var plan in plans)
+                {
+                    var planWithProducts = new Dictionary<string, object>();
+                    planWithProducts["planid"] = plan.Id;
+                    planWithProducts["description"] = plan.Description;
+                    planWithProducts["mealtime1"] = mealtime1Products;
+                    planWithProducts["mealtime2"]= mealtime2Products;
+                    planWithProducts["mealtime3"]= mealtime3Products;
+                    planWithProducts["mealtime4"]= mealtime4Products;
+                    planWithProducts["mealtime5"]= mealtime5Products;
+                    plansWithProducts.Add(planWithProducts);
+                }
 
-                return await _dbContext.Plans.ToListAsync();
+                var options = new JsonSerializerSettings
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                };
+
+                string json = JsonConvert.SerializeObject(plansWithProducts, options);
+
+                return Ok(json);
+
             }catch (Exception e)
             {
                 return BadRequest(new {message = e.Message});
@@ -55,7 +129,7 @@ namespace Postgre_API.Controllers
         /// <param name="id">The ID of the plan.</param>
         /// <returns>The plan with the specified ID.</returns>
         [HttpGet("{id}")]
-        public async Task<ActionResult<Plan>> GetPlan(int id)
+        public async Task<ActionResult<Dictionary<string, object>>> GetPlan(int id)
         {
             try{
                 var plan = await _dbContext.Plans.FindAsync(id);
@@ -64,9 +138,60 @@ namespace Postgre_API.Controllers
                     return NotFound(new {message = "Plan not found"});
                 }
 
-                //var planMealTimeAssoc = 
+                // Obtener las PlanProductAssociation para el plan
+                var planMealTimeAssocs = await _dbContext.PlanMealtimeAssociations.Where(p => p.Planid == id).ToListAsync();
 
-                return plan;
+                // Obtener los productos para cada PlanProductAssociation y almacenarlos en un DICCIONARIO para cada comida
+                var mealtime1Products = new List<Product>();
+                var mealtime2Products = new List<Product>();
+                var mealtime3Products = new List<Product>();
+                var mealtime4Products = new List<Product>();
+                var mealtime5Products = new List<Product>();
+                
+                // Obtener los productos para cada PlanProductAssociation
+                foreach (var planMealtimeAssoc in planMealTimeAssocs)
+                {
+                    //Rellenar los productos de cada comida
+                    var product = await _dbContext.Products.FindAsync(planMealtimeAssoc.Productbarcode);
+                    switch (planMealtimeAssoc.Mealtimeid)
+                    {
+                        case 1:
+                            mealtime1Products.Add(product);
+                            break;
+                        case 2:
+                            mealtime2Products.Add(product);
+                            break;
+                        case 3:
+                            mealtime3Products.Add(product);
+                            break;
+                        case 4:
+                            mealtime4Products.Add(product);
+                            break;
+                        case 5:
+                            mealtime5Products.Add(product);
+                            break;
+                    }
+                }
+
+                Dictionary<string, object> planWithProducts = new Dictionary<string, object>();
+                planWithProducts["planid"] = plan.Id;
+                planWithProducts["description"] = plan.Description;
+                planWithProducts["nutrionistid"] = plan.Nutritionistid;
+                planWithProducts["mealtime1"] = mealtime1Products;
+                planWithProducts["mealtime2"] = mealtime2Products;
+                planWithProducts["mealtime3"] = mealtime3Products;
+                planWithProducts["mealtime4"] = mealtime4Products;
+                planWithProducts["mealtime5"] = mealtime5Products;
+                planWithProducts["message"] = "ok";
+                var options = new JsonSerializerSettings
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                };
+
+                string json = JsonConvert.SerializeObject(planWithProducts, options);
+
+                return Ok(json);
+                
             }catch (Exception e)
             {
                 return BadRequest(new {message = e.Message});
@@ -133,20 +258,70 @@ namespace Postgre_API.Controllers
                 int planId_ = plan0.Id;
 
 
-                // Crear PlanMealtimeAssociation por cada producto
-                foreach (string[] productsList in allLists)
+                // Crear PlanMealtimeAssociation por cada productListArray individual
+                // Recorriendo productsList1_array
+                foreach (string product in productsList1_array)
                 {
-                    foreach (string product in productsList)
-                    {
-                        PlanMealtimeAssociation planMealtimeAssociation = new PlanMealtimeAssociation();
+                    PlanMealtimeAssociation planMealtimeAssociation = new PlanMealtimeAssociation();
 
-                        planMealtimeAssociation.Planid = planId_;
-                        planMealtimeAssociation.Mealtimeid = allLists.IndexOf(productsList) + 1;
-                        planMealtimeAssociation.Productbarcode = Convert.ToInt32(product);
-                        _dbContext.PlanMealtimeAssociations.Add(planMealtimeAssociation);
-                        await _dbContext.SaveChangesAsync();
+                    planMealtimeAssociation.Planid = planId_;
+                    planMealtimeAssociation.Mealtimeid = 1;
+                    planMealtimeAssociation.Productbarcode = Convert.ToInt32(product);
 
-                    }
+                    _dbContext.PlanMealtimeAssociations.Add(planMealtimeAssociation);
+                    await _dbContext.SaveChangesAsync();
+                }
+
+                // Recorriendo productsList2_array
+                foreach (string product in productsList2_array)
+                {
+                    PlanMealtimeAssociation planMealtimeAssociation = new PlanMealtimeAssociation();
+
+                    planMealtimeAssociation.Planid = planId_;
+                    planMealtimeAssociation.Mealtimeid = 2;
+                    planMealtimeAssociation.Productbarcode = Convert.ToInt32(product);
+
+                    _dbContext.PlanMealtimeAssociations.Add(planMealtimeAssociation);
+                    await _dbContext.SaveChangesAsync();
+                }
+
+                // Recorriendo productsList3_array
+                foreach (string product in productsList3_array)
+                {
+                    PlanMealtimeAssociation planMealtimeAssociation = new PlanMealtimeAssociation();
+
+                    planMealtimeAssociation.Planid = planId_;
+                    planMealtimeAssociation.Mealtimeid = 3;
+                    planMealtimeAssociation.Productbarcode = Convert.ToInt32(product);
+
+                    _dbContext.PlanMealtimeAssociations.Add(planMealtimeAssociation);
+                    await _dbContext.SaveChangesAsync();
+                }
+
+                // Recorriendo productsList4_array
+                foreach (string product in productsList4_array)
+                {
+                    PlanMealtimeAssociation planMealtimeAssociation = new PlanMealtimeAssociation();
+
+                    planMealtimeAssociation.Planid = planId_;
+                    planMealtimeAssociation.Mealtimeid = 4;
+                    planMealtimeAssociation.Productbarcode = Convert.ToInt32(product);
+
+                    _dbContext.PlanMealtimeAssociations.Add(planMealtimeAssociation);
+                    await _dbContext.SaveChangesAsync();
+                }
+
+                // Recorriendo productsList5_array
+                foreach (string product in productsList5_array)
+                {
+                    PlanMealtimeAssociation planMealtimeAssociation = new PlanMealtimeAssociation();
+
+                    planMealtimeAssociation.Planid = planId_;
+                    planMealtimeAssociation.Mealtimeid = 5;
+                    planMealtimeAssociation.Productbarcode = Convert.ToInt32(product);
+
+                    _dbContext.PlanMealtimeAssociations.Add(planMealtimeAssociation);
+                    await _dbContext.SaveChangesAsync();
                 }
 
                 var options = new JsonSerializerSettings
@@ -155,7 +330,7 @@ namespace Postgre_API.Controllers
                 };
 
                 string json = JsonConvert.SerializeObject(plan, options);
-                return Ok(new { message = "ok"});
+                return Ok(json);
 
             }catch (Exception e)
                 {
