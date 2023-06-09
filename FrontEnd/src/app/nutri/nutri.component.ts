@@ -327,7 +327,6 @@ export class NutriComponent implements OnInit {
     const carbohidratos = document.getElementById("gestionProductosCarbohidratos") as HTMLInputElement
     const proteina = document.getElementById("gestionProductosProteina") as HTMLInputElement
     const vitaminasNOLISTO = document.getElementById("gestionProductosVitaminas") as HTMLSelectElement
-    const estado = false
 
     const vitaminas: string[] = [];
     
@@ -343,7 +342,7 @@ export class NutriComponent implements OnInit {
     const vitaminasString: string = vitaminas.toString();
 
     
-    this.api.createProduct(Number(barras.value), descripcion.value, Number(hierro.value), Number(sodio.value), Number(energia.value), Number(grasa.value), Number(calcio.value), Number(carbohidratos.value), Number(proteina.value), estado, vitaminasString).subscribe((data) => {
+    this.api.createProduct(Number(barras.value), descripcion.value, Number(hierro.value), Number(sodio.value), Number(energia.value), Number(grasa.value), Number(calcio.value), Number(carbohidratos.value), Number(proteina.value), vitaminasString).subscribe((data) => {
       alert("swagger")
     })
   }
