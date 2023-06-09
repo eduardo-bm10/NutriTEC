@@ -1,4 +1,3 @@
-INSERT INTO ADMINISTRATOR VALUES ('123456789', 'Stuart', 'Jackson', 'Newman', 'a@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055');
 INSERT INTO ADMINISTRATOR VALUES ('987654321', 'Stuart', 'Jackson', 'Newman', 'b@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055');
 INSERT INTO PATIENT(
 	id, firstname, lastname1, lastname2, email, password, weight, bmi, address, birthdate, country, maxconsumption)

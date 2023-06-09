@@ -253,8 +253,9 @@ export class GetApiService {
     return this.http.post(url, {});
   }
 
+  // Obtener una medida por su ID
   getMeasurementById(id: number) {
-    const url = `${this.baseUrl}/api/Measurements/${id}`;
+    const url = `${this.baseUrl}/api/Measurements/getById/${id}`;
     return this.http.get(url);
   }
 

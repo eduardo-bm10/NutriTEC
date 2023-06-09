@@ -104,10 +104,16 @@ namespace Postgre_API.Controllers
                 }
                 
                 // Crear plan
-                Plan plan = new Plan();
-                plan.Description = description;
-                plan.Nutritionistid = nutritionistId;
+                var plan = new Plan{
+                    Description = description,
+                    Nutritionistid = nutritionistId
+                };
                 _dbContext.Plans.Add(plan);
+                await _dbContext.SaveChangesAsync();
+
+                var plan0 = await _dbContext.Plans.FirstOrDefaultAsync(p => p.Description == description && p.Nutritionistid == nutritionistId);
+                int planId_ = plan0.Id;
+
 
                 // Crear PlanMealtimeAssociation por cada producto
                 foreach (string[] productsList in allLists)
@@ -115,14 +121,16 @@ namespace Postgre_API.Controllers
                     foreach (string product in productsList)
                     {
                         PlanMealtimeAssociation planMealtimeAssociation = new PlanMealtimeAssociation();
-                        planMealtimeAssociation.Planid = plan.Id;
+
+                        planMealtimeAssociation.Planid = planId_;
                         planMealtimeAssociation.Mealtimeid = allLists.IndexOf(productsList) + 1;
                         planMealtimeAssociation.Productbarcode = Convert.ToInt32(product);
                         _dbContext.PlanMealtimeAssociations.Add(planMealtimeAssociation);
+                        await _dbContext.SaveChangesAsync();
+
                     }
                 }
 
-                await _dbContext.SaveChangesAsync();
                 var options = new JsonSerializerSettings
                 {
                     ReferenceLoopHandling = ReferenceLoopHandling.Ignore
@@ -142,22 +150,72 @@ namespace Postgre_API.Controllers
         /// Updates a specific plan.
         /// </summary>
         /// <param name="id">The ID of the plan to update.</param>
-        /// <param name="plan">The updated plan object.</param>
         /// <returns>An IActionResult indicating the result of the update operation.</returns>
         [HttpPut("put/{id}")]
-        public async Task<IActionResult> UpdatePlan(int id, Plan plan)
+        public async Task<IActionResult> UpdatePlan(int id, string nutritionistId, string description, string productsList1, string productsList2, string productsList3, string productsList4, string productsList5)
         {
             try{
-            if (id != plan.Id)
-            {
-                return NotFound(new { message = "not found" });
-            }
+                // Verificar que el plan exista
+                var plan = await _dbContext.Plans.FindAsync(id);
+                if (plan == null)
+                {
+                    return NotFound(new { message = "Plan not found" });
+                }
+                // Verificar que el nutritionista exista
+                var nutritionistId_exists = await _dbContext.Nutritionists.FindAsync(nutritionistId);
+                if (nutritionistId_exists == null)
+                {
+                    return NotFound(new { message = "Nutritionist not found" });
+                }
+                // Separar cada productsList por comas
+                string[] productsList1_array = productsList1.Split(',');
+                string[] productsList2_array = productsList2.Split(',');
+                string[] productsList3_array = productsList3.Split(',');
+                string[] productsList4_array = productsList4.Split(',');
+                string[] productsList5_array = productsList5.Split(',');
+                // Crear lista de listas de productos
+                List<string[]>allLists = new List<string[]>();
+                allLists.Add(productsList1_array);
+                allLists.Add(productsList2_array);
+                allLists.Add(productsList3_array);
+                allLists.Add(productsList4_array);
+                allLists.Add(productsList5_array);
 
-            _dbContext.Entry(plan).State = EntityState.Modified;
-            await _dbContext.SaveChangesAsync();
+                // Verificar que cada producto exista
+                foreach (string[] productsList in allLists)
+                {
+                    foreach (string product in productsList)
+                    {
+                        var product_exists = await _dbContext.Products.FindAsync(Convert.ToInt32(product));
+                        if (product_exists == null)
+                        {
+                            return NotFound(new { message = "Product not found" });
+                        }
+                    }
+                }
 
+                // Actualizar plan
+                plan.Description = description;
+                plan.Nutritionistid = nutritionistId;
 
-            return Ok(new { message = "ok" });
+                var plan0 = await _dbContext.Plans.FirstOrDefaultAsync(p => p.Description == description && p.Nutritionistid == nutritionistId);
+                int planId_ = plan0.Id;
+
+                // Actualizar cada PlanMealtimeAssociation
+                foreach (string[] productsList in allLists)
+                {
+                    foreach (string product in productsList)
+                    {
+                        var planMealtimeAssociation = await _dbContext.PlanMealtimeAssociations.FindAsync(plan.Id, allLists.IndexOf(productsList) + 1, Convert.ToInt32(product));
+                        planMealtimeAssociation.Planid = planId_;
+                        planMealtimeAssociation.Mealtimeid = allLists.IndexOf(productsList) + 1;
+                        planMealtimeAssociation.Productbarcode = Convert.ToInt32(product);
+                    }
+                }
+
+                _dbContext.Entry(plan).State = EntityState.Modified;
+                await _dbContext.SaveChangesAsync();
+                return Ok(new { message = "ok" });
             }
             catch (Exception e)
             {

@@ -46,6 +46,25 @@ namespace Postgre_API.Controllers
         }
 
         /// <summary>
+        /// Retrieves all measurements for a specific patient.
+        /// </summary>
+        /// <param name="patientId">The ID of the patient.</param>
+        /// <returns>A list of measurements.</returns>
+        [HttpGet("getById/{patientId}")]
+        public async Task<ActionResult<IEnumerable<Measurement>>> GetMeasurementsById(string patientId)
+        {
+            try
+            {
+                var measurements = await _dbContext.Measurements.Where(m => m.Patientid == patientId).ToListAsync();
+                return Ok(measurements);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { message = e.Message });
+            }
+        }
+
+        /// <summary>
         /// Retrieves a specific measurement by patient ID and date.
         /// </summary>
         /// <param name="patientId">The ID of the patient.</param>
