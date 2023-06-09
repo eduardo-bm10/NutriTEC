@@ -260,11 +260,23 @@
               <div class="col-sm">
                 <label for="tipoDeCobroSelect">Tipo de cobro</label>
                 <select class="form-control form-control-user" id="tipoDeCobroSelect"></select>
-              </div>
+              </div>  
             </div>
 
             <a class="btn btn-outline-primary btn-user btn-block" (click)="generarReporte()">
               Generar reporte
+            </a>
+
+            <div class="form-group row">
+              <div class="col-sm">
+                <label for="reporteCobroArea">Reporte:</label>
+                <textarea class="form-control form-control-user" id="reporteCobroArea" rows="4"
+                          cols="50" readonly></textarea>
+              </div>
+            </div>
+
+            <a class="btn btn-outline-primary btn-user btn-block">
+              Generar PDF
             </a>
 
 

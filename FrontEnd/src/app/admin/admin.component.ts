@@ -462,7 +462,22 @@ agregarNuevoInventario(){
   generarReporte(){
     const pago = document.getElementById('tipoDeCobroSelect') as HTMLInputElement;
     this.api.paymentReport(Number(pago.value)).subscribe(data => {
-      console.log(data)
+      const llegada = JSON.parse(JSON.stringify(data));
+      const area = document.getElementById("reporteCobroArea") as HTMLTextAreaElement;
+      area.value = "";
+      let aux:string = "";
+
+      for (let key in llegada) {
+        aux+=("Email: " + llegada[key].email.toString() + ", ");
+        aux+=("Nombre completo: " + llegada[key].fullName.toString() + ", ");
+        aux+=("Pago total: " + llegada[key].totalPayment.toString() + ", ");
+        aux+=("Descuento: " + llegada[key].discount.toString() + ", ");
+        aux+=("Pago final: " + llegada[key].finalPayment.toString() + ".");
+        aux+=('\n');
+      }
+
+      area.value = aux.toString();
+
     })
   }
 

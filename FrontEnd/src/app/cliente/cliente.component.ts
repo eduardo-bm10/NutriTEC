@@ -397,6 +397,7 @@ export class ClienteComponent implements OnInit {
       this.api.customerAdvanceReport(id_usuario, fechaInicial.value, fechaFinal.value).subscribe(data => {
         const llegada = JSON.parse(JSON.stringify(data));
         const area = document.getElementById("reporteAvanceRegistro") as HTMLTextAreaElement;
+        area.value = "";
 
         this.listaTitulos = ['FECHA', 'CINTURA', 'CUELLO', 'CADERA', '% MUSCULO', '% GRASA'];
 
