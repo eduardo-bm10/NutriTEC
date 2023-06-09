@@ -343,8 +343,22 @@ export class NutriComponent implements OnInit {
     console.log(paciente.value)
 
     this.api.getMeasurementById(Number(paciente.value)).subscribe(data => {
-      const mensaje = document.getElementById("seguimientoPacienteRetroalimentacion") as HTMLTextAreaElement
-      console.log(data)
+      const llegada = JSON.parse(JSON.stringify(data));
+      const area = document.getElementById("seguimientoPacienteRegistro") as HTMLTextAreaElement;
+      area.value = "";
+      let aux:string = "";
+
+      for (let key in llegada) {
+        aux+=("Fecha: " + llegada[key].date.toString() + ", ");
+        aux+=("Cintura: " + llegada[key].waist.toString() + ", ");
+        aux+=("Cuello: " + llegada[key].neck.toString() + ", ");
+        aux+=("Cadera: " + llegada[key].hips.toString() + ", ");
+        aux+=("Porcentaje musculo: " + llegada[key].musclepercentage.toString() + ", ");
+        aux+=("Porcentaje grasa: " + llegada[key].fatpercentage.toString() + ".");
+        aux+=('\n\n');
+      }
+
+      area.value = aux.toString();
     })
   }
 

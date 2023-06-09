@@ -227,7 +227,7 @@ toNum(dato:string):number{
         aux+=("Pago total: " + llegada[key].totalPayment.toString() + ", ");
         aux+=("Descuento: " + llegada[key].discount.toString() + ", ");
         aux+=("Pago final: " + llegada[key].finalPayment.toString() + ".");
-        aux+=('\n');
+        aux+=('\n\n');
       }
 
       area.value = aux.toString();
