@@ -28,7 +28,8 @@ interface api_service {
             @Path("productBarcode") productBarcode: String
         ): Response<JsonObject>
 
-    @POST("/api/Patient/{id}/{firstname}/{lastname1}/{lastname2}/{email}/{password}/{weight}/{bmi}/{address}/{birthdate}/{country}/{maxconsumption}/{waist}/{neck}/{hips}/{musclePercentage}/{fatPercentage}")
+
+    @POST("/api/Patients/post/{id}/{firstname}/{lastname1}/{lastname2}/{email}/{password}/{weight}/{bmi}/{address}/{birthdate}/{country}/{max_consumption}/{waist}/{neck}/{hips}/{musclePercentage}/{fatPercentage}")
     suspend fun createPatient(
         @Path("id") id: String,
         @Path("firstname") firstname: String,
@@ -36,12 +37,12 @@ interface api_service {
         @Path("lastname2") lastname2: String,
         @Path("email") email: String,
         @Path("password") password: String,
-        @Path("weight") weight: String,
+        @Path("weight") weight: Int,
         @Path("bmi") bmi: String,
         @Path("address") address: String,
         @Path("birthdate") birthdate: String,
         @Path("country") country: String,
-        @Path("maxconsumption") maxconsumption: String,
+        @Path("max_consumption") max_consumption: String,
         @Path("waist") waist: String,
         @Path("neck") neck: String,
         @Path("hips") hips: String,
@@ -85,12 +86,12 @@ interface api_service {
     ): Response<JsonObject>
 
 
-    @POST ("/api/Recipes/post/{description}/{barcodeProducts}/{portionProducts}")
+    @POST ("/api/Functions/createRecipe/{description}/{barcodeProducts}/{portionProducts}")
     suspend fun createRecipe(
         @Path("description") description: String,
         @Path("barcodeProducts") barcodeProducts: String,
         @Path("portionProducts") portionProducts: String
-    ): Response<JsonArray>
+    ): Response<JsonObject>
     @GET("/api/Recipe/get")
     suspend fun getRecipes(
         @Path("barcode") barcode: Int

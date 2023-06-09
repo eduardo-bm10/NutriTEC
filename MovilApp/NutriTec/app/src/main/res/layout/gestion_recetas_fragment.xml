@@ -33,20 +33,7 @@
             android:layout_marginTop="16dp"
             android:orientation="horizontal">
 
-            <Spinner
-                android:id="@+id/productSpinner"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:minHeight="48dp" />
 
-            <EditText
-                android:id="@+id/portionEditText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Porción"
-                android:minHeight="48dp" />
 
         </LinearLayout>
         <Button

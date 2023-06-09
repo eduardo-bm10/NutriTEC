@@ -30,7 +30,6 @@ class GestionRecetasFragment : Fragment() {
     private lateinit var editRecipeButton: Button
     private lateinit var deleteRecipeButton: Button
     private lateinit var deleteProductForRecipe: Button
-    private lateinit var productSpinner: Spinner
     private lateinit var recipeName: EditText
     private lateinit var valores: List<String>
     private var diccionarioProducts: MutableMap<String, Int> = mutableMapOf()
@@ -54,7 +53,6 @@ class GestionRecetasFragment : Fragment() {
         seeRecipeButton = view.findViewById(R.id.seeRecipesButton)
         editRecipeButton= view.findViewById(R.id.editRecipeButton)
         deleteRecipeButton = view.findViewById(R.id.deleteRecipesButton)
-        productSpinner = view.findViewById(R.id.productSpinner)
         deleteProductForRecipe = view.findViewById(R.id.removeProductButton)
         recipeName = view.findViewById(R.id.recipeNameEditText)
         getProducts()
@@ -95,11 +93,11 @@ class GestionRecetasFragment : Fragment() {
             }
 
             if (selectedProducts.isNotEmpty()) {
-                Toast.makeText(requireContext(), "Receta creada", Toast.LENGTH_SHORT).show()
                 Log.d("Productos", selectedProducts.toString())
                 Log.d("Porciones", portionValues.toString())
                 if(recipeName.text.isNotEmpty()){
                     callCreateRecipe(recipeName.text.toString(),selectedProducts.toString(),portionValues.toString())
+                    Toast.makeText(requireContext(), "Receta creada", Toast.LENGTH_SHORT).show()
                 }
             } else {
                 Toast.makeText(requireContext(), "No se puede crear la receta sin productos", Toast.LENGTH_SHORT).show()
@@ -195,8 +193,6 @@ class GestionRecetasFragment : Fragment() {
                     val responseBody = cuerpo.toString()
                     val items = parseResponse(responseBody)
                     valores = items
-                    val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, items)
-                    productSpinner.adapter = adapter
                 }else {
                     Toast.makeText(requireContext(), "No se obtienen productos", Toast.LENGTH_SHORT).show()
                 }
@@ -209,8 +205,6 @@ class GestionRecetasFragment : Fragment() {
         val apiService = api_service.create()
         CoroutineScope(Dispatchers.IO).launch {
             val call = apiService.createRecipe(recipeName,selectedProducts,portionValues)
-            val cuerpo = call.body()
-            Log.d("test1",cuerpo.toString())
             requireActivity().runOnUiThread {
                 if(call.isSuccessful){
                     Toast.makeText(requireContext(), "Receta creada", Toast.LENGTH_SHORT).show()

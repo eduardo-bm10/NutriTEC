@@ -135,9 +135,10 @@ class RegisterActivity : AppCompatActivity() {
         val apiService = api_service.create()
         CoroutineScope(Dispatchers.IO).launch {
             val call = apiService.createPatient(id,firstname,lastname1,
-                                                lastname2,email,password,weight,bmi,
+                                                lastname2,email,password,weight.toInt(),bmi,
                                                 address,birthdate,country,maxconsumption,waist,
                                                 neck,hips,musclePercentage, fatPercentage)
+            Log.d("testeo",call.toString())
             runOnUiThread {
                 if(call.isSuccessful){
                     Toast.makeText(this@RegisterActivity, "Registro exitoso", Toast.LENGTH_SHORT).show()
