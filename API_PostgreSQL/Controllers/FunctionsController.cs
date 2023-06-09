@@ -102,7 +102,7 @@ namespace Postgre_API.Controllers {
         /// <param name="products">The products used in the recipe (comma-separated).</param>
         /// <param name="portions">The portions of each product used in the recipe (comma-separated).</param>
         [HttpPost("createRecipe/{description}/{products}/{portions}")]
-        public async void createRecipe(string description, string products, string portions) {
+        public async Task<ActionResult<Recipe>> createRecipe(string description, string products, string portions) {
             var productList = Array.ConvertAll(products.Split(","), s => int.Parse(s));
             var portionList = Array.ConvertAll(portions.Split(","), s => int.Parse(s));
             string conString = "Server=server-nutritec.postgres.database.azure.com;Database=nutritec-db;Port=5432;User Id=jimena;Password=Nutri_TEC;Ssl Mode=VerifyFull;";
@@ -116,6 +116,7 @@ namespace Postgre_API.Controllers {
                 await cmd.ExecuteNonQueryAsync();
                 con.Close();
             }
+            return Ok(new {message = "ok"});
         }
 
         /// <summary>

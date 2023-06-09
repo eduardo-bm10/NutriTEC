@@ -27,7 +27,23 @@ namespace Postgre_API.Controllers
         public async Task<ActionResult<IEnumerable<Plan>>> GetPlans()
         {
             try{
-            return await _dbContext.Plans.ToListAsync();
+                // Obtener las PlanProductAssociation para cada plan
+                var planMealtimeAssocs = await _dbContext.PlanMealtimeAssociations.ToListAsync();
+                var mealtime1Products = new List<Product>();
+                var mealtime2Products = new List<Product>();
+                var mealtime3Products = new List<Product>();
+                var mealtime4Products = new List<Product>();
+                var mealtime5Products = new List<Product>();
+
+                // Obtener los productos para cada PlanProductAssociation
+                foreach (var planMealtimeAssoc in planMealtimeAssocs)
+                {
+                    //Rellenar los productos de cada comida
+                    
+                }
+
+
+                return await _dbContext.Plans.ToListAsync();
             }catch (Exception e)
             {
                 return BadRequest(new {message = e.Message});
@@ -47,6 +63,8 @@ namespace Postgre_API.Controllers
                 if (plan == null){
                     return NotFound(new {message = "Plan not found"});
                 }
+
+                //var planMealTimeAssoc = 
 
                 return plan;
             }catch (Exception e)
@@ -137,7 +155,7 @@ namespace Postgre_API.Controllers
                 };
 
                 string json = JsonConvert.SerializeObject(plan, options);
-                return Ok(json);
+                return Ok(new { message = "ok"});
 
             }catch (Exception e)
                 {
@@ -152,7 +170,7 @@ namespace Postgre_API.Controllers
         /// <param name="id">The ID of the plan to update.</param>
         /// <returns>An IActionResult indicating the result of the update operation.</returns>
         [HttpPut("put/{id}")]
-        public async Task<IActionResult> UpdatePlan(int id, string nutritionistId, string description, string productsList1, string productsList2, string productsList3, string productsList4, string productsList5)
+        public async Task<IActionResult> UpdatePlan(int id, string nutritionistId, string description)
         {
             try{
                 // Verificar que el plan exista
@@ -167,51 +185,10 @@ namespace Postgre_API.Controllers
                 {
                     return NotFound(new { message = "Nutritionist not found" });
                 }
-                // Separar cada productsList por comas
-                string[] productsList1_array = productsList1.Split(',');
-                string[] productsList2_array = productsList2.Split(',');
-                string[] productsList3_array = productsList3.Split(',');
-                string[] productsList4_array = productsList4.Split(',');
-                string[] productsList5_array = productsList5.Split(',');
-                // Crear lista de listas de productos
-                List<string[]>allLists = new List<string[]>();
-                allLists.Add(productsList1_array);
-                allLists.Add(productsList2_array);
-                allLists.Add(productsList3_array);
-                allLists.Add(productsList4_array);
-                allLists.Add(productsList5_array);
-
-                // Verificar que cada producto exista
-                foreach (string[] productsList in allLists)
-                {
-                    foreach (string product in productsList)
-                    {
-                        var product_exists = await _dbContext.Products.FindAsync(Convert.ToInt32(product));
-                        if (product_exists == null)
-                        {
-                            return NotFound(new { message = "Product not found" });
-                        }
-                    }
-                }
-
+                
                 // Actualizar plan
                 plan.Description = description;
                 plan.Nutritionistid = nutritionistId;
-
-                var plan0 = await _dbContext.Plans.FirstOrDefaultAsync(p => p.Description == description && p.Nutritionistid == nutritionistId);
-                int planId_ = plan0.Id;
-
-                // Actualizar cada PlanMealtimeAssociation
-                foreach (string[] productsList in allLists)
-                {
-                    foreach (string product in productsList)
-                    {
-                        var planMealtimeAssociation = await _dbContext.PlanMealtimeAssociations.FindAsync(plan.Id, allLists.IndexOf(productsList) + 1, Convert.ToInt32(product));
-                        planMealtimeAssociation.Planid = planId_;
-                        planMealtimeAssociation.Mealtimeid = allLists.IndexOf(productsList) + 1;
-                        planMealtimeAssociation.Productbarcode = Convert.ToInt32(product);
-                    }
-                }
 
                 _dbContext.Entry(plan).State = EntityState.Modified;
                 await _dbContext.SaveChangesAsync();
@@ -232,17 +209,43 @@ namespace Postgre_API.Controllers
         public async Task<IActionResult> DeletePlan(int id)
         {
             try{
-            var plan = await _dbContext.Plans.FindAsync(id);
 
-            if (plan == null)
-            {
-                return NotFound(new { message = "Plan not found" });
-            }
+                 // Eliminar PlanMealtimeAssociations de este plan
+                var planMealtimeAssociations = await _dbContext.PlanMealtimeAssociations.Where(p => p.Planid == id).ToListAsync();
+                if (planMealtimeAssociations == null)
+                {
+                    return NotFound(new { message = "PlanMealtimeAssociations not found" });
+                }
+                foreach (PlanMealtimeAssociation planMealtimeAssociation in planMealtimeAssociations)
+                {
+                    _dbContext.PlanMealtimeAssociations.Remove(planMealtimeAssociation);
+                    await _dbContext.SaveChangesAsync();
+                }
 
-            _dbContext.Plans.Remove(plan);
-            await _dbContext.SaveChangesAsync();
+                // Eliminar PlanPatientAssociation de este plan
+                var planPatientAssociations = await _dbContext.PlanPatientAssociations.Where(p => p.Planid == id).ToListAsync();
+                if (planPatientAssociations == null)
+                {
+                    return NotFound(new { message = "PlanPatientAssociations not found" });
+                }
+                foreach (PlanPatientAssociation planPatientAssociation in planPatientAssociations)
+                {
+                    _dbContext.PlanPatientAssociations.Remove(planPatientAssociation);
+                    await _dbContext.SaveChangesAsync();
+                }
+    
+                // Borrar plan
+                var plan = await _dbContext.Plans.FindAsync(id);
 
-            return Ok(new { message = "ok" });
+                if (plan == null)
+                {
+                    return NotFound(new { message = "Plan not found" });
+                }
+
+                _dbContext.Plans.Remove(plan);
+                await _dbContext.SaveChangesAsync();
+
+                return Ok(new { message = "ok" });
             }
             catch (Exception e)
             {
