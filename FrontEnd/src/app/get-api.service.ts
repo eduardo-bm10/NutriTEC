@@ -394,12 +394,15 @@ export class GetApiService {
   }
 
   createPlan(
+    description:string,
     nutritionistId: string,
-    description: string,
-    mealtimeId: number,
-    productBarcode: number
+    productList1: string,
+    productList2: string,
+    productList3: string,
+    productList4: string,
+    productList5: string,
   ) {
-    const url = `${this.baseUrl}/api/Plan/post/${description}/nutritionistId=${nutritionistId}&mealtimeId=${mealtimeId}&productBarcode=${productBarcode}`;
+    const url = `${this.baseUrl}/api/Plan/post/${description}?nutritionistId=${nutritionistId}&productsList1=${productList1}&productsList2=${productList2}&productsList3=${productList3}&productsList4=${productList4}&productsList5=${productList5}`;
     return this.http.post(url, {});
   }
 

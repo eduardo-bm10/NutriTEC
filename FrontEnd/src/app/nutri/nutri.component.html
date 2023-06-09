@@ -35,7 +35,7 @@
         </div>
 
 
-
+        
         <li class="nav-item">
           <a class="nav-link collapsed" data-toggle="collapse"
              (click)="mostrarPantalla('gestionProductos')">
@@ -126,7 +126,7 @@
                   <a class="dropdown-item" data-toggle="modal" data-target="#logoutModal" (click)="logOut()">
                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                     Logout
-                  </a>
+                  </a> 
                 </div>
               </li>
 
@@ -362,50 +362,15 @@
 
             <br>
 
-            <h3 style="font-size:20px;" class="h3 mb-4 text-gray-800">Datos del plan seleccionado. Cambie los datos que desea modificar y luego clickee en "Confirmar cambios"</h3>
-
-            <div class="col-sm">
-              <label for="gestionPlanesESTADOACTUAL">El plan seleccionado se conforma de los siguientes productos:</label>
-              <textarea class="form-control form-control-user" id="gestionPlanesESTADOACTUAL" rows="4"
-                        cols="50"></textarea>
-            </div>
-
-            <br>
-            <div class="form-group row">
-              <div class="col-sm-6" id="comidas1"></div>
-
-              <div class="col-sm-6" id="comidas2"></div>
-
-            </div>
-
-            <div class="form-group row">
-              <div class="col-sm">
-                <label for="gestionPlanesNombreExistente">Nombre del plan</label>
-                <input type="text" class="form-control form-control-user" id="gestionPlanesNombreExistente">
-              </div>
-
-              <div class="col-sm">
-                <label for="gestionPlanesCaloriasExistente">Total de calorias</label>
-                <input type="number" class="form-control form-control-user" id="gestionPlanesCaloriasExistente" readonly>kCAL
-              </div>
-
-              <br><br><br><br>
-
-              <a class="btn btn-outline-success btn-user btn-block">
-                Modificar
-              </a>
-            </div>
+            
 
             <br>
 
-            <h3 style="font-size:20px;" class="h3 mb-4 text-gray-800">Cree un nuevo plan</h3>
+            <h3 style="font-size:40px;" class="h3 mb-4 text-gray-800">Cree un nuevo plan</h3>
+            <h4 style="font-size:20px;" class="h3 mb-4 text-gray-800">Para cada tiempo de comida ingrese IDs de productos aprovados separados por comas, sin espacios.</h4>
 
-            <div class="form-group row">
 
-
-              <mark>HAY QUE DE ALGUNA MANERA GENERAR CHECKBOXES DINAMICAS, QUE CARGUEN TODOS LOS PRODUCTOS APROBADOS PARA MOSTRAR, QUE SE PUEDAN CHECKEAR, GENERAR LA LISTA QUE COMPONE
-                A TODOS LOS TIEMPOS  DE COMIDA, Y LUEGO ENVIAR EL JSON</mark>
-
+            <div class="">
 
               <div class="col-sm">
                 <label for="gestionPlanesNombreNuevo">Nombre del plan</label>
@@ -413,13 +378,34 @@
               </div>
 
               <div class="col-sm">
-                <label for="gestionPlanesCaloriasNuevo">Total de calorias</label>
-                <input type="text" class="form-control form-control-user" id="gestionPlanesCaloriasNuevo">
+                <label for="gestionPlanesDesayuno">Desayuno</label>
+                <input type="text" class="form-control form-control-user" id="gestionPlanesDesayuno">
               </div>
 
-              <br><br><br><br>
+              <div class="col-sm">
+                <label for="gestionPlanesMeriendaManana">Merienda mañana</label>
+                <input type="text" class="form-control form-control-user" id="gestionPlanesMeriendaManana">
+              </div>
 
-              <a class="btn btn-outline-success btn-user btn-block">
+              <div class="col-sm">
+                <label for="gestionPlanesAlmuerzo">Almuerzo</label>
+                <input type="text" class="form-control form-control-user" id="gestionPlanesAlmuerzo">
+              </div>
+
+              <div class="col-sm">
+                <label for="gestionPlanesMeriendaTarde">Merienda tarde</label>
+                <input type="text" class="form-control form-control-user" id="gestionPlanesMeriendaTarde">
+              </div>
+
+              <div class="col-sm">
+                <label for="gestionPlanesCena">Cena</label>
+                <input type="text" class="form-control form-control-user" id="gestionPlanesCena">
+              </div>
+
+
+              <br><br>
+
+              <a class="btn btn-outline-success btn-user btn-block" (click)="crearPlan()">
                 Crear
               </a>
 
@@ -495,7 +481,12 @@
               Cargar registro diario
             </a>
 
-            
+            <a class="btn btn-outline-success btn-user btn-block" (click)="enviarRetroAlimentacion()">
+              Enviar retroalimentación
+            </a>
+
+
+
 
           </div>
 

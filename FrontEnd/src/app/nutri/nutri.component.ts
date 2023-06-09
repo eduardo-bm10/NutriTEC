@@ -38,7 +38,6 @@ export class NutriComponent implements OnInit {
       tmp.style.display = 'none'
     }
     //this.cargarProvincias(["gestSucSpaPROVINCIA", "gestEmplPPROVINCIA", "gestEmplPPROVINCIA2"]);
-    this.cargarCheckBoxesComidas();
     this.cargarPacientes();
     this.cargarPlanes();
     const calorias = document.getElementById('gestionPlanesCaloriasExistente') as HTMLInputElement;
@@ -279,70 +278,7 @@ export class NutriComponent implements OnInit {
     return div;
   }
 
-  cargarCheckBoxesComidas(){
-    let todo = {
-      "pollo": {
-        "calorias": "500",
-        "grasa": "80",
-        "proteinas": "30",
-        "vararandom": "60",
-        "test": "170",
-        "hpta": "69"
-      },
-
-      "arroz": {
-        "calorias": "50",
-        "grasa": "80",
-        "proteinas": "30",
-        "vararandom": "60",
-        "test": "170",
-        "hpta": "67"
-      },
-
-      "frijoles": {
-        "calorias": "10",
-        "grasa": "80",
-        "proteinas": "30",
-        "vararandom": "60",
-        "test": "170",
-        "hpta": "7869"
-      },
-
-      "lentejas": {
-        "calorias": "545",
-        "grasa": "80",
-        "proteinas": "30",
-        "vararandom": "60",
-        "test": "170",
-        "hpta": "234"
-      }
-    }
-    const length = Object.keys(todo).length;
-    let mitad = 0;
-    if(this.esImpar(length)){
-      mitad = length/2+1;
-    }
-    else{
-      mitad = length/2;
-    }
-
-    let aux = 0;
-    const comidas1 = document.getElementById('comidas1') as HTMLDivElement;
-    const comidas2 = document.getElementById('comidas2') as HTMLDivElement;
-    for (const key in todo) {
-      // @ts-ignore
-      const data = todo[key];
-      const check = this.checkBox(key, data['calorias'], data['hpta']);
-      if(aux < mitad){
-        comidas1.appendChild(check);
-      }
-      else{
-        comidas2.appendChild(check);
-      }
-      aux ++;
-    }
-
-  }
+  
 
   crearNuevoProducto(){
     const barras = document.getElementById("gestionProductosBarras") as HTMLInputElement
@@ -408,6 +344,23 @@ export class NutriComponent implements OnInit {
 
     this.api.getMeasurementById(Number(paciente.value)).subscribe(data => {
       const mensaje = document.getElementById("seguimientoPacienteRetroalimentacion") as HTMLTextAreaElement
+      console.log(data)
+    })
+  }
+
+  crearPlan(){
+    const nombre = document.getElementById("gestionPlanesNombreNuevo") as HTMLInputElement
+    const comida1 = document.getElementById("gestionPlanesDesayuno") as HTMLInputElement
+    const comida2 = document.getElementById("gestionPlanesMeriendaManana") as HTMLInputElement
+    const comida3 = document.getElementById("gestionPlanesAlmuerzo") as HTMLInputElement
+    const comida4 = document.getElementById("gestionPlanesMeriendaTarde") as HTMLInputElement
+    const comida5 = document.getElementById("gestionPlanesCena") as HTMLInputElement
+    const nutri =  localStorage.getItem('usuario');
+    if (nutri !== null) {
+      var nutricionistaId = JSON.parse(nutri).id
+    }
+
+    this.api.createPlan(nombre.value, nutricionistaId, comida1.value, comida2.value, comida3.value, comida4.value, comida5.value).subscribe(data => {
       console.log(data)
     })
   }
