@@ -28,6 +28,7 @@ export class NutriComponent implements OnInit {
 
   opcionesGlobales = {
     "pacientes" : {},
+    "pacientesAsociados": {},
     "planes" : {}
   }
 
@@ -64,8 +65,8 @@ export class NutriComponent implements OnInit {
   }
 
   cargarPacientes(){
-    this.api.getPatients().subscribe((data) => {
-      var llegada = JSON.parse(JSON.stringify(data));
+    this.api.getPatients().subscribe((patients) => {
+      var llegada = JSON.parse(JSON.stringify(patients));
       //llegada = llegada.filter(item => otroJson.ids.includes(item.id));
       console.log(llegada);
       this.opcionesGlobales.pacientes = llegada;
@@ -73,34 +74,61 @@ export class NutriComponent implements OnInit {
       const tmpTotal2 = document.getElementById("asignacionPlanPaciente") as HTMLInputElement;
       const tmpTotal3 = document.getElementById("seguimientoPacienteSELECT") as HTMLInputElement;
 
+      this.api.getPatientNutriotionistAssociation().subscribe(associationsLlegada => {
+        var associations = JSON.parse(JSON.stringify(associationsLlegada));
 
-      for(const op in llegada){
-        const aux = llegada[op];
-        const opcionTmp = document.createElement('option');
-        opcionTmp.value = aux.id;
-        opcionTmp.textContent = aux.id;
-        tmpTotal.appendChild(opcionTmp);
-      }
+        
+        
+        const nutritionist = localStorage.getItem("usuario")
+        if (nutritionist !== null) {
+          const nutritionistAux = JSON.parse(nutritionist)
 
-      for(const op in llegada){
-        const aux = llegada[op];
-        const opcionTmp = document.createElement('option');
-        opcionTmp.value = aux.id;
-        opcionTmp.textContent = aux.id;
-        tmpTotal2.appendChild(opcionTmp);
-      }
+          var id_patients = [];
+          var id_patients_differ = [];
+          for (const op in associations) { 
+            if (associations[op].nutritionistid === nutritionistAux.id) {
+              id_patients.push(associations[op].patientid)
+            } else {
+              id_patients_differ.push(associations[op].patientid)
+            }
+          }
 
-      for(const op in llegada){
-        const aux = llegada[op];
-        const opcionTmp = document.createElement('option');
-        opcionTmp.value = aux.id;
-        opcionTmp.textContent = aux.id;
-        tmpTotal3.appendChild(opcionTmp);
-      }
+          for(const op in llegada){
+            if (id_patients.includes(llegada[op].id)) {
+              const aux = llegada[op];
+              const opcionTmp = document.createElement('option');
+              opcionTmp.value = aux.id;
+              opcionTmp.textContent = aux.id;
+              tmpTotal2.appendChild(opcionTmp);
+            }
+          }
 
-      this.cambiarInfo('productos', 'asignacionPlanPaciente', 'TEST', 'TEST');
-      this.cambiarInfo('productos', 'busquedaAsociacionClientesComoPacientesSELECT', 'TEST', 'TEST');
-      this.cambiarInfo('productos', 'seguimientoPacienteSELECT', 'TEST', 'TEST');
+          for(const op in llegada){
+            if (!id_patients.includes(llegada[op].id) && !id_patients_differ.includes(llegada[op].id)) {
+              const aux = llegada[op];
+              const opcionTmp = document.createElement('option');
+              opcionTmp.value = aux.id;
+              opcionTmp.textContent = aux.id;
+              tmpTotal.appendChild(opcionTmp);
+            }
+          }
+          
+    
+          for(const op in llegada){
+            if (id_patients.includes(llegada[op].id)) {
+              const aux = llegada[op];
+              const opcionTmp = document.createElement('option');
+              opcionTmp.value = aux.id;
+              opcionTmp.textContent = aux.id;
+              tmpTotal3.appendChild(opcionTmp);
+            }
+          }
+        }
+        
+        this.cambiarInfo('productos', 'busquedaAsociacionClientesComoPacientesSELECT', 'TEST', 'TEST');
+        this.cambiarInfo('productos', 'seguimientoPacienteSELECT', 'TEST', 'TEST');
+        this.cambiarInfo('productos', 'asignacionPlanPaciente', 'TEST', 'TEST');
+      })
 
     })
   }
@@ -357,6 +385,36 @@ export class NutriComponent implements OnInit {
     //esta linea de aca arriba tiene que ser el id del nutri que se logro
 
     this.api.createPatientNutrionistAssociation(nutricionistaId, paciente.value).subscribe((data) => {
+      console.log(data)
+    })
+  }
+  
+  enviarRetroAlimentacion(){
+    const mensaje = document.getElementById("seguimientoPacienteRetroalimentacion") as HTMLTextAreaElement
+    const paciente = document.getElementById("seguimientoPacienteSELECT") as HTMLInputElement
+    const nutri =  localStorage.getItem('usuario');
+    if (nutri !== null) {
+      var nutricionistaId = JSON.parse(nutri).id
+    }
+
+    this.api.createFeedback(nutricionistaId, paciente.value, mensaje.value).subscribe(data => {
+      console.log(data)
+    })
+  }
+
+  cargarRetroAlimentacion(){
+    const paciente = document.getElementById("seguimientoPacienteSELECT") as HTMLInputElement
+    console.log(paciente.value)
+
+    this.api.getMeasurementById(Number(paciente.value)).subscribe(data => {
+      const mensaje = document.getElementById("seguimientoPacienteRetroalimentacion") as HTMLTextAreaElement
+      console.log(data)
+    })
+  }
+
+  test(){
+    console.log("resultado test:")
+    this.api.getFeedbackSsn(333333333).subscribe(data => {
       console.log(data)
     })
   }

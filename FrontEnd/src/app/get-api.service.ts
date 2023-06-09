@@ -480,12 +480,12 @@ export class GetApiService {
   }
 
   createPatientNutrionistAssociation(nutritionistId: string, patientId: string){
-    const url = `${this.baseUrl}/api/PatientNutritionistAssociation/nutritionistId=${nutritionistId}&patientId=${patientId}`;
+    const url = `${this.baseUrl}/api/PatientNutritionistAssociation?nutritionistId=${nutritionistId}&patientId=${patientId}`;
     return this.http.post(url, null, {});
   }
 
   createPlanPatientAssociation(nutritionistId:string,planId: number, patientId: string, startdate: string, enddate: string){
-    const url = `${this.baseUrl}/api/PlanPatientAssociations/nutritionistId=${nutritionistId}&planId=${planId}&patientId=${patientId}&startdate=${startdate}&enddate=${enddate}`;
+    const url = `${this.baseUrl}/api/PlanPatientAssociations?nutritionistId=${nutritionistId}&planId=${planId}&patientId=${patientId}&startdate=${startdate}&enddate=${enddate}`;
     return this.http.post(url, null, {});
   }
 
