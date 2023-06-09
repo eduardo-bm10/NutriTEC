@@ -23,7 +23,7 @@ const appRoutes:Routes=[
   {path:'nutri', component:NutriComponent},
   {path:'login-admin', component:LoginADMINComponent},
   {path:'login-nutri', component:LoginNUTRIComponent},
-  {path:'prueba', component:ReporteComponent},
+  {path:'reporte', component:ReporteComponent},
   {path:'**', component: NotFoundComponent},
 ]
 

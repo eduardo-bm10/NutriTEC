@@ -5,7 +5,12 @@ import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 (pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
 import htmlToPdfmake from 'html-to-pdfmake';
-declare var html2pdf: any; // Declaración del objeto html2pdf
+declare var html2pdf: any; // Declaración del objeto html2pdf;
+import { ActivatedRoute } from '@angular/router';
+import { Params } from '@angular/router';
+import {GetApiService} from "../get-api.service";
+import { SharedService} from "../shared.service";
+
 
 
 @Component({
@@ -15,6 +20,8 @@ declare var html2pdf: any; // Declaración del objeto html2pdf
   encapsulation: ViewEncapsulation.None
 })
 export class ReporteComponent implements OnInit{
+  constructor(private route: ActivatedRoute, private api: GetApiService, private sharedService: SharedService) { }
+
   fecha = "";
   nombre = 'Sebastian Quesada';
   cedula = '118510858';
@@ -23,6 +30,7 @@ export class ReporteComponent implements OnInit{
   email = '';
   pais = '';
   max = '';
+  ruta = '';
 
   //variables para la tabla
   titulos:string[] = ['TITULO1', 'TITULO2'];
@@ -55,14 +63,20 @@ export class ReporteComponent implements OnInit{
     this.fecha = `${dia} de ${mes} de ${year}`;
     this.getInfoCliente();
 
-    //ejemplooooo esto lo borra de aca (solo la siguiente linea)
-    this.filas.push(this.fila1);
+    this.route.params.subscribe((params: Params) => {
+      const info = this.sharedService.jsonData;
+      console.log(info);
+      this.titulos = info.titulos;
+      this.filas = info.data;
+      this.ruta = info.ruta;
+      // Aquí puedes utilizar los valores de los parámetros como desees
+    });;
 
     this.crearTabla(this.titulos, this.filas);
-    
+
     //pantalla de carga poner
-    //this.generatePDF();
-    //setear la ruta
+    this.generatePDF();
+    this.api.ruta(this.ruta);
     //pantalla de carga quitar
   }
 
@@ -110,7 +124,7 @@ export class ReporteComponent implements OnInit{
       tbody.appendChild(row);
     })
     table.appendChild(tbody);
-    
+
 
 
     const todo = document.getElementById('tabla') as HTMLDivElement;

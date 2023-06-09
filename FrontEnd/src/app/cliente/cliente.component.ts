@@ -3,20 +3,22 @@ import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { GetApiService } from "../get-api.service";
 import { HttpErrorResponse } from '@angular/common/http';
+import { SharedService} from "../shared.service";
 
-@Component({
+  @Component({
   selector: 'app-cliente',
   templateUrl: './cliente.component.html',
   styleUrls: ['./cliente.component.css']
 })
 export class ClienteComponent implements OnInit {
-  constructor(private api: GetApiService,) { }
+  constructor(private api: GetApiService, private sharedService: SharedService) { }
   nombre = 'Juan Vainas';
   infoAll = {};
   tipo = 'SPA';
   dropdown = 0;
   alimentos = [];
   porcionesAlimentos:string[] = [];
+  listaData:string[][] = [];
 
   pantallaActual = 'principal';
 
@@ -25,6 +27,8 @@ export class ClienteComponent implements OnInit {
 
   provincias = ["San José", "Alajuela", "Cartago", "Limón", "Guanacaste", "Puntarenas", "Heredia"]
   totalCalorias = 0;
+
+    listaTitulos:string[] = [];
 
 
   ngOnInit() {
@@ -136,7 +140,7 @@ export class ClienteComponent implements OnInit {
       const select2 = document.getElementById('registroConsumoTiempo2') as HTMLSelectElement;
       for (const op in llegada) {
         const aux = llegada[op];
-        
+
         select.appendChild(this.api.createOption(aux.name, aux.id));
         select2.appendChild(this.api.createOption(aux.name, aux.id));
       }
@@ -237,7 +241,7 @@ export class ClienteComponent implements OnInit {
     const musculo = document.getElementById('registroMedidasMusculo') as HTMLInputElement;
     const grasa = document.getElementById('registroMedidasGrasa') as HTMLInputElement;
 
-    
+
 
     this.api.createMeasurement(cedula, Number(cintura.value), Number(cuello.value), Number(cadera.value), Number(musculo.value), Number(grasa.value))
       .subscribe(data => {
@@ -356,7 +360,7 @@ export class ClienteComponent implements OnInit {
   registrarPorId(){
     const producto = document.getElementById('registroConsumoCodigo') as HTMLInputElement;
     const tiempo = document.getElementById('registroConsumoTiempo2') as HTMLInputElement;
-    
+
     const usuario = localStorage.getItem("usuario")
     if (usuario !== null) {
       const id_usuario = JSON.parse(usuario).id
@@ -365,13 +369,13 @@ export class ClienteComponent implements OnInit {
         console.log(data)
       })
     }
-    
+
   }
 
   registrarPorProducto(){
     const producto = document.getElementById('registroConsumoProducto') as HTMLInputElement;
     const tiempo = document.getElementById('registroConsumoTiempo') as HTMLInputElement;
-    
+
     const usuario = localStorage.getItem("usuario")
     if (usuario !== null) {
       const id_usuario = JSON.parse(usuario).id
@@ -391,9 +395,50 @@ export class ClienteComponent implements OnInit {
       const id_usuario = JSON.parse(usuario).id
 
       this.api.customerAdvanceReport(id_usuario, fechaInicial.value, fechaFinal.value).subscribe(data => {
-        console.log(data)
+        const llegada = JSON.parse(JSON.stringify(data));
+        const area = document.getElementById("reporteAvanceRegistro") as HTMLTextAreaElement;
+
+        this.listaTitulos = ['FECHA', 'CINTURA', 'CUELLO', 'CADERA', '% MUSCULO', '% GRASA'];
+
+        for (let key in llegada) {
+          let aux:string[] = [];
+          aux.push(llegada[key].date.split(' ')[0]);
+          aux.push(llegada[key].waist.toString());
+          aux.push(llegada[key].neck.toString());
+          aux.push(llegada[key].hips.toString());
+          aux.push(llegada[key].musclePercentage.toString());
+          aux.push(llegada[key].fatPercentage.toString());
+          this.listaData.push(aux);
+        }
+
+        let titu = '';
+        this.listaTitulos.forEach((titulo:string) => {
+          titu += `${titulo}\t`
+        })
+
+        titu += '\n';
+
+        for (let i = 0; i < this.listaData.length; i++) {
+          for (let j = 0; j < this.listaData[i].length; j++) {
+            titu += `${this.listaData[i][j]}\t`
+          }
+          titu += '\n';
+        }
+        area.value = titu;
       })
     }
+  }
+
+  reporte(){
+    const info = {
+      'titulos' : this.listaTitulos,
+      'data': this.listaData,
+      'ruta': '/paciente'
+    }
+
+    this.sharedService.jsonData = info;
+
+    this.api.ruta(`/reporte`);
   }
 
 }

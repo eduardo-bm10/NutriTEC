@@ -9,6 +9,7 @@ export class SharedService {
   constructor() { }
 
   mostrar: boolean = false;
+  jsonData: any = {};
   mostrarSubject: Subject<boolean> = new Subject<boolean>();
 
   setMostrar(value: boolean): void {
