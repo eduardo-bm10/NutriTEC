@@ -21,7 +21,8 @@ export class AdminComponent implements OnInit{
 
   opcionesGlobales = {
     "productosFalsos" : {},
-    "productosTotales" : {}
+    "productosTotales" : {},
+    "cobros" : {}
   }
 
   ngOnInit() {
@@ -30,6 +31,7 @@ export class AdminComponent implements OnInit{
       tmp.style.display = 'none'
     }
     this.cargarProductos();
+    this.cargarCobro();
     this.cargarProductosTotales();
     this.cargarProvincias(["gestSucSpaPROVINCIA", "gestEmplPPROVINCIA", "gestEmplPPROVINCIA2"]);
   }
@@ -64,6 +66,25 @@ export class AdminComponent implements OnInit{
       }
 
       this.cambiarInfo('productosFalsos', 'aprobacionProductosSelect', 'TEST', 'TEST');      
+    })
+  }
+
+  cargarCobro(){
+    this.api.getPaymentTypes().subscribe((data) => {
+      const llegada = JSON.parse(JSON.stringify(data));
+      console.log(llegada);
+      this.opcionesGlobales.cobros = llegada;
+      const tmp = document.getElementById("tipoDeCobroSelect") as HTMLInputElement;
+
+      for(const op in llegada){
+        const aux = llegada[op];
+        const opcionTmp = document.createElement('option');
+        opcionTmp.value = aux.id;
+        opcionTmp.textContent = aux.id;
+        tmp.appendChild(opcionTmp);
+      }
+
+      this.cambiarInfo('cobros', 'tipoDeCobroSelect', 'TEST', 'TEST');      
     })
   }
 
@@ -436,6 +457,13 @@ agregarNuevoInventario(){
         console.log(data)
       });
     }
+  }
+
+  generarReporte(){
+    const pago = document.getElementById('tipoDeCobroSelect') as HTMLInputElement;
+    this.api.paymentReport(Number(pago.value)).subscribe(data => {
+      console.log(data)
+    })
   }
 
   logOut(){

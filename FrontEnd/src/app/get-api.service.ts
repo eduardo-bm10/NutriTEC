@@ -388,8 +388,8 @@ export class GetApiService {
     return this.http.get(url);
   }
 
-  getPlanOnlyIds(id: number){
-    const url = `${this.baseUrl}/api/Plan/getOnlyIds/${id}`;
+  getPlanOnlyIds(){
+    const url = `${this.baseUrl}/api/Plan/getOnlyIds`;
     return this.http.get(url);
   }
 

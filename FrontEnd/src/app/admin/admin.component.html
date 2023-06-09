@@ -254,16 +254,19 @@
 
           <div id="reporteCobro" class="container-fluid">
             <h1 style="font-size:40px;" class="h3 mb-4 text-gray-800">Reporte de cobro</h1>
-            <h2 style="font-size:20px;" class="h3 mb-4 text-gray-800">Verifique que los datos correspondientes al producto son veridicos y apruebelo si así lo considera.</h2>
+            <h2 style="font-size:20px;" class="h3 mb-4 text-gray-800">Seleccione un tipo de cobro para mostrar todos los nutricionistas pertenecientes a este</h2>
 
             <div class="form-group row">
               <div class="col-sm">
-                <label for="tipoDeCobroSelect">Productos o alimentos no aprobados (Código de barras)</label>
+                <label for="tipoDeCobroSelect">Tipo de cobro</label>
                 <select class="form-control form-control-user" id="tipoDeCobroSelect"></select>
               </div>
             </div>
 
-            No entiendo que diablos pide
+            <a class="btn btn-outline-primary btn-user btn-block" (click)="generarReporte()">
+              Generar reporte
+            </a>
+
 
           </div>
 

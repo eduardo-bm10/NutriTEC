@@ -134,7 +134,7 @@ export class NutriComponent implements OnInit {
   }
 
   cargarPlanes(){
-    this.api.getPlans().subscribe((data) => {
+    this.api.getPlanOnlyIds ().subscribe((data) => {
       const llegada = JSON.parse(JSON.stringify(data));
       console.log(llegada);
       this.opcionesGlobales.pacientes = llegada;
@@ -145,16 +145,16 @@ export class NutriComponent implements OnInit {
       for(const op in llegada){
         const aux = llegada[op];
         const opcionTmp = document.createElement('option');
-        opcionTmp.value = aux.id;
-        opcionTmp.textContent = aux.id;
+        opcionTmp.value = aux.planid;
+        opcionTmp.textContent = aux.planid;
         tmpTotal.appendChild(opcionTmp);
       }
 
       for(const op in llegada){
         const aux = llegada[op];
         const opcionTmp = document.createElement('option');
-        opcionTmp.value = aux.id;
-        opcionTmp.textContent = aux.id;
+        opcionTmp.value = aux.planid;
+        opcionTmp.textContent = aux.planid;
         tmpTotal2.appendChild(opcionTmp);
       }
 
@@ -412,12 +412,6 @@ export class NutriComponent implements OnInit {
     })
   }
 
-  test(){
-    console.log("resultado test:")
-    this.api.getFeedbackSsn(333333333).subscribe(data => {
-      console.log(data)
-    })
-  }
 
   logOut(){
     this.api.logout();
