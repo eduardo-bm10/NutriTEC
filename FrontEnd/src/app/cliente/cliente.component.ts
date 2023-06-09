@@ -399,7 +399,7 @@ export class ClienteComponent implements OnInit {
         const area = document.getElementById("reporteAvanceRegistro") as HTMLTextAreaElement;
         area.value = "";
 
-        this.listaTitulos = ['FECHA', 'CINTURA', 'CUELLO', 'CADERA', '% MUSCULO', '% GRASA'];
+        this.listaTitulos = ['FECHA', 'CINTURA', 'CUELLO', 'CADERA', 'MUSCULO', 'GRASA'];
 
         for (let key in llegada) {
           let aux:string[] = [];
