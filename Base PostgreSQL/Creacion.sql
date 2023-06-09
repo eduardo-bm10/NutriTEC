@@ -119,7 +119,7 @@ CREATE TABLE PLAN_MEALTIME_ASSOCIATION (
    MealTimeID INT,
    ProductBarcode INT,
    Filler SERIAL,
-   PRIMARY KEY (PlanID, MealTimeID)
+   PRIMARY KEY (PlanID, MealTimeID, ProductBarcode)
 );
 
 CREATE TABLE PLAN_PATIENT_ASSOCIATION (

@@ -9,7 +9,7 @@ public partial class PlanMealtimeAssociation
 
     public int Mealtimeid { get; set; }
 
-    public int? Productbarcode { get; set; }
+    public int Productbarcode { get; set; }
 
     public int Filler { get; set; }
 
@@ -17,5 +17,5 @@ public partial class PlanMealtimeAssociation
 
     public virtual Plan Plan { get; set; } = null!;
 
-    public virtual Product? ProductbarcodeNavigation { get; set; }
+    public virtual Product ProductbarcodeNavigation { get; set; } = null!;
 }
