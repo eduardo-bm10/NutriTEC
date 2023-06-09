@@ -60,52 +60,82 @@ namespace Postgre_API.Controllers
         /// </summary>
         /// <param name="description">The description of the plan.</param>
         /// <param name="nutritionistId">The ID of the nutritionist associated with the plan.</param>
-        /// <param name="mealtimeId">The ID of the mealtime associated with the plan.</param>
-        /// <param name="productBarcode">The barcode of the product associated with the plan.</param>
+        /// <param name="productsList1">The list of products for mealtime 1.</param>
+        /// <param name="productsList2">The list of products for mealtime 2.</param>
+        /// <param name="productsList3">The list of products for mealtime 3.</param>
+        /// <param name="productsList4">The list of products for mealtime 4.</param>
+        /// <param name="productsList5">The list of products for mealtime 5.</param>
         /// <returns>The created plan.</returns>
         [HttpPost("post/{description}")]
-        public async Task<ActionResult<Plan>> CreatePlan(string description, string nutritionistId, int mealtimeId, int productBarcode)
+        public async Task<ActionResult<Plan>> CreatePlan(string description, string nutritionistId, string productsList1, string productsList2, string productsList3, string productsList4, string productsList5)
         {
             try{
-            var mealtime_exists = await _dbContext.MealTimes.FindAsync(mealtimeId);
-            var nutritionistId_exists = await _dbContext.Nutritionists.FindAsync(nutritionistId);
-            var productBarcode_exists = await _dbContext.Products.FindAsync(productBarcode);
-            if(mealtime_exists == null){
-                return NotFound("Mealtime not found");
-            }else if(nutritionistId_exists == null){
-                return NotFound("Nutritionist not found");
-            }else if(productBarcode_exists == null){
-                return NotFound("Product not found");
+                // Verificar que el nutritionista exista
+                var nutritionistId_exists = await _dbContext.Nutritionists.FindAsync(nutritionistId);
+                if (nutritionistId_exists == null)
+                {
+                    return NotFound(new { message = "Nutritionist not found" });
+                }
+                // Separar cada productsList por comas
+                string[] productsList1_array = productsList1.Split(',');
+                string[] productsList2_array = productsList2.Split(',');
+                string[] productsList3_array = productsList3.Split(',');
+                string[] productsList4_array = productsList4.Split(',');
+                string[] productsList5_array = productsList5.Split(',');
+                // Crear lista de listas de productos
+                List<string[]>allLists = new List<string[]>();
+                allLists.Add(productsList1_array);
+                allLists.Add(productsList2_array);
+                allLists.Add(productsList3_array);
+                allLists.Add(productsList4_array);
+                allLists.Add(productsList5_array);
+
+                // Verificar que cada producto exista
+                foreach (string[] productsList in allLists)
+                {
+                    foreach (string product in productsList)
+                    {
+                        var product_exists = await _dbContext.Products.FindAsync(Convert.ToInt32(product));
+                        if (product_exists == null)
+                        {
+                            return NotFound(new { message = "Product not found" });
+                        }
+                    }
+                }
+                
+                // Crear plan
+                Plan plan = new Plan();
+                plan.Description = description;
+                plan.Nutritionistid = nutritionistId;
+                _dbContext.Plans.Add(plan);
+
+                // Crear PlanMealtimeAssociation por cada producto
+                foreach (string[] productsList in allLists)
+                {
+                    foreach (string product in productsList)
+                    {
+                        PlanMealtimeAssociation planMealtimeAssociation = new PlanMealtimeAssociation();
+                        planMealtimeAssociation.Planid = plan.Id;
+                        planMealtimeAssociation.Mealtimeid = allLists.IndexOf(productsList) + 1;
+                        planMealtimeAssociation.Productbarcode = Convert.ToInt32(product);
+                        _dbContext.PlanMealtimeAssociations.Add(planMealtimeAssociation);
+                    }
+                }
+
+                await _dbContext.SaveChangesAsync();
+                var options = new JsonSerializerSettings
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                };
+
+                string json = JsonConvert.SerializeObject(plan, options);
+                return Ok(json);
+
+            }catch (Exception e)
+                {
+                    return BadRequest(new {message = e.Message});
             }
-            var plan = new Plan
-            {
-                Nutritionistid = nutritionistId,
-                Description = description
-            };
-            _dbContext.Plans.Add(plan);
-            await _dbContext.SaveChangesAsync();
-            var thePlan = await _dbContext.Plans.FirstOrDefaultAsync(p => p.Description == description);
-            var PlanMealtimeAssociation = new PlanMealtimeAssociation
-            {
-                Planid = thePlan.Id,
-                Mealtimeid = mealtimeId
-            };
-            _dbContext.PlanMealtimeAssociations.Add(PlanMealtimeAssociation);
-            
-            await _dbContext.SaveChangesAsync();
-
-           var options = new JsonSerializerSettings
-            {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-            };
-
-            string json = JsonConvert.SerializeObject(plan, options);
-           return Ok(json);
-
-        }catch (Exception e)
-            {
-                return BadRequest(new {message = e.Message});
-            }}
+        }
 
         
         /// <summary>

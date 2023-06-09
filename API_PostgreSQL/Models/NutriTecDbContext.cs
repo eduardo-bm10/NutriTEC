@@ -19,11 +19,15 @@ public partial class NutritecDbContext : DbContext
 
     public virtual DbSet<Administrator> Administrators { get; set; }
 
+    public virtual DbSet<Caloriespermealtimeonplan> Caloriespermealtimeonplans { get; set; }
+
     public virtual DbSet<Consumption> Consumptions { get; set; }
 
     public virtual DbSet<MealTime> MealTimes { get; set; }
 
     public virtual DbSet<Measurement> Measurements { get; set; }
+
+    public virtual DbSet<Nonassociatedclient> Nonassociatedclients { get; set; }
 
     public virtual DbSet<Nutritionist> Nutritionists { get; set; }
 
@@ -44,6 +48,8 @@ public partial class NutritecDbContext : DbContext
     public virtual DbSet<Recipe> Recipes { get; set; }
 
     public virtual DbSet<RecipeProductAssociation> RecipeProductAssociations { get; set; }
+
+    public virtual DbSet<Totalrecipecalory> Totalrecipecalories { get; set; }
 
     public virtual DbSet<Vitamin> Vitamins { get; set; }
 
@@ -102,6 +108,19 @@ public partial class NutritecDbContext : DbContext
             entity.Property(e => e.Password)
                 .HasMaxLength(50)
                 .HasColumnName("password");
+        });
+
+        modelBuilder.Entity<Caloriespermealtimeonplan>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("caloriespermealtimeonplan");
+
+            entity.Property(e => e.Mealtime)
+                .HasMaxLength(50)
+                .HasColumnName("mealtime");
+            entity.Property(e => e.Planid).HasColumnName("planid");
+            entity.Property(e => e.Totalcalories).HasColumnName("totalcalories");
         });
 
         modelBuilder.Entity<Consumption>(entity =>
@@ -167,6 +186,18 @@ public partial class NutritecDbContext : DbContext
                 .HasConstraintName("keys5");
         });
 
+        modelBuilder.Entity<Nonassociatedclient>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("nonassociatedclients");
+
+            entity.Property(e => e.Patientname).HasColumnName("patientname");
+            entity.Property(e => e.Patientssn)
+                .HasMaxLength(9)
+                .HasColumnName("patientssn");
+        });
+
         modelBuilder.Entity<Nutritionist>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("nutritionist_pkey");
@@ -183,7 +214,7 @@ public partial class NutritecDbContext : DbContext
                 .HasColumnName("address");
             entity.Property(e => e.Bmi).HasColumnName("bmi");
             entity.Property(e => e.CardNumber)
-                .HasMaxLength(20)
+                .HasMaxLength(16)
                 .HasColumnName("card_number");
             entity.Property(e => e.Email)
                 .HasMaxLength(50)
@@ -205,7 +236,7 @@ public partial class NutritecDbContext : DbContext
                 .HasColumnName("password");
             entity.Property(e => e.Paymentid).HasColumnName("paymentid");
             entity.Property(e => e.Photo)
-                .HasMaxLength(500)
+                .HasMaxLength(50)
                 .HasColumnName("photo");
             entity.Property(e => e.Weight).HasColumnName("weight");
 
@@ -312,16 +343,16 @@ public partial class NutritecDbContext : DbContext
 
         modelBuilder.Entity<PlanMealtimeAssociation>(entity =>
         {
-            entity.HasKey(e => new { e.Planid, e.Mealtimeid }).HasName("plan_mealtime_association_pkey");
+            entity.HasKey(e => new { e.Planid, e.Mealtimeid, e.Productbarcode }).HasName("plan_mealtime_association_pkey");
 
             entity.ToTable("plan_mealtime_association");
 
             entity.Property(e => e.Planid).HasColumnName("planid");
             entity.Property(e => e.Mealtimeid).HasColumnName("mealtimeid");
+            entity.Property(e => e.Productbarcode).HasColumnName("productbarcode");
             entity.Property(e => e.Filler)
                 .ValueGeneratedOnAdd()
                 .HasColumnName("filler");
-            entity.Property(e => e.Productbarcode).HasColumnName("productbarcode");
 
             entity.HasOne(d => d.Mealtime).WithMany(p => p.PlanMealtimeAssociationMealtimes)
                 .HasForeignKey(d => d.Mealtimeid)
@@ -335,6 +366,7 @@ public partial class NutritecDbContext : DbContext
 
             entity.HasOne(d => d.ProductbarcodeNavigation).WithMany(p => p.PlanMealtimeAssociations)
                 .HasForeignKey(d => d.Productbarcode)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("keys19");
         });
 
@@ -421,6 +453,25 @@ public partial class NutritecDbContext : DbContext
                 .HasForeignKey(d => d.Recipeid)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("keys10");
+        });
+
+        modelBuilder.Entity<Totalrecipecalory>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("totalrecipecalories");
+
+            entity.Property(e => e.Product)
+                .HasMaxLength(50)
+                .HasColumnName("product");
+            entity.Property(e => e.Productcalories).HasColumnName("productcalories");
+            entity.Property(e => e.Productportion).HasColumnName("productportion");
+            entity.Property(e => e.Recipedescription)
+                .HasMaxLength(50)
+                .HasColumnName("recipedescription");
+            entity.Property(e => e.Recipeid).HasColumnName("recipeid");
+            entity.Property(e => e.Totalproductcalories).HasColumnName("totalproductcalories");
+            entity.Property(e => e.Totalrecipecalories).HasColumnName("totalrecipecalories");
         });
 
         modelBuilder.Entity<Vitamin>(entity =>
